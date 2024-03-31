@@ -8,9 +8,8 @@ type Props = {};
 function MainDashboard({}: Props) {
   return (
     <div className='p-4 max-h-screen overflow-y-hidden w-full'>
-      <div>
-        <SummaryCards />
-      </div>
+      <SummaryCards />
+
       <div className='grid grid-cols-2 gap-4'>
         <div className=' bg-blue-200'>
           <SalesBarChart />
