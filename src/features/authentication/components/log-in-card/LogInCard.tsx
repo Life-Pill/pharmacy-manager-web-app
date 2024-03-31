@@ -1,6 +1,7 @@
 import { CiUser } from 'react-icons/ci';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import Logo from '../../../../assets/logo.png';
+import { Link } from 'react-router-dom';
 
 type Props = {};
 
@@ -29,9 +30,17 @@ function LogInCard({}: Props) {
             className='w-full py-2 outline-none'
           />
         </div>
-        <button className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md w-full'>
-          Sign In
-        </button>
+
+        <Link to='/dashboard'>
+          <button
+            className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md w-full'
+            onClick={() => {
+              console.log('Sign In clicked');
+            }}
+          >
+            Sign In
+          </button>
+        </Link>
       </div>
     </div>
   );
