@@ -26,9 +26,9 @@ const ManagerDashboard: React.FC<Props> = () => {
   };
 
   return (
-    <div className='flex flex-row'>
+    <div className='flex'>
       <SideBar setActiveComponent={setActiveComponent} />
-      <div className=''>{renderComponent()}</div>
+      <div className='w-full'>{renderComponent()}</div>
     </div>
   );
 };

@@ -7,14 +7,14 @@ type Props = {};
 
 function MainDashboard({}: Props) {
   return (
-    <div className='p-4 max-h-screen overflow-y-hidden w-auto'>
+    <div className='p-4 max-h-screen overflow-y-hidden'>
       <SummaryCards />
 
-      <div className='grid grid-cols-2 gap-4'>
-        <div className=' bg-blue-200'>
+      <div className='flex flex-row justify-evenly items-center'>
+        <div className=' '>
           <SalesBarChart />
         </div>
-        <div className=' bg-green-200'>
+        <div className=''>
           <OrderPieChart />
         </div>
       </div>

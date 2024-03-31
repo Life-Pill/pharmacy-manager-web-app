@@ -24,6 +24,7 @@ function OrderPieChart({}: Props) {
       },
     ],
   };
+
   return (
     <div>
       <h2>Orders Pie Chart</h2>
