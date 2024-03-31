@@ -1,9 +1,10 @@
 import React from 'react';
+import { MainDashboard } from '../../../main-dashboard';
 
 type Props = {};
 
 const Dashboard = (props: Props) => {
-  return <div>Dashboard</div>;
+  return <MainDashboard />;
 };
 
 export default Dashboard;
