@@ -7,7 +7,7 @@ type Props = {};
 
 function MainDashboard({}: Props) {
   return (
-    <div className='p-4 max-h-screen overflow-y-hidden w-full'>
+    <div className='p-4 max-h-screen overflow-y-hidden w-auto'>
       <SummaryCards />
 
       <div className='grid grid-cols-2 gap-4'>
