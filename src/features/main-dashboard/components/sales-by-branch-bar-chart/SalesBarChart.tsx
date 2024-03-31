@@ -26,9 +26,11 @@ const SalesBarChart: React.FC<Props> = () => {
   };
 
   return (
-    <div>
-      <h2>Sales Bar Chart</h2>
-      <Bar data={data} />
+    <div className='bg-white rounded-lg shadow-md p-6'>
+      <h2 className='text-2xl font-semibold mb-4'>Sales Bar Chart</h2>
+      <div className='w-[600px] h-auto'>
+        <Bar data={data} />
+      </div>
     </div>
   );
 };
