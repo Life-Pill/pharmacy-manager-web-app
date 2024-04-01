@@ -13,9 +13,9 @@ type Props = {};
 
 function BranchManagement({}: Props) {
   return (
-    <div className=''>
+    <div className='grid grid-cols-3 p-8'>
       {fakeBranchData.map((pharmacy) => (
-        <div className='flex items-center justify-center space-x-4'>
+        <div className='flex items-center justify-center space-x-4 shadow-md rounded-lg gap-4'>
           <img src={Logo} alt='image' className='w-16 h-16 rounded-full' />
           <div className='text-left'>
             <p className='text-lg font-bold'>{pharmacy.name}</p>
