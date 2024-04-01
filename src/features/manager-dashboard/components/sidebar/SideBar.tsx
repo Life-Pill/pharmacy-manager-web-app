@@ -30,15 +30,7 @@ const SideBar: React.FC<SideBarProps> = ({ setActiveComponent }) => {
           <FaHome className='mr-2' />
           Dashboard
         </div>
-        <div
-          className={`hover:bg-gray-700 w-full h-16 flex items-center justify-center ${
-            activeItem === 'cashiers' ? 'bg-gray-700' : ''
-          }`}
-          onClick={() => handleItemClick('cashiers')}
-        >
-          <FaUserFriends className='mr-2' />
-          Cashiers
-        </div>
+
         <div
           className={`hover:bg-gray-700 w-full h-16 flex items-center justify-center ${
             activeItem === 'branches' ? 'bg-gray-700' : ''
@@ -47,6 +39,15 @@ const SideBar: React.FC<SideBarProps> = ({ setActiveComponent }) => {
         >
           <FaBuilding className='mr-2' />
           Branches
+        </div>
+        <div
+          className={`hover:bg-gray-700 w-full h-16 flex items-center justify-center ${
+            activeItem === 'cashiers' ? 'bg-gray-700' : ''
+          }`}
+          onClick={() => handleItemClick('cashiers')}
+        >
+          <FaUserFriends className='mr-2' />
+          Cashiers
         </div>
         <div
           className={`hover:bg-gray-700 w-full h-16 flex items-center justify-center ${

@@ -14,10 +14,10 @@ const ManagerDashboard: React.FC<Props> = () => {
     switch (activeComponent) {
       case 'dashboard':
         return <Dashboard />;
-      case 'cashiers':
-        return <Cashier />;
       case 'branches':
         return <Branches />;
+      case 'cashiers':
+        return <Cashier />;
       case 'summary':
         return <Summary />;
       default:
