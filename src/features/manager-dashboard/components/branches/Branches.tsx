@@ -1,9 +1,14 @@
 import React from 'react';
+import { BranchManagement } from '../../../branch-management-dashboard';
 
 type Props = {};
 
 function Branches({}: Props) {
-  return <div>Branches</div>;
+  return (
+    <div>
+      <BranchManagement />
+    </div>
+  );
 }
 
 export default Branches;

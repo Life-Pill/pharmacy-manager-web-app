@@ -10,7 +10,7 @@ type Props = {};
 
 function SummaryCards({}: Props) {
   return (
-    <div className='flex gap-4 w-full'>
+    <div className=' flex gap-4 w-full'>
       {/* Total Sales Card */}
       <div className='bg-white rounded-lg shadow-md p-6 flex-1'>
         <div className='flex items-center'>
