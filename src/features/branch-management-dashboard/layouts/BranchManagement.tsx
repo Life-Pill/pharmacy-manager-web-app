@@ -1,23 +1,15 @@
-import React from 'react';
 import Logo from '../../../assets/logo.png';
-import {
-  FaUserTie,
-  FaDollarSign,
-  FaShoppingCart,
-  FaUserFriends,
-  FaCheckCircle,
-} from 'react-icons/fa';
+import { FaUserTie, FaUserFriends, FaCheckCircle } from 'react-icons/fa';
 import { fakeBranchData } from '../../../interfaces/PharmacyBranch';
-import { FaLocationPin } from 'react-icons/fa6';
 import { GoLocation } from 'react-icons/go';
 
 function BranchManagement() {
   return (
-    <div className='grid grid-cols-3 gap-6 p-8 overflow-y-scroll max-h-screen'>
+    <div className='grid grid-cols-2 gap-6 p-8 overflow-y-scroll max-h-screen'>
       {fakeBranchData.map((pharmacy) => (
         <div
           key={pharmacy.branchId}
-          className='bg-white rounded-lg shadow-md px-6 pt-6'
+          className='bg-white rounded-lg shadow-md p-6 space-y-4'
         >
           <div className='flex items-center space-x-4'>
             <img
@@ -26,38 +18,39 @@ function BranchManagement() {
               className='w-16 h-16 rounded-md'
             />
             <div>
-              <p className='text-lg font-bold'>{pharmacy.name}</p>
-              <div className='flex w-full items-center gap-4'>
+              <p className='text-xl font-bold'>{pharmacy.name}</p>
+              <div className='flex items-center gap-2'>
                 <GoLocation className='text-blue-500' />
-                <p className='text-sm text-gray-500'>
+                <p className='text-base text-gray-500'>
                   {pharmacy.branchAddress}
                 </p>
               </div>
               <div className='flex items-center space-x-2 mt-2'>
-                <FaUserTie className='text-blue-500' />
-                <p className='text-sm'>{pharmacy.manager}</p>
+                <FaUserTie className='text-black' />
+                <p className='text-base'>{pharmacy.manager}</p>
               </div>
-              <div className='flex items-center space-x-2 mt-1'>
-                <FaDollarSign className='text-green-500' />
-                <p className='text-sm'>{pharmacy.sales}</p>
-              </div>
-              <div className='flex items-center space-x-2 mt-1'>
-                <FaShoppingCart className='text-yellow-500' />
-                <p className='text-sm'>{pharmacy.orders}</p>
-              </div>
-              <div className='flex items-center space-x-2 mt-1'>
+
+              <p className='text-lg font-medium'>
+                Total Sales: LKR {pharmacy.sales}
+              </p>
+
+              <p className='text-lg font-medium'>
+                Total Orders:{' '}
+                <span className='text-blue-500'>{pharmacy.orders}</span>
+              </p>
+              <div className='flex items-center space-x-2'>
                 <FaUserFriends className='text-purple-500' />
-                <p className='text-sm'>100</p>{' '}
+                <p className='text-base'>100</p>{' '}
                 {/* Assuming static value for employees */}
               </div>
-              <div className='flex items-center space-x-2 mt-1'>
+              <div className='flex items-center space-x-2'>
                 <FaCheckCircle
-                  className={`text-green-500 ${
+                  className={`text-lg ${
                     pharmacy.branchStatus ? 'text-green-500' : 'text-red-500'
                   }`}
                 />
                 <p
-                  className={`text-sm ${
+                  className={`text-base ${
                     pharmacy.branchStatus ? 'text-green-500' : 'text-red-500'
                   }`}
                 >
@@ -67,7 +60,7 @@ function BranchManagement() {
             </div>
           </div>
           {/* View More Button */}
-          <button className=' text-blue-500 font-semibold py-2 px-4 w-full cursor-pointer'>
+          <button className='text-blue-500 font-semibold py-2 px-4 mt-4 w-full bg-blue-100 hover:bg-blue-200 rounded-md transition duration-300 ease-in-out'>
             View More
           </button>
         </div>
