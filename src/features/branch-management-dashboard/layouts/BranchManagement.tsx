@@ -8,39 +8,68 @@ import {
   FaCheckCircle,
 } from 'react-icons/fa';
 import { fakeBranchData } from '../../../interfaces/PharmacyBranch';
+import { FaLocationPin } from 'react-icons/fa6';
+import { GoLocation } from 'react-icons/go';
 
-type Props = {};
-
-function BranchManagement({}: Props) {
+function BranchManagement() {
   return (
-    <div className='grid grid-cols-3 p-8'>
+    <div className='grid grid-cols-3 gap-6 p-8 overflow-y-scroll max-h-screen'>
       {fakeBranchData.map((pharmacy) => (
-        <div className='flex items-center justify-center space-x-4 shadow-md rounded-lg gap-4'>
-          <img src={Logo} alt='image' className='w-16 h-16 rounded-full' />
-          <div className='text-left'>
-            <p className='text-lg font-bold'>{pharmacy.name}</p>
-            <p className='text-sm'>{pharmacy.branchLocation}</p>
-            <p className='text-sm'>
-              <FaUserTie className='inline mr-2' />
-              {pharmacy.manager}
-            </p>
-            <p className='text-sm'>
-              <FaDollarSign className='inline mr-2' />
-              {pharmacy.sales}
-            </p>
-            <p className='text-sm'>
-              <FaShoppingCart className='inline mr-2' />
-              {pharmacy.orders}
-            </p>
-            <p className='text-sm'>
-              <FaUserFriends className='inline mr-2' />
-              100
-            </p>
-            <p className='text-sm'>
-              <FaCheckCircle className='inline mr-2 text-green-500' />
-              {pharmacy.branchStatus}
-            </p>
+        <div
+          key={pharmacy.branchId}
+          className='bg-white rounded-lg shadow-md px-6 pt-6'
+        >
+          <div className='flex items-center space-x-4'>
+            <img
+              src={Logo}
+              alt='Branch Logo'
+              className='w-16 h-16 rounded-md'
+            />
+            <div>
+              <p className='text-lg font-bold'>{pharmacy.name}</p>
+              <div className='flex w-full items-center gap-4'>
+                <GoLocation className='text-blue-500' />
+                <p className='text-sm text-gray-500'>
+                  {pharmacy.branchAddress}
+                </p>
+              </div>
+              <div className='flex items-center space-x-2 mt-2'>
+                <FaUserTie className='text-blue-500' />
+                <p className='text-sm'>{pharmacy.manager}</p>
+              </div>
+              <div className='flex items-center space-x-2 mt-1'>
+                <FaDollarSign className='text-green-500' />
+                <p className='text-sm'>{pharmacy.sales}</p>
+              </div>
+              <div className='flex items-center space-x-2 mt-1'>
+                <FaShoppingCart className='text-yellow-500' />
+                <p className='text-sm'>{pharmacy.orders}</p>
+              </div>
+              <div className='flex items-center space-x-2 mt-1'>
+                <FaUserFriends className='text-purple-500' />
+                <p className='text-sm'>100</p>{' '}
+                {/* Assuming static value for employees */}
+              </div>
+              <div className='flex items-center space-x-2 mt-1'>
+                <FaCheckCircle
+                  className={`text-green-500 ${
+                    pharmacy.branchStatus ? 'text-green-500' : 'text-red-500'
+                  }`}
+                />
+                <p
+                  className={`text-sm ${
+                    pharmacy.branchStatus ? 'text-green-500' : 'text-red-500'
+                  }`}
+                >
+                  {pharmacy.branchStatus ? 'Active' : 'Inactive'}
+                </p>
+              </div>
+            </div>
           </div>
+          {/* View More Button */}
+          <button className=' text-blue-500 font-semibold py-2 px-4 w-full cursor-pointer'>
+            View More
+          </button>
         </div>
       ))}
     </div>

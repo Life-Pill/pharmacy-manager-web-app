@@ -24,6 +24,7 @@ export const fakeBranchData: PharmacyBranch[] = [
     manager: 'Manager 1',
     branchId: 1,
     branchAddress: 'Address 1',
+    branchStatus: true,
   },
   {
     name: 'Branch 2',
@@ -32,6 +33,7 @@ export const fakeBranchData: PharmacyBranch[] = [
     manager: 'Manager 2',
     branchId: 2,
     branchAddress: 'Address 2',
+    branchStatus: true,
   },
   {
     name: 'Branch 3',
@@ -40,6 +42,7 @@ export const fakeBranchData: PharmacyBranch[] = [
     manager: 'Manager 3',
     branchId: 3,
     branchAddress: 'Address 3',
+    branchStatus: true,
   },
   {
     name: 'Branch 4',
@@ -48,6 +51,7 @@ export const fakeBranchData: PharmacyBranch[] = [
     manager: 'Manager 4',
     branchId: 4,
     branchAddress: 'Address 4',
+    branchStatus: true,
   },
   {
     name: 'Branch 5',
