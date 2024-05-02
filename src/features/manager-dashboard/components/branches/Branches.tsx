@@ -1,4 +1,3 @@
-import React from 'react';
 import { BranchManagement } from '../../../branch-management-dashboard';
 
 type Props = {};

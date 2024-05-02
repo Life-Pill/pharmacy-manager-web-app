@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { FaHome, FaUserFriends, FaBuilding, FaChartBar } from 'react-icons/fa';
 import Logo from '../../../../assets/logo.png';
 

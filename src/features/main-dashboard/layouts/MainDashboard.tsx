@@ -1,4 +1,3 @@
-import React from 'react';
 import SalesBarChart from '../components/sales-by-branch-bar-chart/SalesBarChart';
 import OrderPieChart from '../components/order-by-branch-pie-chart/OrderPieChart';
 import SummaryCards from '../components/summary-detail-cards/SummaryCards';
