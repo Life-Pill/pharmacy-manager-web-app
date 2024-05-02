@@ -1,11 +1,16 @@
 import { CiUser } from 'react-icons/ci';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import Logo from '../../../../assets/logo.png';
-import { Link } from 'react-router-dom';
+import useAuth from '../../services/AuthService';
+import { useState } from 'react';
 
 type Props = {};
 
 function LogInCard({}: Props) {
+  const { login, loading } = useAuth();
+  const [username, setUsername] = useState('');
+  const [password, setpassword] = useState('');
+
   return (
     <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100'>
       <div className='bg-white p-8 rounded-lg shadow-md w-96'>
@@ -20,6 +25,7 @@ function LogInCard({}: Props) {
             type='text'
             placeholder='Username'
             className='w-full py-2 outline-none'
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className='mb-6 flex items-center border-b border-gray-300'>
@@ -28,19 +34,24 @@ function LogInCard({}: Props) {
             type='password'
             placeholder='Password'
             className='w-full py-2 outline-none'
+            onChange={(e) => setpassword(e.target.value)}
           />
         </div>
-
-        <Link to='/dashboard'>
-          <button
-            className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md w-full'
-            onClick={() => {
-              console.log('Sign In clicked');
-            }}
-          >
-            Sign In
-          </button>
-        </Link>
+        {
+          // Disable button when loading
+          loading ? (
+            <button className='w-full py-2 bg-blue-300 text-white rounded-md cursor-not-allowed'>
+              Loading...
+            </button>
+          ) : (
+            <button
+              className='w-full py-2 bg-blue-500 text-white rounded-md'
+              onClick={() => login(username, password)}
+            >
+              Login
+            </button>
+          )
+        }
       </div>
     </div>
   );
