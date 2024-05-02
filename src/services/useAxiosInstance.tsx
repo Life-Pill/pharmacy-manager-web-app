@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { useEffect } from 'react';
+import { useUserContext } from '../context/UserContext';
 
 function useAxiosInstance() {
-  const cookie =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dHRAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOiJST0xFX09XTkVSIiwiaWF0IjoxNzE0NjM4NTI3LCJleHAiOjE3MTQ3MjQ5Mjd9.j0QbtCu_S6JWuN4PxdwBX9vaBphwpWkdXhbxaOxQeKM';
-
+  const { cookie } = useUserContext();
   const instance = axios.create({
     baseURL: 'http://localhost:8081/lifepill/v1',
     headers: {
