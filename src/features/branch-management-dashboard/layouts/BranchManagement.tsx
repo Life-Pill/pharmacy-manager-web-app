@@ -2,13 +2,20 @@ import Logo from '../../../assets/logo.png';
 import { FaUserTie, FaUserFriends, FaCheckCircle } from 'react-icons/fa';
 import { fakeBranchData } from '../../../interfaces/PharmacyBranch';
 import { GoLocation } from 'react-icons/go';
+import { useEffect } from 'react';
+import useBranchManagementService from '../services/BranchManagementService';
 
 function BranchManagement() {
+  const { allBranchSales, loadingAllBranchSales, fetchAllBranchSales } =
+    useBranchManagementService();
+  useEffect(() => {
+    fetchAllBranchSales();
+  }, []);
   return (
     <div className='grid grid-cols-2 gap-6 p-8 overflow-y-scroll max-h-screen'>
-      {fakeBranchData.map((pharmacy) => (
+      {allBranchSales?.map((pharmacy) => (
         <div
-          key={pharmacy.branchId}
+          key={pharmacy.branchDTO.branchId}
           className='bg-white rounded-lg shadow-md p-6 space-y-4'
         >
           <div className='flex items-center space-x-4'>
@@ -18,11 +25,13 @@ function BranchManagement() {
               className='w-16 h-16 rounded-md'
             />
             <div>
-              <p className='text-xl font-bold'>{pharmacy.name}</p>
+              <p className='text-xl font-bold'>
+                {pharmacy.branchDTO.branchName}
+              </p>
               <div className='flex items-center gap-2'>
                 <GoLocation className='text-blue-500' />
                 <p className='text-base text-gray-500'>
-                  {pharmacy.branchAddress}
+                  {pharmacy.branchDTO.branchLocation}
                 </p>
               </div>
               <div className='flex items-center space-x-2 mt-2'>
@@ -46,15 +55,19 @@ function BranchManagement() {
               <div className='flex items-center space-x-2'>
                 <FaCheckCircle
                   className={`text-lg ${
-                    pharmacy.branchStatus ? 'text-green-500' : 'text-red-500'
+                    pharmacy.branchDTO.branchStatus
+                      ? 'text-green-500'
+                      : 'text-red-500'
                   }`}
                 />
                 <p
                   className={`text-base ${
-                    pharmacy.branchStatus ? 'text-green-500' : 'text-red-500'
+                    pharmacy.branchDTO.branchStatus
+                      ? 'text-green-500'
+                      : 'text-red-500'
                   }`}
                 >
-                  {pharmacy.branchStatus ? 'Active' : 'Inactive'}
+                  {pharmacy.branchDTO.branchStatus ? 'Active' : 'Inactive'}
                 </p>
               </div>
             </div>
