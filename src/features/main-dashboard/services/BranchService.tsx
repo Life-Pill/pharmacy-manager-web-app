@@ -16,11 +16,12 @@ const useBranchService = () => {
     try {
       const res = await http.get('branch-summary/all-branches-summary');
       console.log(res.data);
-      setAllBranchData(res.data);
+      const { data } = res;
+      setAllBranchData(data.data);
       console.log(allBranchData);
     } catch (error) {
       console.log(error);
-      toast.error(error as string);
+      toast.error('error');
     } finally {
       setLoading(false);
     }
