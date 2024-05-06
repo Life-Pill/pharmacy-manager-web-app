@@ -5,6 +5,7 @@ import { mapEmployeeReponseToIEmployee } from '../utils/mapEmployeeResponseToIEm
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 
 const useAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -16,11 +17,11 @@ const useAuth = () => {
     setLoading(true);
 
     try {
-      const res = await http.post('auth/authenticate', {
+      const res = await http.post('/auth/authenticate', {
         employerEmail: username,
         employerPassword: password,
       });
-      console.log(res.data);
+      console.log(res);
 
       if (
         res.data.authenticationResponse.message === 'Successfully logged in.'
@@ -28,19 +29,18 @@ const useAuth = () => {
         const employee = mapEmployeeReponseToIEmployee(
           res.data.employerDetails
         );
-        console.log(employee);
-
-        // Set user data or store cookie if needed
-        setCookie(res.data.authenticationResponse.access_token);
+        // console.log(employee);
         setUser(employee);
         if (employee.role.toLocaleLowerCase() === 'owner') {
           toast.success('Logged in as owner');
           navigate('/dashboard');
           //store cookie and user in local storage
           localStorage.setItem('user', JSON.stringify(employee));
-          localStorage.setItem(
-            'cookie',
-            JSON.stringify(res.data.authenticationResponse.access_token)
+          setCookie(res.data.authenticationResponse.access_token);
+          Cookies.set(
+            'Authorization',
+            res.data.authenticationResponse.access_token,
+            { expires: 7 }
           );
         } else {
           toast.error('You are not authorized to login');
@@ -49,7 +49,7 @@ const useAuth = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error('Invalid username or password');
+      toast.error('error');
     } finally {
       setLoading(false);
     }

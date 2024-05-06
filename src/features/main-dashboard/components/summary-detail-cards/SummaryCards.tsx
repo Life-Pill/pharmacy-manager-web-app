@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   GiReceiveMoney,
   GiShoppingCart,
   GiWalk,
   GiFactory,
 } from 'react-icons/gi';
+import useBranchService from '../../services/BranchService';
 
-type Props = {};
+function SummaryCards() {
+  const { allBranchData, loading, fetchAllBranchDataSummary } =
+    useBranchService();
 
-function SummaryCards({}: Props) {
+  useEffect(() => {
+    fetchAllBranchDataSummary();
+  }, []);
+
   return (
     <div className=' flex gap-4 w-full'>
       {/* Total Sales Card */}
@@ -19,7 +25,7 @@ function SummaryCards({}: Props) {
         </div>
         <div className='mt-4'>
           <p className='text-gray-600 text-lg'>Total Amount:</p>
-          <p className='text-2xl font-semibold text-green-700'>$1000</p>
+          <p className='text-2xl font-semibold text-green-700'>{`LKR ${allBranchData?.totalSales}`}</p>
         </div>
       </div>
 
@@ -31,7 +37,9 @@ function SummaryCards({}: Props) {
         </div>
         <div className='mt-4'>
           <p className='text-gray-600 text-lg'>Number of Orders:</p>
-          <p className='text-2xl font-semibold text-blue-700'>150</p>
+          <p className='text-2xl font-semibold text-blue-700'>
+            {allBranchData?.totalOrders}
+          </p>
         </div>
       </div>
 
@@ -43,7 +51,9 @@ function SummaryCards({}: Props) {
         </div>
         <div className='mt-4'>
           <p className='text-gray-600 text-lg'>Number of Workers:</p>
-          <p className='text-2xl font-semibold text-yellow-700'>120</p>
+          <p className='text-2xl font-semibold text-yellow-700'>
+            {allBranchData?.totalEmployees}
+          </p>
         </div>
       </div>
 
@@ -55,7 +65,9 @@ function SummaryCards({}: Props) {
         </div>
         <div className='mt-4'>
           <p className='text-gray-600 text-lg'>Number of Branches:</p>
-          <p className='text-2xl font-semibold text-red-700'>5</p>
+          <p className='text-2xl font-semibold text-red-700'>
+            {allBranchData?.totalBranches}
+          </p>
         </div>
       </div>
     </div>
