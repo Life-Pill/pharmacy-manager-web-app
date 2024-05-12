@@ -43,7 +43,7 @@ const useAuth = () => {
             { expires: 7 }
           );
         } else {
-          toast.error('You are not authorized to login');
+          toast.error('Authentication failed: Incorrect username or password');
         }
         return employee;
       }
