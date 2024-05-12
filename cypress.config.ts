@@ -6,10 +6,21 @@ export default defineConfig({
     devServer: {
       framework: 'react',
       bundler: 'vite',
-      // optionally pass in vite config
       viteConfig: customViteConfig,
-      // or a function - the result is merged with
-      // any `vite.config` file that is detected
+    },
+  },
+
+  e2e: {
+    baseUrl: 'http://localhost:5173',
+    setupNodeEvents(on, config) {
+      // Implement custom node event listeners here if needed
+      // For example:
+      // on('task', {
+      //   myCustomTask(data) {
+      //     // handle custom task
+      //     return data;
+      //   }
+      // });
     },
   },
 });
