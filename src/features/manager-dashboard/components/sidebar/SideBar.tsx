@@ -15,7 +15,7 @@ const SideBar: React.FC<SideBarProps> = ({ setActiveComponent }) => {
   };
 
   return (
-    <div className='flex flex-col w-80 bg-gray-900 h-screen'>
+    <div className='flex flex-col w-80 bg-gray-900 h-screen sidebar'>
       <div className='flex items-center justify-center h-auto bg-gray-900 text-white text-xl font-bold'>
         <img src={Logo} alt='Logo' className='mr-2' />
       </div>

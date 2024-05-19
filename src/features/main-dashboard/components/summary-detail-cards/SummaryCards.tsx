@@ -16,7 +16,7 @@ function SummaryCards() {
   }, []);
 
   return (
-    <div className=' flex gap-4 w-full'>
+    <div className=' flex gap-4 w-full summary-cards'>
       {/* Total Sales Card */}
       <div className='bg-white rounded-lg shadow-md p-6 flex-1'>
         <div className='flex items-center'>
@@ -25,7 +25,9 @@ function SummaryCards() {
         </div>
         <div className='mt-4'>
           <p className='text-gray-600 text-lg'>Total Amount:</p>
-          <p className='text-2xl font-semibold text-green-700'>{`LKR ${allBranchData?.totalSales}`}</p>
+          <p className='text-2xl font-semibold text-green-700'>{`LKR ${allBranchData?.totalSales.toFixed(
+            2
+          )}`}</p>
         </div>
       </div>
 

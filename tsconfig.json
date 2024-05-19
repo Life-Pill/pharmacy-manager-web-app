@@ -5,21 +5,18 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-
-    /* Bundler mode */
+    "jsx": "react-jsx",
+    "esModuleInterop": true, // Add this line
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-
-    /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["cypress", "src", "sonarqube"],
+  "include": ["src/**/*.ts", "sonarqube", "src", "cypress"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

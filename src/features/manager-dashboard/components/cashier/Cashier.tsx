@@ -1,9 +1,14 @@
 import React from 'react';
+import { CashierManagementDashboard } from '../../../cashier-management-dashboard';
 
 type Props = {};
 
 function Cashier({}: Props) {
-  return <div>Cashier</div>;
+  return (
+    <div className='cashier'>
+      <CashierManagementDashboard />
+    </div>
+  );
 }
 
 export default Cashier;

@@ -26,7 +26,7 @@ function OrderPieChart({}: Props) {
   };
 
   return (
-    <div className='bg-white rounded-lg shadow-md p-6'>
+    <div className='bg-white rounded-lg shadow-md p-6 order-pie-chart'>
       <h2 className='text-2xl font-semibold mb-4'>Orders Pie Chart</h2>
       <div className='w-full h-auto'>
         <Doughnut data={data} />

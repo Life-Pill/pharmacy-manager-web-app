@@ -6,7 +6,7 @@ type Props = {};
 
 function MainDashboard({}: Props) {
   return (
-    <div className='p-8 max-h-screen overflow-y-hidden flex flex-col items-center gap-16'>
+    <div className='p-8 max-h-screen overflow-y-hidden flex flex-col items-center gap-16 dashboard'>
       <SummaryCards />
 
       <div className='flex flex-col sm:flex-row justify-evenly items-center w-full gap-8'>
