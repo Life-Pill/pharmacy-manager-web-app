@@ -1,11 +1,8 @@
-import React from 'react';
 import { fakeBranchData } from '../../../../interfaces/PharmacyBranch';
 import { Doughnut } from 'react-chartjs-2';
 import 'chart.js/auto';
 
-type Props = {};
-
-function OrderPieChart({}: Props) {
+function OrderPieChart() {
   const branchNames = fakeBranchData.map((branch) => branch.name);
   const orderData = fakeBranchData.map((branch) => branch.orders);
 

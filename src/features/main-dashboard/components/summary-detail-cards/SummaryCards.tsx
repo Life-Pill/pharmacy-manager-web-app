@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   GiReceiveMoney,
   GiShoppingCart,
@@ -8,8 +8,7 @@ import {
 import useBranchService from '../../services/BranchService';
 
 function SummaryCards() {
-  const { allBranchData, loading, fetchAllBranchDataSummary } =
-    useBranchService();
+  const { allBranchData, fetchAllBranchDataSummary } = useBranchService();
 
   useEffect(() => {
     fetchAllBranchDataSummary();

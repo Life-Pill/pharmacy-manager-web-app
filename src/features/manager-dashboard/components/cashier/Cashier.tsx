@@ -1,4 +1,3 @@
-import React from 'react';
 import { CashierManagementDashboard } from '../../../cashier-management-dashboard';
 
 type Props = {};
