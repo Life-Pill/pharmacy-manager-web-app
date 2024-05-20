@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useUserContext } from '../../../context/UserContext';
-
+import { useState } from 'react';
 import { CashierDetailsType } from '../interfaces/CashierDetailsType';
 import { toast } from 'react-toastify';
 import useAxiosInstance from '../../../services/useAxiosInstance';
@@ -10,7 +8,6 @@ import { passwordsMatch } from '../utils/validators/PasswordValidator';
 
 const useCashierCRUDService = () => {
   const http = useAxiosInstance();
-  const user = useUserContext();
   const [loading, setLoading] = useState(false);
   const { setCurrentComponent } = useCashierContext();
   const [updating, setUpdating] = useState(false);

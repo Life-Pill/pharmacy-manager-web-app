@@ -13,6 +13,7 @@ const useCashierService = () => {
 
   const fetchEmployeeData = async () => {
     try {
+      setLoading(true);
       const res = await http.get('/employers/get-all-employers');
       console.log(res);
       const data: CashierDetailsType[] = res.data.data;
@@ -23,6 +24,8 @@ const useCashierService = () => {
     } catch (error) {
       console.error(error);
       toast.error('Error while fetching all employers');
+    } finally {
+      setLoading(false);
     }
   };
 
