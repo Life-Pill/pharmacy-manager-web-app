@@ -50,6 +50,7 @@ const useBankCRUDService = () => {
   const fetchBankDetailsById = (id: number) => {
     try {
       setLoading(true);
+      console.log(id);
     } catch (error) {
       console.log(error);
       toast.error('Failed to fetch bank details');
@@ -57,7 +58,7 @@ const useBankCRUDService = () => {
       setLoading(false);
     }
   };
-  return { updateBankDetails, loading };
+  return { updateBankDetails, loading, fetchBankDetailsById };
 };
 
 export default useBankCRUDService;

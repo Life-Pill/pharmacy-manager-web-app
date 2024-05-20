@@ -13,6 +13,7 @@ function useAxiosInstance() {
   });
 
   useEffect(() => {
+    console.log(cookie);
     instance.interceptors.response.use(
       (response) => {
         // Handle successful responses

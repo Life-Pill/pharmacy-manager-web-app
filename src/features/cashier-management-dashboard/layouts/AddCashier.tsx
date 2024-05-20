@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext } from 'react';
+import { useState, useContext, createContext } from 'react';
 import CashierDetails from '../components/add-cashier/CashierDetails';
 import CashierBankDetails from '../components/add-cashier/CashierDetails';
 import CashierDetailsSummary from '../components/add-cashier/CashierDetailsSummary';

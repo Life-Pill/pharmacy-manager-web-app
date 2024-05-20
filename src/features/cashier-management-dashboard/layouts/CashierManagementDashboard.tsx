@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { TbCirclePlus } from 'react-icons/tb';
-import { TbSettingsCog } from 'react-icons/tb';
-import { LiaStreetViewSolid } from 'react-icons/lia';
 import { Link, useNavigate } from 'react-router-dom';
 import { BsPencilSquare, BsEye, BsTrash } from 'react-icons/bs';
 import useCashierService from '../services/CashierService';
@@ -179,7 +177,7 @@ const CashierManagementDashboard = () => {
                       {/* Update Button */}
                       <button
                         className='text-white font-bold py-2 px-4 rounded transition-transform hover:scale-110'
-                        onClick={(e) => {
+                        onClick={() => {
                           onUpdateClick(worker);
                         }}
                       >
@@ -188,7 +186,7 @@ const CashierManagementDashboard = () => {
                       {/* View Button */}
                       <button
                         className='text-white font-bold py-2 px-4 rounded transition-transform hover:scale-110'
-                        onClick={(e) => {
+                        onClick={() => {
                           onViewClick(worker);
                         }}
                       >
@@ -197,7 +195,7 @@ const CashierManagementDashboard = () => {
 
                       <button
                         className='text-white font-bold py-2 px-4 rounded transition-transform hover:scale-110'
-                        onClick={(e) => {
+                        onClick={() => {
                           onDeleteClick(worker);
                         }}
                       >

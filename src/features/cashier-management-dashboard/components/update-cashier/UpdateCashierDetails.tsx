@@ -381,7 +381,7 @@ const UpdateCashierDetails = () => {
           <button
             type='button'
             className='text-white bg-blueDarker hover:bg-blue font-medium py-2.5 px-5 me-2 mb-2 rounded-lg'
-            onClick={(e) => goToBankDetails(cashierDetails)}
+            onClick={() => goToBankDetails(cashierDetails)}
           >
             Update Employer
           </button>

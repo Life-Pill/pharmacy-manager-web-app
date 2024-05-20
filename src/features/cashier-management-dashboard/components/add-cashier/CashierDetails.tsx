@@ -7,8 +7,7 @@ import useCashierCRUDService from '../../services/cashierCRUDService';
 const CashierDetails = () => {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-  const { setCurrentComponent, cashierDetails, setCashierDetails } =
-    useCashierContext();
+  const { cashierDetails, setCashierDetails } = useCashierContext();
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file: File | null = e.target.files ? e.target.files[0] : null;
