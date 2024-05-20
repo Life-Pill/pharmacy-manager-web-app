@@ -15,11 +15,11 @@ function BranchManagement() {
   return (
     <>
       {loadingAllBranchSales && (
-        <div className='flex justify-center items-center h-screen'>
+        <div className='flex justify-center items-center h-screen branches'>
           <Lottie animationData={loading} width={150} height={150} />
         </div>
       )}
-      <div className='grid grid-cols-2 gap-6 p-8 overflow-y-scroll max-h-screen'>
+      <div className='grid grid-cols-2 gap-6 p-8 overflow-y-scroll max-h-screen branch'>
         {allBranchSales?.map((pharmacy) => (
           <div
             key={pharmacy.branchDTO.branchId}

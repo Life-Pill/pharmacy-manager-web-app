@@ -1,11 +1,8 @@
-import React from 'react';
 import { fakeBranchData } from '../../../../interfaces/PharmacyBranch';
 import { Doughnut } from 'react-chartjs-2';
 import 'chart.js/auto';
 
-type Props = {};
-
-function OrderPieChart({}: Props) {
+function OrderPieChart() {
   const branchNames = fakeBranchData.map((branch) => branch.name);
   const orderData = fakeBranchData.map((branch) => branch.orders);
 
@@ -26,7 +23,7 @@ function OrderPieChart({}: Props) {
   };
 
   return (
-    <div className='bg-white rounded-lg shadow-md p-6'>
+    <div className='bg-white rounded-lg shadow-md p-6 order-pie-chart'>
       <h2 className='text-2xl font-semibold mb-4'>Orders Pie Chart</h2>
       <div className='w-full h-auto'>
         <Doughnut data={data} />

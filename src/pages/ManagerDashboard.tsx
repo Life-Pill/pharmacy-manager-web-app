@@ -4,11 +4,13 @@ import Dashboard from '../features/manager-dashboard/components/dashboard/Dashbo
 import Cashier from '../features/manager-dashboard/components/cashier/Cashier';
 import Branches from '../features/manager-dashboard/components/branches/Branches';
 import Summary from '../features/manager-dashboard/components/summary/Summary';
+import { useParams } from 'react-router-dom';
 
 type Props = {};
 
 const ManagerDashboard: React.FC<Props> = () => {
-  const [activeComponent, setActiveComponent] = useState('dashboard');
+  const { item } = useParams();
+  const [activeComponent, setActiveComponent] = useState(item || 'dashboard');
 
   const renderComponent = () => {
     switch (activeComponent) {

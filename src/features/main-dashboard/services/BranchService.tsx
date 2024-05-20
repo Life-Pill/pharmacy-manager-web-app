@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { IAllBranchDetails } from '../interfaces/IAllBranchDetails';
-import { useUserContext } from '../../../context/UserContext';
 import useAxiosInstance from '../../../services/useAxiosInstance';
 import { toast } from 'react-toastify';
 
 const useBranchService = () => {
   const [allBranchData, setAllBranchData] = useState<IAllBranchDetails>();
   const [loading, setLoading] = useState<boolean>(false);
-  const { user } = useUserContext();
   const http = useAxiosInstance();
 
   const fetchAllBranchDataSummary = async () => {

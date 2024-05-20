@@ -26,7 +26,7 @@ const SalesBarChart: React.FC<Props> = () => {
   };
 
   return (
-    <div className='bg-white rounded-lg shadow-md p-6'>
+    <div className='bg-white rounded-lg shadow-md p-6 sales-bar-chart'>
       <h2 className='text-2xl font-semibold mb-4'>Sales Bar Chart</h2>
       <div className='w-[600px] h-auto'>
         <Bar data={data} />

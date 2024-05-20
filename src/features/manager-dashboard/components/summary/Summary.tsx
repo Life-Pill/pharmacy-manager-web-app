@@ -1,9 +1,5 @@
-import React from 'react';
-
-type Props = {};
-
-function Summary({}: Props) {
-  return <div>Summary</div>;
+function Summary() {
+  return <div className='summary'>Summary</div>;
 }
 
 export default Summary;
