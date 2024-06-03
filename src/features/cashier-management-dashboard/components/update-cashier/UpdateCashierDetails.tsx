@@ -36,6 +36,7 @@ const UpdateCashierDetails = () => {
 
   useEffect(() => {
     fetchCashierById(parseInt(employerId as string));
+    console.log(employerId);
   }, []);
 
   return (

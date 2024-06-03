@@ -39,7 +39,7 @@ const CashierManagementDashboard = () => {
 
   const onViewClick = (employer: CashierDetailsType) => {
     console.log(employer.employerId);
-    navigate('/view-cashier');
+    navigate(`/view-cashier/${employer.employerId}`);
   };
 
   const onDeleteClick = (employer: CashierDetailsType) => {
@@ -193,14 +193,14 @@ const CashierManagementDashboard = () => {
                         <BsEye className='text-blue-500 font-bold text-lg' />
                       </button>
 
-                      <button
+                      {/* <button
                         className='text-white font-bold py-2 px-4 rounded transition-transform hover:scale-110'
                         onClick={() => {
                           onDeleteClick(worker);
                         }}
                       >
                         <BsTrash className='text-red-500 font-bold text-lg' />
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))}
