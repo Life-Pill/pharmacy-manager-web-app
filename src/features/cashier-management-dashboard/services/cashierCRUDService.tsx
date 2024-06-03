@@ -6,6 +6,7 @@ import { ComponentState, useCashierContext } from '../layouts/AddCashier';
 import { validateEmail } from '../utils/validators/EmailValidator';
 import { passwordsMatch } from '../utils/validators/PasswordValidator';
 import { useNavigate } from 'react-router-dom';
+import { Branch } from '../interfaces/Branch';
 
 const useCashierCRUDService = () => {
   const http = useAxiosInstance();
@@ -206,6 +207,19 @@ const useCashierCRUDService = () => {
     }
   };
 
+  const [branches, setBranches] = useState<Branch[]>([]);
+
+  const fetchAllBranches = async () => {
+    try {
+      const res = await http.get('/branch/get-all-branches');
+      console.log(res);
+      setBranches(res.data.data);
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to fetch branches');
+    }
+  };
+
   return {
     createCashier,
     loading,
@@ -215,6 +229,8 @@ const useCashierCRUDService = () => {
     updateCashier,
     updating,
     deleteCashierById,
+    fetchAllBranches,
+    branches,
   };
 };
 export default useCashierCRUDService;

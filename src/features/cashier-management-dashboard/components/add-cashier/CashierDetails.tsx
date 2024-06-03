@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { IoCloudUploadOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { ComponentState, useCashierContext } from '../../layouts/AddCashier';
@@ -22,7 +22,8 @@ const CashierDetails = () => {
       reader.readAsDataURL(file);
     }
   };
-  const { createCashier, loading } = useCashierCRUDService();
+  const { createCashier, loading, fetchAllBranches, branches } =
+    useCashierCRUDService();
 
   const goToBankDetails = () => {
     // console.log(cashierDetails);
@@ -35,6 +36,10 @@ const CashierDetails = () => {
       }
     });
   };
+
+  useEffect(() => {
+    fetchAllBranches();
+  }, []);
 
   return (
     <div className='w-full p-16 px-4 sm:px-6 lg:px-8'>
@@ -206,9 +211,9 @@ const CashierDetails = () => {
               })
             }
           >
-            <option value='0'>Branch 1</option>
-            <option value='1'>Branch 2</option>
-            <option value='2'>Branch 3</option>
+            {branches.map((branch) => (
+              <option value={branch.branchId}>{branch.branchName}</option>
+            ))}
           </select>
 
           <label
