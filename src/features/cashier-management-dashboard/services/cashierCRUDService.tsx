@@ -199,7 +199,7 @@ const useCashierCRUDService = () => {
         toast.error('Failed to delete cashier');
       } finally {
         setLoading(false);
-        navigate('/manager-dashboard/Cashiers');
+        navigate('/manager-dashboard/cashiers');
       }
     } else {
       // Show message if user cancels deletion
