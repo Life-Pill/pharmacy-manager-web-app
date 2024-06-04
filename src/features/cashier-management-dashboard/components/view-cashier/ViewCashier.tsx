@@ -102,7 +102,7 @@ function ViewCashierComponent({}: Props) {
             type='button'
             className='py-2.5 px-5 me-2 mb-2 text-sm font-medium text-slate-900 focus:outline-none bg-white rounded-lg border border-gray hover:bg-gray'
           >
-            <Link to='/manager-dashboard/Cashiers'>
+            <Link to='/manager-dashboard/cashiers'>
               Continue to cashier manager
             </Link>
           </button>

@@ -27,7 +27,7 @@ const CashierDetails = () => {
 
   const goToBankDetails = () => {
     // console.log(cashierDetails);
-    createCashier(cashierDetails).then((res) => {
+    createCashier(cashierDetails).then((res: any) => {
       if (res) {
         setCashierDetails({
           ...cashierDetails,
@@ -205,10 +205,7 @@ const CashierDetails = () => {
             className='mt-1 p-2 border-gray rounded-md w-64'
             value={cashierDetails.branchId}
             onChange={(e) =>
-              setCashierDetails({
-                ...cashierDetails,
-                branchId: parseInt(e.target.value),
-              })
+              setCashierDetails({ ...cashierDetails, branchId: e.target.value })
             }
           >
             {branches.map((branch) => (
