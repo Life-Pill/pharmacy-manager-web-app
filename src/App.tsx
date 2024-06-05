@@ -5,6 +5,7 @@ import AddCashier from './features/cashier-management-dashboard/layouts/AddCashi
 import CashierBankDetails from './features/cashier-management-dashboard/components/add-cashier/CashierBankDetails';
 import UpdateCashier from './features/cashier-management-dashboard/layouts/UpdateCashier';
 import ViewCashier from './features/cashier-management-dashboard/layouts/ViewCashier';
+import ViewBranchDetails from './features/branch-management-dashboard/layouts/ViewBranchDetails';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         <Route path='/manager-dashboard/:item' element={<ManagerDashboard />} />
         <Route path='/update-cashier/:employerId' element={<UpdateCashier />} />
         <Route path='/view-cashier/:employerId' element={<ViewCashier />} />
+
+        <Route path='/view-branch/:branchId' element={<ViewBranchDetails />} />
       </Routes>
     </Router>
   );

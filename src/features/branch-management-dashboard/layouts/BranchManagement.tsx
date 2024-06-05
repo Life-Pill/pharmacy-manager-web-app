@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 import useBranchManagementService from '../services/BranchManagementService';
 import Lottie from 'lottie-react';
 import loading from '../../../assets/lottie/loading.json';
+import { useNavigate } from 'react-router-dom';
+import { IBranchAndSales } from '../interfaces/IBranchAndSales';
 
 function BranchManagement() {
   const { allBranchSales, loadingAllBranchSales, fetchAllBranchSales } =
@@ -12,6 +14,13 @@ function BranchManagement() {
   useEffect(() => {
     fetchAllBranchSales();
   }, []);
+
+  const navigate = useNavigate();
+
+  const viewMoreClick = (worker: IBranchAndSales) => {
+    navigate(`/view-branch/${worker.branchDTO.branchId}`);
+  };
+
   return (
     <>
       {loadingAllBranchSales && (
@@ -80,7 +89,10 @@ function BranchManagement() {
               </div>
             </div>
             {/* View More Button */}
-            <button className='text-blue-500 font-semibold py-2 px-4 mt-4 w-full bg-blue-100 hover:bg-blue-200 rounded-md transition duration-300 ease-in-out'>
+            <button
+              className='text-blue-500 font-semibold py-2 px-4 mt-4 w-full bg-blue-100 hover:bg-blue-200 rounded-md transition duration-300 ease-in-out'
+              onClick={() => viewMoreClick(pharmacy)}
+            >
               View More
             </button>
           </div>
