@@ -17,13 +17,18 @@ function OrderCardComponent({ order }: Props) {
     <div className='bg-white shadow-md rounded-lg p-4 border my-2'>
       <div className='flex items-center justify-between'>
         <div>
-          <p className='text-gray-700'>At branch #{order.branchId}</p>
-          <p className='text-gray-700'>By Employer #{order.employerId}</p>
+          <p className='text-gray-700'>
+            At Branch <span className=' font-semibold'>#{order.branchId}</span>
+          </p>
+          <p className='text-gray-700'>
+            By Employer{' '}
+            <span className=' font-semibold'>#{order.employerId}</span>
+          </p>
         </div>
         <div>
           <p className='text-gray-700'>On {formatDate(order.orderDate)}</p>
           <p className='text-gray-700'>
-            Total of <span className=' font-bold'>LKR {order.total}</span>
+            Total of <span className=' font-semibold'>LKR {order.total}</span>
           </p>
         </div>
       </div>

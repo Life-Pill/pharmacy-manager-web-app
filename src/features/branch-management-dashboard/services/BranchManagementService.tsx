@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { IBranchAndSales } from '../interfaces/IBranchAndSales';
 import { Branch } from '../interfaces/Branch';
 import { BranchSalesDetails } from '../interfaces/BranchSalesDetails';
-import { Employer } from '../interfaces/Employer';
+import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
 
 const useBranchManagementService = () => {
   const http = useAxiosInstance();
@@ -57,7 +57,9 @@ const useBranchManagementService = () => {
     }
   };
 
-  const [branchEmployers, setBranchEmployers] = useState<Employer[]>([]);
+  const [branchEmployers, setBranchEmployers] = useState<CashierDetailsType[]>(
+    []
+  );
   const fetchEmployersByBranchId = async (branchId: string) => {
     try {
       const res = await http.get(

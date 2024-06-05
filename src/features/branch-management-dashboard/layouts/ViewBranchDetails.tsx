@@ -7,6 +7,8 @@ import { getToday } from '../../../utils/getToday';
 import { generateMonthlySalesSummary } from '../utils/monthlySalesSummary';
 import BranchDetailCard from '../components/BranchDetailCard';
 import { Branch } from '../interfaces/Branch';
+import { BsPencilSquare, BsEye, BsTrash } from 'react-icons/bs';
+import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
 
 type Props = {};
 
@@ -98,6 +100,16 @@ function ViewBranchDetails({}: Props) {
   };
 
   const navigate = useNavigate();
+
+  const onUpdateClick = (employer: CashierDetailsType) => {
+    console.log(employer.employerId);
+    navigate(`/update-cashier/${employer.employerId}`);
+  };
+
+  const onViewClick = (employer: CashierDetailsType) => {
+    console.log(employer.employerId);
+    navigate(`/view-cashier/${employer.employerId}`);
+  };
 
   return (
     <div className='flex flex-col space-y-8 h-screen p-4'>
@@ -304,7 +316,25 @@ function ViewBranchDetails({}: Props) {
                 }
               </td>
               <td className='px-6 py-4'>{worker.employerSalary}</td>
-              <td className='px-6 py-4'>{/*  */}</td>
+              <td className='px-6 py-4'>
+                <button
+                  className='text-white font-bold py-2 px-4 rounded transition-transform hover:scale-110'
+                  onClick={() => {
+                    onUpdateClick(worker);
+                  }}
+                >
+                  <BsPencilSquare className=' text-blue-500 font-bold text-lg' />
+                </button>
+                {/* View Button */}
+                <button
+                  className='text-white font-bold py-2 px-4 rounded transition-transform hover:scale-110'
+                  onClick={() => {
+                    onViewClick(worker);
+                  }}
+                >
+                  <BsEye className='text-blue-500 font-bold text-lg' />
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

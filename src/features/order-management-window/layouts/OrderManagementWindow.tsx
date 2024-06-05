@@ -90,7 +90,7 @@ function OrderManagementWindow({}: Props) {
             id='branch'
             value={selectedBranch}
             onChange={(e) => setSelectedBranch(e.target.value)}
-            className='border rounded p-1'
+            className='border rounded p-1 w-auto px-2'
           >
             <option value=''>All</option>
             {branches?.map((branch) => (
