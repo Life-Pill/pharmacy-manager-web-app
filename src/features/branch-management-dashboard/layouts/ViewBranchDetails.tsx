@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useBranchManagementService from '../services/BranchManagementService';
 import { useEffect, useState } from 'react';
 import OrdersChart from '../components/OrdersChart';
@@ -90,6 +90,8 @@ function ViewBranchDetails({}: Props) {
     branchCreatedOn: '2024-01-01',
     branchCreatedBy: 'Admin',
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className='flex flex-col space-y-8 h-screen p-4'>
@@ -200,14 +202,13 @@ function ViewBranchDetails({}: Props) {
         </button> */}
       </div>
 
-      {showBranchDetails && (
-        <BranchDetailCard
-          branch={fakeBranchData}
-          closeTab={handleToggleClick}
-        />
-      )}
-
       <div className='flex flex-col justify-between space-y-8'>
+        {showBranchDetails && (
+          <BranchDetailCard
+            branch={fakeBranchData}
+            closeTab={handleToggleClick}
+          />
+        )}
         {filterByMonth ? (
           showSales ? (
             <SalesChart
@@ -224,6 +225,13 @@ function ViewBranchDetails({}: Props) {
           <OrdersChart salesData={filteredSalesData} />
         )}
       </div>
+      <button
+        type='button'
+        onClick={() => navigate('/manager-dashboard/branches')}
+        className='focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900'
+      >
+        Back
+      </button>
     </div>
   );
 }
