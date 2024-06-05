@@ -25,6 +25,8 @@ function ViewBranchDetails({}: Props) {
   const [filterByMonth, setFilterByMonth] = useState(false);
   const [filterByYear, setFilterByYear] = useState('');
   const [showSales, setShowSales] = useState(true);
+  const [totalOrders, setTotalOrders] = useState(0);
+  const [totalSales, setTotalSales] = useState(0);
 
   const handleStartDateChange = (e: any) => {
     setStartDate(e.target.value);
@@ -52,6 +54,20 @@ function ViewBranchDetails({}: Props) {
 
     return withinDateRange && matchesYear;
   });
+
+  useEffect(() => {
+    const totalOrders = filteredSalesData.reduce(
+      (acc, curr) => acc + curr.orders,
+      0
+    );
+    const totalSales = filteredSalesData.reduce(
+      (acc, curr) => acc + curr.sales,
+      0
+    );
+
+    setTotalOrders(totalOrders);
+    setTotalSales(totalSales);
+  }, [salesSummary, startDate, endDate, filterByYear, filterByMonth]);
 
   return (
     <div className='flex flex-col space-y-8 h-screen p-4'>
@@ -149,6 +165,10 @@ function ViewBranchDetails({}: Props) {
       </div>
 
       <div className='flex flex-col justify-between space-y-8'>
+        <div className='flex flex-row justify-start items-center gap-8'>
+          <div>Total Orders: {totalOrders}</div>
+          <div>Total Sales: {totalSales}</div>
+        </div>
         {filterByMonth ? (
           showSales ? (
             <SalesChart
