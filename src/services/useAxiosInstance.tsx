@@ -8,7 +8,7 @@ function useAxiosInstance() {
     baseURL: 'http://localhost:8079/lifepill/v1',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dHRAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOiJST0xFX09XTkVSIiwiaWF0IjoxNzE3NTg0NjEyLCJleHAiOjE3MTc2NzEwMTJ9.egXblBG093VqHLGcXXYIU6BAXuBJgYiDMSWl9QTZLLU`,
+      Authorization: `Bearer ${cookie}`,
     },
   });
 
