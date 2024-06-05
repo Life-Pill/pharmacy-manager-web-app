@@ -26,6 +26,7 @@ const useBranchManagementService = () => {
     }
   };
 
+  //TODO: add
   const [branch, setBranch] = useState<Branch>({} as Branch);
 
   const fetchBranchById = async (branchId: string) => {
@@ -55,6 +56,14 @@ const useBranchManagementService = () => {
     }
   };
 
+  const fetchEmployersByBranchId = async (branchId: number) => {
+    try {
+      const res = await http.get(`/branch/employer/by-branch/${branchId}`);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return {
     allBranchSales,
     loadingAllBranchSales,
@@ -63,6 +72,7 @@ const useBranchManagementService = () => {
     loading,
     getSalesSummary,
     salesSummary,
+    fetchEmployersByBranchId,
   };
 };
 
