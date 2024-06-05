@@ -5,6 +5,8 @@ import OrdersChart from '../components/OrdersChart';
 import SalesChart from '../components/SalesChart';
 import { getToday } from '../utils/getToday';
 import { generateMonthlySalesSummary } from '../utils/monthlySalesSummary';
+import BranchDetailCard from '../components/BranchDetailCard';
+import { Branch } from '../interfaces/Branch';
 
 type Props = {};
 
@@ -27,6 +29,7 @@ function ViewBranchDetails({}: Props) {
   const [showSales, setShowSales] = useState(true);
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalSales, setTotalSales] = useState(0);
+  const [showBranchDetails, setShowBranchDetails] = useState(false);
 
   const handleStartDateChange = (e: any) => {
     setStartDate(e.target.value);
@@ -69,10 +72,37 @@ function ViewBranchDetails({}: Props) {
     setTotalSales(totalSales);
   }, [salesSummary, startDate, endDate, filterByYear, filterByMonth]);
 
+  const handleToggleClick = () => {
+    setShowBranchDetails(!showBranchDetails);
+  };
+
+  const fakeBranchData: Branch = {
+    branchId: 1,
+    branchName: 'Example Branch',
+    branchAddress: '123 Example St',
+    branchContact: '123-456-7890',
+    branchFax: '123-456-7891',
+    branchEmail: 'example@example.com',
+    branchDescription: 'This is an example branch.',
+    branchImage: ['image1.jpg', 'image2.jpg'],
+    branchStatus: true,
+    branchLocation: 'Example Location',
+    branchCreatedOn: '2024-01-01',
+    branchCreatedBy: 'Admin',
+  };
+
   return (
     <div className='flex flex-col space-y-8 h-screen p-4'>
-      <div className='bg-white shadow-md rounded-lg p-4 flex flex-wrap items-center space-x-4 justify-between'>
-        <div className='flex flex-col'>
+      <div className='flex flex-row justify-start items-center gap-8'>
+        <div className='text-lg'>
+          Total Orders: <span className='font-bold'>{totalOrders}</span>
+        </div>
+        <div className='text-lg'>
+          Total Sales: <span className='font-bold'>{totalSales}</span>
+        </div>
+      </div>
+      <div className='bg-white flex flex-wrap items-center space-x-4 justify-between'>
+        <div className='flex items-center'>
           <label htmlFor='startDate' className='mb-1'>
             Start Date:
           </label>
@@ -84,7 +114,7 @@ function ViewBranchDetails({}: Props) {
             className='border rounded p-1'
           />
         </div>
-        <div className='flex flex-col'>
+        <div className='flex items-center'>
           <label htmlFor='endDate' className='mb-1'>
             End Date:
           </label>
@@ -108,7 +138,7 @@ function ViewBranchDetails({}: Props) {
             className='border p-1'
           />
         </div>
-        <div className='flex flex-col'>
+        <div className='flex items-center'>
           <label htmlFor='filterByYear' className='mb-1'>
             Filter By Year:
           </label>
@@ -126,6 +156,12 @@ function ViewBranchDetails({}: Props) {
           onClick={handleClearFilters}
         >
           Clear Filters
+        </button>
+        <button
+          className='bg-black text-white px-4 py-2 font-bold rounded-lg'
+          onClick={handleToggleClick}
+        >
+          Show Branch Details
         </button>
         <div className='flex items-center ml-auto'>
           <button
@@ -164,11 +200,14 @@ function ViewBranchDetails({}: Props) {
         </button> */}
       </div>
 
+      {showBranchDetails && (
+        <BranchDetailCard
+          branch={fakeBranchData}
+          closeTab={handleToggleClick}
+        />
+      )}
+
       <div className='flex flex-col justify-between space-y-8'>
-        <div className='flex flex-row justify-start items-center gap-8'>
-          <div>Total Orders: {totalOrders}</div>
-          <div>Total Sales: {totalSales}</div>
-        </div>
         {filterByMonth ? (
           showSales ? (
             <SalesChart
