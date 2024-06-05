@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { IBranchAndSales } from '../interfaces/IBranchAndSales';
 import { Branch } from '../interfaces/Branch';
 import { BranchSalesDetails } from '../interfaces/BranchSalesDetails';
+import { Employer } from '../interfaces/Employer';
 
 const useBranchManagementService = () => {
   const http = useAxiosInstance();
@@ -56,10 +57,14 @@ const useBranchManagementService = () => {
     }
   };
 
-  const fetchEmployersByBranchId = async (branchId: number) => {
+  const [branchEmployers, setBranchEmployers] = useState<Employer[]>([]);
+  const fetchEmployersByBranchId = async (branchId: string) => {
     try {
-      const res = await http.get(`/branch/employer/by-branch/${branchId}`);
+      const res = await http.get(
+        `/branch/employer/by-branch/${parseInt(branchId)}`
+      );
       console.log(res);
+      setBranchEmployers(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -73,6 +78,7 @@ const useBranchManagementService = () => {
     getSalesSummary,
     salesSummary,
     fetchEmployersByBranchId,
+    branchEmployers,
   };
 };
 

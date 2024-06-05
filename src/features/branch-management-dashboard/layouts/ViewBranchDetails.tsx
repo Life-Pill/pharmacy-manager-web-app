@@ -3,7 +3,7 @@ import useBranchManagementService from '../services/BranchManagementService';
 import { useEffect, useState } from 'react';
 import OrdersChart from '../components/OrdersChart';
 import SalesChart from '../components/SalesChart';
-import { getToday } from '../utils/getToday';
+import { getToday } from '../../../utils/getToday';
 import { generateMonthlySalesSummary } from '../utils/monthlySalesSummary';
 import BranchDetailCard from '../components/BranchDetailCard';
 import { Branch } from '../interfaces/Branch';
@@ -12,13 +12,19 @@ type Props = {};
 
 function ViewBranchDetails({}: Props) {
   const { branchId } = useParams();
-  const { fetchBranchById, getSalesSummary, salesSummary } =
-    useBranchManagementService();
+  const {
+    fetchBranchById,
+    getSalesSummary,
+    salesSummary,
+    fetchEmployersByBranchId,
+    branchEmployers,
+  } = useBranchManagementService();
 
   useEffect(() => {
     if (branchId) {
       fetchBranchById(branchId);
       getSalesSummary(branchId);
+      fetchEmployersByBranchId(branchId);
     }
   }, []);
 
@@ -225,6 +231,85 @@ function ViewBranchDetails({}: Props) {
           <OrdersChart salesData={filteredSalesData} />
         )}
       </div>
+
+      <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
+        <thead className='text-xs uppercase bg-slate-300 sticky top-0'>
+          <tr>
+            <th scope='col' className='px-6 py-3'>
+              Cashier ID
+            </th>
+            <th scope='col' className='px-6 py-3'>
+              Name
+            </th>
+            <th scope='col' className='px-6 py-3'>
+              Gender
+            </th>
+            <th scope='col' className='px-6 py-3'>
+              Phone Number
+            </th>
+            <th scope='col' className='px-6 py-3'>
+              Active Status
+            </th>
+            <th scope='col' className='px-6 py-3'>
+              Monthly Payment Status
+            </th>
+            <th scope='col' className='px-6 py-3'>
+              Salary
+            </th>
+            <th scope='col' className='px-6 py-3'></th>
+          </tr>
+        </thead>
+        <tbody>
+          {branchEmployers.map((worker) => (
+            <tr
+              className='bg-slate-50 border-b'
+              id={worker.employerId.toString()}
+            >
+              <td className='px-6 py-4'>{worker.employerId}</td>
+              <td className='px-6 py-4'>{worker.employerFirstName}</td>
+              <td className='px-6 py-4'>{worker.gender.toLocaleLowerCase()}</td>
+              <td className='px-6 py-4'>{worker.employerPhone}</td>
+              <td className='px-6 py-4'>
+                {
+                  <div
+                    className={`rounded-full p-1 w-24 flex items-center justify-center ${
+                      worker.activeStatus ? 'bg-green-500' : 'bg-yellow-500'
+                    }`}
+                  >
+                    <span
+                      className={`${
+                        worker.activeStatus ? 'text-white' : 'text-black'
+                      }`}
+                    >
+                      {worker.activeStatus ? 'Online' : 'Offline'}
+                    </span>
+                  </div>
+                }
+              </td>
+              <td className='px-6 py-4'>
+                {
+                  <div
+                    className={`rounded-full p-1 w-24 flex items-center justify-center ${
+                      worker.activeStatus ? 'bg-green-500' : 'bg-red'
+                    }`}
+                  >
+                    <span
+                      className={`${
+                        worker.activeStatus ? 'text-white' : 'text-black'
+                      }`}
+                    >
+                      {worker.activeStatus ? 'Paid' : 'Not Paid'}
+                    </span>
+                  </div>
+                }
+              </td>
+              <td className='px-6 py-4'>{worker.employerSalary}</td>
+              <td className='px-6 py-4'>{/*  */}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <button
         type='button'
         onClick={() => navigate('/manager-dashboard/branches')}

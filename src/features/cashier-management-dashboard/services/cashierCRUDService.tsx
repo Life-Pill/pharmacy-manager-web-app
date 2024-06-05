@@ -233,4 +233,5 @@ const useCashierCRUDService = () => {
     branches,
   };
 };
+
 export default useCashierCRUDService;

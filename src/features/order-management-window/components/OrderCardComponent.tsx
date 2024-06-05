@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Order } from '../interfaces/OrderDetails';
+import { formatDate } from '../utils/formatDate';
 
 type Props = {
   order: Order;
@@ -11,21 +12,31 @@ function OrderCardComponent({ order }: Props) {
   const toggleViewMore = () => {
     setViewMore(!viewMore);
   };
+
   return (
-    <div className='bg-white shadow-md rounded-lg p-4'>
-      <p>At branch #{order.branchId} </p>
-      <p>By Employer #{order.employerId} </p>
-      <p>On {order.orderDate}</p>
-      <p>Total of {order.total}</p>
+    <div className='bg-white shadow-md rounded-lg p-4 border my-2'>
+      <div className='flex items-center justify-between'>
+        <div>
+          <p className='text-gray-700'>At branch #{order.branchId}</p>
+          <p className='text-gray-700'>By Employer #{order.employerId}</p>
+        </div>
+        <div>
+          <p className='text-gray-700'>On {formatDate(order.orderDate)}</p>
+          <p className='text-gray-700'>
+            Total of <span className=' font-bold'>LKR {order.total}</span>
+          </p>
+        </div>
+      </div>
+
       {/* <p>Number of Items {order.groupedOrderDetails.orderCount}</p> */}
       {viewMore && (
         <>
-          <p>Order Details</p>
-          <table className='w-full text-sm text-left rtl:text-right text-slate-950 '>
-            <thead className='text-xs uppercase bg-slate-300 sticky top-0'>
+          <p className='text-gray-700 font-bold mb-2'>Order Details</p>
+          <table className='w-full text-sm text-left rtl:text-right text-gray-600'>
+            <thead className='text-xs font-semibold uppercase bg-gray-200 sticky top-0'>
               <tr>
                 <th scope='col' className='px-6 py-3'>
-                  Item id
+                  Item ID
                 </th>
                 <th scope='col' className='px-6 py-3'>
                   Name
@@ -38,8 +49,8 @@ function OrderCardComponent({ order }: Props) {
             <tbody>
               {order.groupedOrderDetails.orderDetails.map((orderDetail) => (
                 <tr
-                  id={orderDetail.id.toString()}
-                  className='bg-slate-50 border-b'
+                  key={orderDetail.id.toString()}
+                  className='bg-white border-b border-gray-200'
                 >
                   <td className='px-6 py-4'>{orderDetail.id}</td>
                   <td className='px-6 py-4'>{orderDetail.name}</td>
@@ -49,9 +60,9 @@ function OrderCardComponent({ order }: Props) {
             </tbody>
           </table>
 
-          <p>Payment Details</p>
-          <table className='w-full text-sm text-left rtl:text-right text-slate-950 '>
-            <thead className='text-xs uppercase bg-slate-300 sticky top-0'>
+          <p className='text-gray-700 font-bold mb-2'>Payment Details</p>
+          <table className='w-full text-sm text-left rtl:text-right text-gray-600'>
+            <thead className='text-xs font-semibold uppercase bg-gray-200 sticky top-0'>
               <tr>
                 <th scope='col' className='px-6 py-3'>
                   Payment Method
@@ -71,10 +82,7 @@ function OrderCardComponent({ order }: Props) {
               </tr>
             </thead>
             <tbody>
-              <tr
-                id={order.groupedOrderDetails.orderDetails.toString()}
-                className='bg-slate-50 border-b'
-              >
+              <tr>
                 <td className='px-6 py-4'>
                   {order.groupedOrderDetails.paymentDetails.paymentMethod}
                 </td>
@@ -95,7 +103,10 @@ function OrderCardComponent({ order }: Props) {
           </table>
         </>
       )}
-      <button onClick={toggleViewMore}>
+      <button
+        className='text-blue-500 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+        onClick={toggleViewMore}
+      >
         {viewMore ? 'View less' : 'View more'}
       </button>
     </div>
