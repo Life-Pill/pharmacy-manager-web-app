@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useUserContext } from '../context/UserContext';
+import { getCookie } from '../utils/getCookie';
 
 function useAxiosInstance() {
   const { cookie } = useUserContext();
@@ -8,12 +9,19 @@ function useAxiosInstance() {
     baseURL: 'http://localhost:8079/lifepill/v1',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${cookie}`,
+      Authorization: `Bearer ${getCookie('Authorization')}`,
     },
   });
 
   useEffect(() => {
-    console.log(cookie);
+    // Update instance headers when cookie changes
+    instance.defaults.headers.common['Authorization'] = `Bearer ${getCookie(
+      'Authorization'
+    )}`;
+  }, [cookie, instance]);
+
+  useEffect(() => {
+    // console.log(cookie);
     instance.interceptors.response.use(
       (response) => {
         // Handle successful responses
