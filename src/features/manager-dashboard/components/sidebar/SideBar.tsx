@@ -57,6 +57,15 @@ const SideBar: React.FC<SideBarProps> = ({ setActiveComponent }) => {
           <FaChartBar className='mr-2' />
           Summary
         </div>
+        <div
+          className={`hover:bg-gray-700 w-full h-16 flex items-center justify-center ${
+            activeItem === 'orders' ? 'bg-gray-700' : ''
+          }`}
+          onClick={() => handleItemClick('orders')}
+        >
+          <FaChartBar className='mr-2' />
+          Orders
+        </div>
       </div>
     </div>
   );

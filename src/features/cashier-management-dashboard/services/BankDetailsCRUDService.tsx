@@ -47,18 +47,33 @@ const useBankCRUDService = () => {
     }
   };
 
-  const fetchBankDetailsById = (id: number) => {
+  const [cashierBankDetails, setCashierBankDetails] =
+    useState<EmployerBankDetails>({} as EmployerBankDetails);
+
+  const fetchBankDetailsById = async (
+    id: number
+  ): Promise<EmployerBankDetails | null> => {
+    setLoading(true);
     try {
-      setLoading(true);
-      console.log(id);
+      const res = await http.get(`/employers/bank-details/${id}`);
+      console.log('bank details fetched here', res.data);
+      const bankDetails: EmployerBankDetails = res.data.data;
+      setCashierBankDetails(bankDetails); // Update the state
+      return bankDetails; // Return the bank details
     } catch (error) {
       console.log(error);
       toast.error('Failed to fetch bank details');
+      return null;
     } finally {
       setLoading(false);
     }
   };
-  return { updateBankDetails, loading, fetchBankDetailsById };
+  return {
+    updateBankDetails,
+    loading,
+    fetchBankDetailsById,
+    cashierBankDetails,
+  };
 };
 
 export default useBankCRUDService;

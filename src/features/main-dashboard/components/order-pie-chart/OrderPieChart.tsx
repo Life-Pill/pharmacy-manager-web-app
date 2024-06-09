@@ -1,10 +1,20 @@
-import { fakeBranchData } from '../../../../interfaces/PharmacyBranch';
 import { Doughnut } from 'react-chartjs-2';
 import 'chart.js/auto';
+import useBranchService from '../../services/BranchService';
+import { useEffect } from 'react';
 
 function OrderPieChart() {
-  const branchNames = fakeBranchData.map((branch) => branch.name);
-  const orderData = fakeBranchData.map((branch) => branch.orders);
+  const { fetchAllBranchSales, allBranchSales, loadingAllBranchSales } =
+    useBranchService();
+
+  useEffect(() => {
+    fetchAllBranchSales();
+  }, []);
+
+  const branchNames = allBranchSales?.map(
+    (branch) => branch.branchDTO.branchName
+  );
+  const orderData = allBranchSales?.map((branch) => branch.orders);
 
   const data = {
     labels: branchNames,
@@ -26,7 +36,7 @@ function OrderPieChart() {
     <div className='bg-white rounded-lg shadow-md p-6 order-pie-chart'>
       <h2 className='text-2xl font-semibold mb-4'>Orders Pie Chart</h2>
       <div className='w-full h-auto'>
-        <Doughnut data={data} />
+        {loadingAllBranchSales ? <p>loading...</p> : <Doughnut data={data} />}
       </div>
     </div>
   );

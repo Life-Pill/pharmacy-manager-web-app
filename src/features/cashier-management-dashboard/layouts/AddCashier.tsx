@@ -1,6 +1,6 @@
 import { useState, useContext, createContext } from 'react';
 import CashierDetails from '../components/add-cashier/CashierDetails';
-import CashierBankDetails from '../components/add-cashier/CashierDetails';
+import CashierBankDetails from '../components/add-cashier/CashierBankDetails';
 import CashierDetailsSummary from '../components/add-cashier/CashierDetailsSummary';
 import { CashierDetailsType } from '../interfaces/CashierDetailsType';
 import { CashierContextType } from '../context/CashierContextType';

@@ -5,12 +5,15 @@ import useAxiosInstance from '../../../services/useAxiosInstance';
 import { ComponentState, useCashierContext } from '../layouts/AddCashier';
 import { validateEmail } from '../utils/validators/EmailValidator';
 import { passwordsMatch } from '../utils/validators/PasswordValidator';
+import { useNavigate } from 'react-router-dom';
+import { Branch } from '../interfaces/Branch';
 
 const useCashierCRUDService = () => {
   const http = useAxiosInstance();
   const [loading, setLoading] = useState(false);
   const { setCurrentComponent } = useCashierContext();
   const [updating, setUpdating] = useState(false);
+  const navigate = useNavigate();
 
   const createCashier = async (employer: CashierDetailsType) => {
     if (
@@ -180,6 +183,43 @@ const useCashierCRUDService = () => {
     }
   };
 
+  const deleteCashierById = async (id: number) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete cashier ${id}?`
+    );
+    if (confirmed) {
+      try {
+        setLoading(true);
+        console.log('Deleting cashier by id', id);
+        const res = await http.delete(`/employers/delete-employerId/${id}`);
+        console.log(res);
+        toast.success('Cashier deleted successfully');
+      } catch (error) {
+        console.log(error);
+        toast.error('Failed to delete cashier');
+      } finally {
+        setLoading(false);
+        navigate('/manager-dashboard/cashiers');
+      }
+    } else {
+      // Show message if user cancels deletion
+      toast.info('Deletion canceled.');
+    }
+  };
+
+  const [branches, setBranches] = useState<Branch[]>([]);
+
+  const fetchAllBranches = async () => {
+    try {
+      const res = await http.get('/branch/get-all-branches');
+      console.log(res);
+      setBranches(res.data.data);
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to fetch branches');
+    }
+  };
+
   return {
     createCashier,
     loading,
@@ -188,6 +228,10 @@ const useCashierCRUDService = () => {
     setCashierDetails,
     updateCashier,
     updating,
+    deleteCashierById,
+    fetchAllBranches,
+    branches,
   };
 };
+
 export default useCashierCRUDService;

@@ -39,7 +39,7 @@ const CashierManagementDashboard = () => {
 
   const onViewClick = (employer: CashierDetailsType) => {
     console.log(employer.employerId);
-    navigate('/view-cashier');
+    navigate(`/view-cashier/${employer.employerId}`);
   };
 
   const onDeleteClick = (employer: CashierDetailsType) => {
@@ -107,7 +107,7 @@ const CashierManagementDashboard = () => {
                     Name
                   </th>
                   <th scope='col' className='px-6 py-3'>
-                    Gender
+                    Branch
                   </th>
                   <th scope='col' className='px-6 py-3'>
                     Phone Number
@@ -132,9 +132,7 @@ const CashierManagementDashboard = () => {
                   >
                     <td className='px-6 py-4'>{worker.employerId}</td>
                     <td className='px-6 py-4'>{worker.employerFirstName}</td>
-                    <td className='px-6 py-4'>
-                      {worker.gender.toLocaleLowerCase()}
-                    </td>
+                    <td className='px-6 py-4'>{worker.branchId}</td>
                     <td className='px-6 py-4'>{worker.employerPhone}</td>
                     <td className='px-6 py-4'>
                       {
@@ -159,7 +157,7 @@ const CashierManagementDashboard = () => {
                       {
                         <div
                           className={`rounded-full p-1 w-24 flex items-center justify-center ${
-                            worker.activeStatus ? 'bg-green-500' : 'bg-red'
+                            worker.activeStatus ? 'bg-green-500' : 'bg-red-500'
                           }`}
                         >
                           <span
@@ -193,14 +191,14 @@ const CashierManagementDashboard = () => {
                         <BsEye className='text-blue-500 font-bold text-lg' />
                       </button>
 
-                      <button
+                      {/* <button
                         className='text-white font-bold py-2 px-4 rounded transition-transform hover:scale-110'
                         onClick={() => {
                           onDeleteClick(worker);
                         }}
                       >
                         <BsTrash className='text-red-500 font-bold text-lg' />
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))}

@@ -1,13 +1,14 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { IoCloudUploadOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { useCashierContext } from '../../layouts/AddCashier';
+import { ComponentState, useCashierContext } from '../../layouts/AddCashier';
 import useCashierCRUDService from '../../services/cashierCRUDService';
 
 const CashierDetails = () => {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-  const { cashierDetails, setCashierDetails } = useCashierContext();
+  const { setCurrentComponent, cashierDetails, setCashierDetails } =
+    useCashierContext();
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file: File | null = e.target.files ? e.target.files[0] : null;
@@ -21,11 +22,12 @@ const CashierDetails = () => {
       reader.readAsDataURL(file);
     }
   };
-  const { createCashier, loading } = useCashierCRUDService();
+  const { createCashier, loading, fetchAllBranches, branches } =
+    useCashierCRUDService();
 
   const goToBankDetails = () => {
     // console.log(cashierDetails);
-    createCashier(cashierDetails).then((res) => {
+    createCashier(cashierDetails).then((res: any) => {
       if (res) {
         setCashierDetails({
           ...cashierDetails,
@@ -34,6 +36,10 @@ const CashierDetails = () => {
       }
     });
   };
+
+  useEffect(() => {
+    fetchAllBranches();
+  }, []);
 
   return (
     <div className='w-full p-16 px-4 sm:px-6 lg:px-8'>
@@ -199,15 +205,12 @@ const CashierDetails = () => {
             className='mt-1 p-2 border-gray rounded-md w-64'
             value={cashierDetails.branchId}
             onChange={(e) =>
-              setCashierDetails({
-                ...cashierDetails,
-                branchId: parseInt(e.target.value),
-              })
+              setCashierDetails({ ...cashierDetails, branchId: e.target.value })
             }
           >
-            <option value='0'>Branch 1</option>
-            <option value='1'>Branch 2</option>
-            <option value='2'>Branch 3</option>
+            {branches.map((branch) => (
+              <option value={branch.branchId}>{branch.branchName}</option>
+            ))}
           </select>
 
           <label

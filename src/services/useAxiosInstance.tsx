@@ -1,19 +1,27 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useUserContext } from '../context/UserContext';
+import { getCookie } from '../utils/getCookie';
 
 function useAxiosInstance() {
   const { cookie } = useUserContext();
   const instance = axios.create({
-    baseURL: 'http://localhost:8081/lifepill/v1',
+    baseURL: 'http://localhost:8079/lifepill/v1',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dHRAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOiJST0xFX09XTkVSIiwiaWF0IjoxNzE2MTQ4OTQyLCJleHAiOjE3MTYyMzUzNDJ9.BAcUP8QSd7ngHotYYmQUe-Tbh_eS2OSBFSABAnTiH04`,
+      Authorization: `Bearer ${getCookie('Authorization')}`,
     },
   });
 
   useEffect(() => {
-    console.log(cookie);
+    // Update instance headers when cookie changes
+    instance.defaults.headers.common['Authorization'] = `Bearer ${getCookie(
+      'Authorization'
+    )}`;
+  }, [cookie, instance]);
+
+  useEffect(() => {
+    // console.log(cookie);
     instance.interceptors.response.use(
       (response) => {
         // Handle successful responses

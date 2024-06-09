@@ -32,10 +32,14 @@ const UpdateCashierDetails = () => {
     loading,
     updateCashier,
     updating,
+    fetchAllBranches,
+    branches,
   } = useCashierCRUDService();
 
   useEffect(() => {
     fetchCashierById(parseInt(employerId as string));
+    console.log(employerId);
+    fetchAllBranches();
   }, []);
 
   return (
@@ -211,9 +215,9 @@ const UpdateCashierDetails = () => {
                   })
                 }
               >
-                <option value='0'>Branch 1</option>
-                <option value='1'>Branch 2</option>
-                <option value='2'>Branch 3</option>
+                {branches.map((branch) => (
+                  <option value={branch.branchId}>{branch.branchName}</option>
+                ))}
               </select>
 
               <label

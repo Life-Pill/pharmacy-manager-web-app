@@ -37,11 +37,9 @@ const useAuth = () => {
           //store cookie and user in local storage
           localStorage.setItem('user', JSON.stringify(employee));
           setCookie(res.data.authenticationResponse.access_token);
-          Cookies.set(
-            'Authorization',
-            res.data.authenticationResponse.access_token,
-            { expires: 7 }
-          );
+          Cookies.set('Auth', res.data.authenticationResponse.access_token, {
+            expires: 7,
+          });
         } else {
           toast.error('Authentication failed: Incorrect username or password');
         }
