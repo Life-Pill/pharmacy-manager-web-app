@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Item } from '../../item-management-window/interfaces/Item';
 
 type Props = {
@@ -6,9 +6,40 @@ type Props = {
 };
 
 function ItemsTable({ items }: Props) {
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+  const filteredItems = items.filter((item) =>
+    item.itemName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const sortedItems = [...filteredItems].sort((a, b) => {
+    const dateA = new Date(a.expireDate).getTime();
+    const dateB = new Date(b.expireDate).getTime();
+    return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+  });
+
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
   return (
     <>
-      <p>Items Available In Branch</p>
+      <div className='flex justify-between items-center'>
+        <p className='text-lg font-semibold text-gray-800'>
+          Items in the branch
+        </p>
+        <div className='mb-4'>
+          <input
+            type='text'
+            placeholder='Search by name...'
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className='px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
+          />
+        </div>
+      </div>
+
       <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
         <thead className='text-xs uppercase bg-slate-300 sticky top-0'>
           <tr>
@@ -30,13 +61,18 @@ function ItemsTable({ items }: Props) {
             <th scope='col' className='px-6 py-3'>
               Quantity
             </th>
-            <th scope='col' className='px-6 py-3'>
+            <th
+              scope='col'
+              className='px-6 py-3 cursor-pointer'
+              onClick={toggleSortOrder}
+            >
               Expire On
+              {sortOrder === 'asc' ? '↑' : '↓'}
             </th>
           </tr>
         </thead>
         <tbody>
-          {items.map((medicine) => (
+          {sortedItems.map((medicine) => (
             <tr className='bg-slate-50 border-b' key={medicine.itemId}>
               <td className='px-6 py-4'>{medicine.itemId}</td>
               <td className='px-6 py-4'>{medicine.itemImage}</td>
@@ -72,7 +108,15 @@ function ItemsTable({ items }: Props) {
                   </span>
                 </div>
               </td>
-              <td className='px-6 py-4'>{medicine.expireDate.split('T')[0]}</td>
+              <td
+                className={`px-6 py-4 ${
+                  new Date(medicine.expireDate) < new Date()
+                    ? 'text-red-500'
+                    : ''
+                }`}
+              >
+                {medicine.expireDate.split('T')[0]}
+              </td>
             </tr>
           ))}
         </tbody>

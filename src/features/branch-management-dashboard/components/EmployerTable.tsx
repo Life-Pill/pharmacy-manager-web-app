@@ -1,7 +1,7 @@
-import React from 'react';
 import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
 import { useNavigate } from 'react-router-dom';
 import { BsPencilSquare, BsEye, BsTrash } from 'react-icons/bs';
+import { useEffect, useState } from 'react';
 
 type Props = {
   branchEmployers: CashierDetailsType[];
@@ -9,6 +9,7 @@ type Props = {
 
 function EmployerTable({ branchEmployers }: Props) {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const onUpdateClick = (employer: CashierDetailsType) => {
     console.log(employer.employerId);
@@ -20,9 +21,28 @@ function EmployerTable({ branchEmployers }: Props) {
     navigate(`/view-cashier/${employer.employerId}`);
   };
 
+  const filteredEmployers = branchEmployers.filter((employer) =>
+    employer.employerFirstName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <>
-      <p>Employer in the branch</p>
+      <div className='flex justify-between items-center'>
+        <p className='text-lg font-semibold text-gray-800'>
+          Employer in the branch
+        </p>
+
+        <div className='mb-4'>
+          <input
+            type='text'
+            placeholder='Search by name...'
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className='px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
+          />
+        </div>
+      </div>
+
       <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
         <thead className='text-xs uppercase bg-slate-300 sticky top-0'>
           <tr>
@@ -51,7 +71,7 @@ function EmployerTable({ branchEmployers }: Props) {
           </tr>
         </thead>
         <tbody>
-          {branchEmployers.map((worker) => (
+          {filteredEmployers.map((worker) => (
             <tr
               className='bg-slate-50 border-b'
               id={worker.employerId.toString()}

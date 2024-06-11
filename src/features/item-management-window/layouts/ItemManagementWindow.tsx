@@ -13,6 +13,7 @@ function ItemManagementWindow({}: Props) {
   const { fetchAllBranches, branches } = useOrderManagementService();
 
   const [selectedBranch, setSelectedBranch] = useState('');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const handleSearch = (searchName: string) => {
     const filtered = items.filter((medicine) =>
@@ -44,8 +45,19 @@ function ItemManagementWindow({}: Props) {
       if (selectedBranch === '' || selectedBranch === undefined) return true;
       return item.branchId?.toString() === selectedBranch;
     });
-    setFilteredItems(filter);
-  }, [selectedBranch]);
+
+    const sortedItems = [...filter].sort((a, b) => {
+      const dateA = new Date(a.expireDate).getTime();
+      const dateB = new Date(b.expireDate).getTime();
+      return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+    });
+
+    setFilteredItems(sortedItems);
+  }, [selectedBranch, sortOrder]);
+
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
 
   return (
     <div
@@ -130,8 +142,13 @@ function ItemManagementWindow({}: Props) {
                 <th scope='col' className='px-6 py-3'>
                   Quantity
                 </th>
-                <th scope='col' className='px-6 py-3'>
+                <th
+                  scope='col'
+                  className='px-6 py-3 cursor-pointer'
+                  onClick={toggleSortOrder}
+                >
                   Expire On
+                  {sortOrder === 'asc' ? '↑' : '↓'}
                 </th>
               </tr>
             </thead>
@@ -186,7 +203,13 @@ function ItemManagementWindow({}: Props) {
                       </div>
                     }
                   </td>
-                  <td className='px-6 py-4'>
+                  <td
+                    className={`px-6 py-4 ${
+                      new Date(medicine.expireDate) < new Date()
+                        ? 'text-red-500'
+                        : ''
+                    }`}
+                  >
                     {medicine.expireDate.split('T')[0]}
                   </td>
                 </tr>
