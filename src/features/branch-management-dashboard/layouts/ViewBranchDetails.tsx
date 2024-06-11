@@ -6,8 +6,6 @@ import SalesChart from '../components/SalesChart';
 import { getToday } from '../../../utils/getToday';
 import { generateMonthlySalesSummary } from '../utils/monthlySalesSummary';
 import BranchDetailCard from '../components/BranchDetailCard';
-import { Branch } from '../interfaces/Branch';
-import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
 import EmployerTable from '../components/EmployerTable';
 import ItemsTable from '../components/ItemsTable';
 
