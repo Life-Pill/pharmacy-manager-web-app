@@ -27,12 +27,12 @@ const useBranchManagementService = () => {
     }
   };
 
-  //TODO: add
+  //TODO: add cors issue is there
   const [branch, setBranch] = useState<Branch>({} as Branch);
 
   const fetchBranchById = async (branchId: string) => {
     try {
-      const res = await http.get(`/branch/get-by-id/?Id=${parseInt(branchId)}`);
+      const res = await http.get(`/branch/get-by-id/?id=${parseInt(branchId)}`);
       console.log(res);
     } catch (error) {
       console.log(error);

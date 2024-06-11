@@ -1,3 +1,4 @@
+import ItemManagementWindow from '../features/item-management-window/layouts/ItemManagementWindow';
 import Branches from '../features/manager-dashboard/components/branches/Branches';
 import Cashier from '../features/manager-dashboard/components/cashier/Cashier';
 import Dashboard from '../features/manager-dashboard/components/dashboard/Dashboard';
@@ -16,6 +17,8 @@ export const renderComponent = (activeComponent: string) => {
       return <Summary />;
     case 'orders':
       return <OrderManagementWindow />;
+    case 'items':
+      return <ItemManagementWindow />;
     default:
       return null;
   }

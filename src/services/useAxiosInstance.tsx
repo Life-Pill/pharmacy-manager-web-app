@@ -9,7 +9,7 @@ function useAxiosInstance() {
     baseURL: 'http://localhost:8079/lifepill/v1',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getCookie('Authorization')}`,
+      Authorization: `Bearer ${getCookie('Auth')}`,
     },
   });
 
