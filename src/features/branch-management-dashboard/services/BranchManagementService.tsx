@@ -5,6 +5,7 @@ import { IBranchAndSales } from '../interfaces/IBranchAndSales';
 import { Branch } from '../interfaces/Branch';
 import { BranchSalesDetails } from '../interfaces/BranchSalesDetails';
 import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
+import { Item } from '../../item-management-window/interfaces/Item';
 
 const useBranchManagementService = () => {
   const http = useAxiosInstance();
@@ -34,6 +35,7 @@ const useBranchManagementService = () => {
     try {
       const res = await http.get(`/branch/get-by-id/?id=${parseInt(branchId)}`);
       console.log(res);
+      setBranch(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -71,6 +73,20 @@ const useBranchManagementService = () => {
       console.log(error);
     }
   };
+
+  const [items, setItems] = useState<Item[]>([]);
+  // /lifepill/v1/branch/update-branch/{id}
+  const fetchItemsByBranchId = async (branchId: string) => {
+    try {
+      const res = await http.get(
+        `/item/branched/get-item/${parseInt(branchId)}`
+      );
+      console.log(res.data.data);
+      setItems(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return {
     allBranchSales,
     loadingAllBranchSales,
@@ -81,6 +97,9 @@ const useBranchManagementService = () => {
     salesSummary,
     fetchEmployersByBranchId,
     branchEmployers,
+    branch,
+    fetchItemsByBranchId,
+    items,
   };
 };
 
