@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Branch } from '../interfaces/Branch';
+import useBranchManagementService from '../services/BranchManagementService';
 
 type Props = {
   branch: Branch;
@@ -7,11 +8,24 @@ type Props = {
 };
 
 function BranchDetailCard({ branch, closeTab }: Props) {
-  const handleSubmit = () => {};
-
-  const handleChange = () => {};
-
   const [formData, setFormData] = useState(branch);
+
+  const { updateBranch, updating } = useBranchManagementService();
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    updateBranch(branch.branchId, formData);
+  };
 
   return (
     <div className='fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray bg-opacity-50 z-50 backdrop-blur-sm bg-gray-800 border-gray-200'>
@@ -84,7 +98,7 @@ function BranchDetailCard({ branch, closeTab }: Props) {
                 Branch Fax
               </label>
               <input
-                type='email'
+                type='text'
                 id='branchFax'
                 name='branchFax'
                 value={formData.branchFax}
@@ -148,8 +162,9 @@ function BranchDetailCard({ branch, closeTab }: Props) {
             <button
               type='submit'
               className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'
+              onClick={() => updateBranch(branch.branchId, formData)}
             >
-              Update
+              {updating ? 'Updating...' : 'Update'}
             </button>
           </div>
         </form>

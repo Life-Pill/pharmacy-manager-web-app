@@ -87,6 +87,25 @@ const useBranchManagementService = () => {
       console.log(error);
     }
   };
+
+  const [updating, setUpdating] = useState(false);
+  const updateBranch = async (id: number, branch: Branch) => {
+    try {
+      console.log(branch);
+      setUpdating(true);
+      const res = await http.put(`/branch/update/${id}`, branch);
+      console.log(res);
+
+      if (res.status === 200) {
+        toast.success('Updated the branch succesfully');
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUpdating(false);
+    }
+  };
+
   return {
     allBranchSales,
     loadingAllBranchSales,
@@ -100,6 +119,8 @@ const useBranchManagementService = () => {
     branch,
     fetchItemsByBranchId,
     items,
+    updating,
+    updateBranch,
   };
 };
 
