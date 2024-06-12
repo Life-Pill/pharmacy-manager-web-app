@@ -1,7 +1,7 @@
 import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
 import { useNavigate } from 'react-router-dom';
-import { BsPencilSquare, BsEye, BsTrash } from 'react-icons/bs';
-import { useEffect, useState } from 'react';
+import { BsPencilSquare, BsEye } from 'react-icons/bs';
+import { useState } from 'react';
 
 type Props = {
   branchEmployers: CashierDetailsType[];
