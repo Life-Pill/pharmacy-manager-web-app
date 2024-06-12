@@ -124,6 +124,7 @@ const useBranchManagementService = () => {
       console.log(error);
     }
   };
+
   return {
     allBranchSales,
     loadingAllBranchSales,

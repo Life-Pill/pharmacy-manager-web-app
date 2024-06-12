@@ -107,6 +107,12 @@ function ViewBranchDetails({}: Props) {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (branchId) {
+      fetchBranchById(branchId);
+    }
+  }, [showBranchDetails]);
+
   return (
     <div className='flex flex-col space-y-8 h-screen p-4 m-4'>
       <div className='flex flex-col items-center gap-2 bg-gray-100 p-4 rounded-lg shadow-md'>
