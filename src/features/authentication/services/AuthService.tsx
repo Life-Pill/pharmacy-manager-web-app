@@ -6,10 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
+import { IEmployeeInterface } from '../../../interfaces/IEmployeeInterface';
 
 const useAuth = () => {
   const [loading, setLoading] = useState(false);
-  const { setCookie, setUser } = useUserContext();
+  const { setCookie, setUser, user } = useUserContext();
   const http = useAxiosInstance();
   const navigate = useNavigate();
 
@@ -53,14 +54,33 @@ const useAuth = () => {
     }
   };
 
+  const [loggingOut, setLoggingOut] = useState<boolean>(false);
+
   const logout = async () => {
-    // Call the API to logout
+    try {
+      setLoggingOut(true);
+      const res = await http.post('/session/logout/permanent', {
+        username: user?.employerEmail,
+      });
+
+      if (res.status === 200) {
+        navigate('/');
+        toast.success('Logged out successfully');
+        setUser({} as IEmployeeInterface);
+        setCookie('');
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoggingOut(false);
+    }
   };
 
   return {
     login,
-    logout,
     loading,
+    logout,
+    loggingOut,
   };
 };
 

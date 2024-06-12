@@ -5,6 +5,7 @@ import { IBranchAndSales } from '../interfaces/IBranchAndSales';
 import { Branch } from '../interfaces/Branch';
 import { BranchSalesDetails } from '../interfaces/BranchSalesDetails';
 import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
+import { Item } from '../../item-management-window/interfaces/Item';
 
 const useBranchManagementService = () => {
   const http = useAxiosInstance();
@@ -27,13 +28,14 @@ const useBranchManagementService = () => {
     }
   };
 
-  //TODO: add
+  //TODO: add cors issue is there
   const [branch, setBranch] = useState<Branch>({} as Branch);
 
   const fetchBranchById = async (branchId: string) => {
     try {
-      const res = await http.get(`/branch/get-by-id/?Id=${parseInt(branchId)}`);
+      const res = await http.get(`/branch/get-by-id/?id=${parseInt(branchId)}`);
       console.log(res);
+      setBranch(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -71,6 +73,39 @@ const useBranchManagementService = () => {
       console.log(error);
     }
   };
+
+  const [items, setItems] = useState<Item[]>([]);
+  // /lifepill/v1/branch/update-branch/{id}
+  const fetchItemsByBranchId = async (branchId: string) => {
+    try {
+      const res = await http.get(
+        `/item/branched/get-item/${parseInt(branchId)}`
+      );
+      console.log(res.data.data);
+      setItems(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [updating, setUpdating] = useState(false);
+  const updateBranch = async (id: number, branch: Branch) => {
+    try {
+      console.log(branch);
+      setUpdating(true);
+      const res = await http.put(`/branch/update/${id}`, branch);
+      console.log(res);
+
+      if (res.status === 200) {
+        toast.success('Updated the branch succesfully');
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUpdating(false);
+    }
+  };
+
   return {
     allBranchSales,
     loadingAllBranchSales,
@@ -81,6 +116,11 @@ const useBranchManagementService = () => {
     salesSummary,
     fetchEmployersByBranchId,
     branchEmployers,
+    branch,
+    fetchItemsByBranchId,
+    items,
+    updating,
+    updateBranch,
   };
 };
 
