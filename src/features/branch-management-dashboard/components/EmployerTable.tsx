@@ -101,7 +101,7 @@ function EmployerTable({ branchEmployers }: Props) {
                 {
                   <div
                     className={`rounded-full p-1 w-24 flex items-center justify-center ${
-                      worker.activeStatus ? 'bg-green-500' : 'bg-red'
+                      worker.activeStatus ? 'bg-green-500' : 'bg-red-500'
                     }`}
                   >
                     <span

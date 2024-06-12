@@ -8,6 +8,16 @@ import { generateMonthlySalesSummary } from '../utils/monthlySalesSummary';
 import BranchDetailCard from '../components/BranchDetailCard';
 import EmployerTable from '../components/EmployerTable';
 import ItemsTable from '../components/ItemsTable';
+import {
+  FaMapMarkerAlt,
+  FaPhone,
+  FaEnvelope,
+  FaFax,
+  FaUser,
+  FaCalendarAlt,
+} from 'react-icons/fa';
+import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
+import BranchManagerCard from '../components/BranchManagerCard';
 
 type Props = {};
 
@@ -22,6 +32,8 @@ function ViewBranchDetails({}: Props) {
     branch,
     fetchItemsByBranchId,
     items,
+    fetchBranchMangerById,
+    branchManager,
   } = useBranchManagementService();
 
   useEffect(() => {
@@ -30,6 +42,7 @@ function ViewBranchDetails({}: Props) {
       getSalesSummary(branchId);
       fetchEmployersByBranchId(branchId);
       fetchItemsByBranchId(branchId);
+      fetchBranchMangerById(branchId);
     }
   }, []);
 
@@ -41,6 +54,7 @@ function ViewBranchDetails({}: Props) {
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalSales, setTotalSales] = useState(0);
   const [showBranchDetails, setShowBranchDetails] = useState(false);
+  const [showBranchManger, setShowBranchManager] = useState(false);
 
   const handleStartDateChange = (e: any) => {
     setStartDate(e.target.value);
@@ -87,18 +101,77 @@ function ViewBranchDetails({}: Props) {
     setShowBranchDetails(!showBranchDetails);
   };
 
+  const handleBranchManagerClick = () => {
+    setShowBranchManager(!showBranchManger);
+  };
+
   const navigate = useNavigate();
 
   return (
-    <div className='flex flex-col space-y-8 h-screen p-4'>
-      <div className='flex flex-row justify-start items-center gap-8'>
-        <div className='text-lg'>
-          Total Orders: <span className='font-bold'>{totalOrders}</span>
+    <div className='flex flex-col space-y-8 h-screen p-4 m-4'>
+      <div className='flex flex-col items-center gap-2 bg-gray-100 p-4 rounded-lg shadow-md'>
+        {branch && (
+          <img
+            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdhUtDLZiByDiz05R15jG3TLrCIS2MiCZnTQ&s'
+            alt='image'
+            className='rounded-full w-auto h-24'
+          />
+        )}
+        <p className='text-xl font-semibold'>{branch.branchName}</p>
+        <div className='flex flex-row w-full gap-8 justify-center '>
+          <div className='flex items-center'>
+            <FaMapMarkerAlt className='text-gray-700 mr-2' />
+            <p className='text-gray-700'>{branch.branchAddress}</p>
+          </div>
+          <div className='flex items-center'>
+            <FaPhone className='text-gray-700 mr-2' />
+            <p className='text-gray-700'>{branch.branchContact}</p>
+          </div>
+          <div className='flex items-center'>
+            <FaEnvelope className='text-gray-700 mr-2' />
+            <p className='text-gray-700'>{branch.branchEmail}</p>
+          </div>
         </div>
-        <div className='text-lg'>
-          Total Sales: <span className='font-bold'>{totalSales}</span>
+        <div className='flex flex-row justify-center w-full gap-8'>
+          <div className='flex items-center'>
+            <FaFax className='text-gray-700 mr-2' />
+            <p className='text-gray-700'>{branch.branchFax}</p>
+          </div>
+          <div className='flex items-center'>
+            <FaUser className='text-gray-700 mr-2' />
+            <p className='text-gray-700'>{branch.branchCreatedBy}</p>
+          </div>
+          <div className='flex items-center'>
+            <FaCalendarAlt className='text-gray-700 mr-2' />
+            <p className='text-gray-700'>
+              {branch.branchCreatedOn?.split(' ')[0]}
+            </p>
+          </div>
+        </div>
+        <p className='text-gray-700'>{branch.branchDescription}</p>
+        <div className='cursor-pointer'>
+          <p onClick={handleBranchManagerClick}>
+            {branchManager.employerEmail
+              ? branchManager.employerEmail
+              : 'No manager assigned'}
+          </p>
+          {showBranchManger && (
+            <BranchManagerCard
+              onClose={handleBranchManagerClick}
+              branchManager={branchManager}
+            />
+          )}
+        </div>
+        <div className='flex flex-row justify-center items-center gap-8'>
+          <div className='text-lg'>
+            Total Orders: <span className='font-bold'>{totalOrders}</span>
+          </div>
+          <div className='text-lg'>
+            Total Sales: <span className='font-bold'>{totalSales}</span>
+          </div>
         </div>
       </div>
+
       <div className='bg-white flex flex-wrap items-center space-x-4 justify-between'>
         <div className='flex items-center'>
           <label htmlFor='startDate' className='mb-1'>
@@ -225,7 +298,7 @@ function ViewBranchDetails({}: Props) {
       <button
         type='button'
         onClick={() => navigate('/manager-dashboard/branches')}
-        className='focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900'
+        className='focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-16 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900'
       >
         Back
       </button>

@@ -106,6 +106,24 @@ const useBranchManagementService = () => {
     }
   };
 
+  const [branchManager, setBranchManager] = useState<CashierDetailsType>(
+    {} as CashierDetailsType
+  );
+
+  const fetchBranchMangerById = async (branchId: string) => {
+    try {
+      const res = await http.get(
+        `/branch-manager/managers/by-branch/${parseInt(branchId)}`
+      );
+      console.log(res.data);
+
+      if (res.data.code === 200) {
+        setBranchManager(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return {
     allBranchSales,
     loadingAllBranchSales,
@@ -121,6 +139,8 @@ const useBranchManagementService = () => {
     items,
     updating,
     updateBranch,
+    fetchBranchMangerById,
+    branchManager,
   };
 };
 
