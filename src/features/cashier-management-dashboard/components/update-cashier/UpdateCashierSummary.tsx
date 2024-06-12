@@ -1,9 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useCashierContext, ComponentState } from '../../layouts/AddCashier';
+import { useEffect } from 'react';
+import useCashierCRUDService from '../../services/cashierCRUDService';
+import useBankCRUDService from '../../services/BankDetailsCRUDService';
 
 const UpdateCashierSummary = () => {
-  const { cashierDetails, setCurrentComponent, cashierBankDetails } =
-    useCashierContext();
+  const { employerId } = useParams();
+
+  const { cashierDetails, fetchCashierById } = useCashierCRUDService();
+  const { cashierBankDetails, fetchBankDetailsById } = useBankCRUDService();
+  const { setCurrentComponent } = useCashierContext();
+
+  useEffect(() => {
+    if (employerId) {
+      fetchCashierById(parseInt(employerId as string));
+      fetchBankDetailsById(parseInt(employerId as string));
+    }
+  }, []);
 
   const goToBack = () => {
     setCurrentComponent(ComponentState.BankDetails);
@@ -35,7 +48,7 @@ const UpdateCashierSummary = () => {
         </p>
         <p>
           <span className='font-semibold'>Date of Birth:</span>{' '}
-          {cashierDetails.dateOfBirth.toDateString()}
+          {cashierDetails.dateOfBirth.split('T')[0]}
         </p>
       </div>
       <div className='bg-gray-100 p-4 rounded-lg'>

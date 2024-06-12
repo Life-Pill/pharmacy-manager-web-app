@@ -73,6 +73,7 @@ const useBankCRUDService = () => {
     loading,
     fetchBankDetailsById,
     cashierBankDetails,
+    setCashierBankDetails,
   };
 };
 

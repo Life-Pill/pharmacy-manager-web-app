@@ -1,22 +1,37 @@
+import { useEffect } from 'react';
 import { useCashierContext, ComponentState } from '../../layouts/AddCashier';
 import useBankCRUDService from '../../services/BankDetailsCRUDService';
+import useCashierCRUDService from '../../services/cashierCRUDService';
+import { useParams } from 'react-router-dom';
 
 const UpdateCashierBankDetails = () => {
+  const { employerId } = useParams();
+  const { setCurrentComponent } = useCashierContext();
   const {
-    setCurrentComponent,
+    updateBankDetails,
+    fetchBankDetailsById,
     cashierBankDetails,
     setCashierBankDetails,
-    cashierDetails,
-  } = useCashierContext();
+  } = useBankCRUDService();
 
-  const { updateBankDetails } = useBankCRUDService();
-
+  const { fetchCashierById, cashierDetails } = useCashierCRUDService();
   const goToSummary = () => {
-    updateBankDetails(cashierBankDetails, cashierDetails.employerId);
+    if (employerId) {
+      updateBankDetails(cashierBankDetails, parseInt(employerId));
+    }
   };
   const goToBack = () => {
     setCurrentComponent(ComponentState.Details);
   };
+
+  useEffect(() => {
+    if (employerId) {
+      fetchCashierById(parseInt(employerId as string));
+
+      fetchBankDetailsById(parseInt(employerId));
+    }
+  }, []);
+
   return (
     <div className='w-full p-16 px-4 sm:px-6 lg:px-8'>
       {/* First Column */}

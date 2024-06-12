@@ -83,6 +83,7 @@ const useCashierCRUDService = () => {
   };
 
   const [cashierDetails, setCashierDetails] = useState({
+    employerId: 0,
     employerNicName: '',
     employerFirstName: '',
     employerLastName: '',
@@ -93,7 +94,7 @@ const useCashierCRUDService = () => {
     profileImage: '',
     branchId: 0,
     employerNic: '',
-    dateOfBirth: new Date(),
+    dateOfBirth: '',
     employerAddress: '',
     pin: 0,
     role: 'CASHIER',
@@ -101,14 +102,16 @@ const useCashierCRUDService = () => {
     gender: 'MALE',
   });
 
-  const fetchCashierById = async (id: Number) => {
+  const fetchCashierById = async (employerId: Number) => {
     try {
       setLoading(true);
-      console.log('Fetching cashier by id', id);
-      const res = await http.get('/employers/get-by-id', { params: { id } });
+      console.log('Fetching cashier by id', employerId);
+      const res = await http.get('/employers/get-by-id', {
+        params: { employerId },
+      });
       console.log(res);
       if (res.status === 200) {
-        setCashierDetails(res.data);
+        setCashierDetails(res.data.data);
       }
     } catch (error) {
       console.log(error);

@@ -28,8 +28,16 @@ function BranchManagerCard({ branchManager, onClose }: Props) {
     <div className='fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray bg-opacity-50 z-50 backdrop-blur-sm bg-gray-800 border-gray-200'>
       <div className='bg-gray-800 rounded-lg p-6 w-[500px] border border-gray-200'>
         <h2 className='text-lg font-semibold mb-4 text-white'>
-          Branch Details
+          Branch Manager Info
         </h2>
+
+        <div className='flex justify-center items-center'>
+          <img
+            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNXQN49BC5ALTU_rWah1zC5WQaPqyd81wmxA&s'
+            alt='branchmanageimage'
+            className='rounded-full p-2 h-32 w-32'
+          />
+        </div>
 
         <form onSubmit={handleSubmit}>
           <div className='mb-4'>
