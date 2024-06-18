@@ -20,9 +20,8 @@ function App() {
         <Route path='/manager-dashboard/:item' element={<ManagerDashboard />} />
         <Route path='/update-cashier/:employerId' element={<UpdateCashier />} />
         <Route path='/view-cashier/:employerId' element={<ViewCashier />} />
-
         <Route path='/view-branch/:branchId' element={<ViewBranchDetails />} />
-
+        //page for the error
         <Route path='*' element={<ErrorPage />} />
       </Routes>
     </Router>
