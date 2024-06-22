@@ -14,9 +14,9 @@ function OrderCardComponent({ order }: Props) {
   };
 
   return (
-    <div className='bg-white shadow-md rounded-lg p-4 border my-2'>
+    <div className='bg-white shadow-md rounded-lg p-4 border mx-16 mt-2'>
       <div className='flex items-center justify-between'>
-        <div>
+        <div className='flex justify-end flex-col'>
           <p className='text-gray-700'>
             At Branch <span className=' font-semibold'>#{order.branchId}</span>
           </p>
@@ -25,10 +25,11 @@ function OrderCardComponent({ order }: Props) {
             <span className=' font-semibold'>#{order.employerId}</span>
           </p>
         </div>
-        <div>
+        <div className='flex flex-col justify-end'>
           <p className='text-gray-700'>On {formatDate(order.orderDate)}</p>
           <p className='text-gray-700'>
-            Total of <span className=' font-semibold'>LKR {order.total}</span>
+            Total of{' '}
+            <span className=' font-semibold'>LKR {order.total.toFixed(2)}</span>
           </p>
         </div>
       </div>
@@ -95,7 +96,10 @@ function OrderCardComponent({ order }: Props) {
                   {order.groupedOrderDetails.paymentDetails.paymentAmount}
                 </td>
                 <td className='px-6 py-4'>
-                  {order.groupedOrderDetails.paymentDetails.paymentDate}
+                  {order.groupedOrderDetails.paymentDetails.paymentDate.slice(
+                    0,
+                    10
+                  )}
                 </td>
                 <td className='px-6 py-4'>
                   {order.groupedOrderDetails.paymentDetails.paymentNotes}
@@ -109,7 +113,8 @@ function OrderCardComponent({ order }: Props) {
         </>
       )}
       <button
-        className='text-blue-500 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+        type='button'
+        className='mt-4 px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600'
         onClick={toggleViewMore}
       >
         {viewMore ? 'View less' : 'View more'}
