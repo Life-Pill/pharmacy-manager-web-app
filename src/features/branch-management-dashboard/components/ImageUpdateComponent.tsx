@@ -18,6 +18,7 @@ function ImageUpdateComponent({ onClose, branchId }: Props) {
     branch,
     updateBranchImage,
     updatingImage,
+    branchImageFetch,
   } = useBranchManagementService();
 
   const [updateImage, setUpdateImage] = useState(false);
@@ -59,7 +60,7 @@ function ImageUpdateComponent({ onClose, branchId }: Props) {
                 alt='Preview'
                 className='w-64 h-64 rounded-full'
               />
-            ) : !branchImage ? (
+            ) : branchImageFetch ? (
               <Loader />
             ) : (
               <img

@@ -1,5 +1,10 @@
 import Logo from '../../../assets/logo.png';
-import { FaUserTie, FaUserFriends, FaCheckCircle } from 'react-icons/fa';
+import {
+  FaUserTie,
+  FaUserFriends,
+  FaCheckCircle,
+  FaPlus,
+} from 'react-icons/fa';
 import { GoLocation } from 'react-icons/go';
 import { useEffect } from 'react';
 import useBranchManagementService from '../services/BranchManagementService';
@@ -11,6 +16,7 @@ import { IBranchAndSales } from '../interfaces/IBranchAndSales';
 function BranchManagement() {
   const { allBranchSales, loadingAllBranchSales, fetchAllBranchSales } =
     useBranchManagementService();
+
   useEffect(() => {
     fetchAllBranchSales();
   }, []);
@@ -56,7 +62,7 @@ function BranchManagement() {
                 </div>
 
                 <p className='text-lg font-medium'>
-                  Total Sales: LKR {pharmacy.sales}
+                  Total Sales: LKR {pharmacy.sales.toFixed(2)}
                 </p>
 
                 <p className='text-lg font-medium'>
@@ -64,8 +70,8 @@ function BranchManagement() {
                   <span className='text-blue-500'>{pharmacy.orders}</span>
                 </p>
                 <div className='flex items-center space-x-2'>
-                  <FaUserFriends className='text-purple-500' />
-                  <p className='text-base'>25</p>{' '}
+                  {/* <FaUserFriends className='text-purple-500' /> */}
+                  {/* <p className='text-base'>25 Employees</p>{' '} */}
                   {/* Assuming static value for employees */}
                 </div>
                 <div className='flex items-center space-x-2'>
@@ -97,6 +103,12 @@ function BranchManagement() {
             </button>
           </div>
         ))}
+      </div>
+
+      <div className='fixed bottom-8 right-8'>
+        <button className='flex items-center text-blue-500 font-semibold py-2 px-4 bg-blue-100 hover:bg-blue-200 rounded-full shadow-lg transition duration-300 ease-in-out'>
+          <FaPlus className='mr-2' /> Add Branch
+        </button>
       </div>
     </>
   );

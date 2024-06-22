@@ -17,7 +17,7 @@ function ChangeBranchManager({ onClose, branchEmployers }: Props) {
 
   return (
     <div className='fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray bg-opacity-50 z-50 backdrop-blur-sm bg-gray-800 border-gray-200'>
-      <div className='bg-gray-800 rounded-lg p-6 w-[500px] border border-gray-200 space-y-2'>
+      <div className='bg-gray-800 rounded-lg w-[500px] border border-gray-200 space-y-2 max-h-[500px] overflow-y-scroll p-8'>
         <h2 className='text-lg font-semibold text-white'>
           Change Branch Manager
         </h2>
@@ -45,7 +45,10 @@ function ChangeBranchManager({ onClose, branchEmployers }: Props) {
                       changeBranchManagerMethod(changeBranchManagerDTO);
                   }}
                 >
-                  {updatingManager ? 'Updating...' : 'Assign'}
+                  {updatingManager &&
+                  employer.employerId === changeBranchManagerDTO?.newManagerId
+                    ? 'Updating...'
+                    : 'Assign'}
                 </button>
               </>
             )}

@@ -132,8 +132,10 @@ const useBranchManagementService = () => {
   };
 
   const [branchImage, setBranchImage] = useState<any>();
+  const [branchImageFetch, setBranchImageFetch] = useState(false);
   const fetchBranchImage = async (branchId: number) => {
     try {
+      setBranchImageFetch(true);
       const res = await http.get(
         `/branch/view-branch-profile-image/${branchId}`,
         {
@@ -151,6 +153,8 @@ const useBranchManagementService = () => {
       setBranchImage(`data:image/jpeg;base64,${base64String}`);
     } catch (error) {
       console.log(error);
+    } finally {
+      setBranchImageFetch(false);
     }
   };
 
@@ -243,6 +247,7 @@ const useBranchManagementService = () => {
     changeBranchManagerMethod,
     updatingManager,
     branchManagerFetching,
+    branchImageFetch,
   };
 };
 
