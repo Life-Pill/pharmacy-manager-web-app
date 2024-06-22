@@ -125,6 +125,58 @@ const useBranchManagementService = () => {
     }
   };
 
+  const [branchImage, setBranchImage] = useState<any>();
+  const fetchBranchImage = async (branchId: number) => {
+    try {
+      const res = await http.get(
+        `/branch/view-branch-profile-image/${branchId}`,
+        {
+          responseType: 'arraybuffer', // Ensure response type is set correctly
+        }
+      );
+      console.log(res);
+      const base64String = btoa(
+        new Uint8Array(res.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ''
+        )
+      );
+
+      setBranchImage(`data:image/jpeg;base64,${base64String}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [branchImageUpdate, setBranchImageUpdate] = useState<File | null>();
+  const updateBranchImage = async (branchId: number) => {
+    const updateImageFormData = new FormData();
+    if (branchImageUpdate) {
+      updateImageFormData.append(
+        'file',
+        branchImageUpdate,
+        branchImageUpdate?.name
+      );
+    } else {
+      toast.warning('Please select a image');
+    }
+    try {
+      const res = await http.put(
+        `/branch/update-branch-profile-image/${branchId}`,
+        updateImageFormData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      console.log(res);
+      toast.success('Updated the branch image successfully');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     allBranchSales,
     loadingAllBranchSales,
@@ -142,6 +194,12 @@ const useBranchManagementService = () => {
     updateBranch,
     fetchBranchMangerById,
     branchManager,
+    branchImage,
+    fetchBranchImage,
+    branchImageUpdate,
+    setBranchImageUpdate,
+    setBranch,
+    updateBranchImage,
   };
 };
 

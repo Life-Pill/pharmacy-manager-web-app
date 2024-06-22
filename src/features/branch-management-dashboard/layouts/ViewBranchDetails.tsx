@@ -18,6 +18,7 @@ import {
 } from 'react-icons/fa';
 import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
 import BranchManagerCard from '../components/BranchManagerCard';
+import ImageUpdateComponent from '../components/ImageUpdateComponent';
 
 type Props = {};
 
@@ -34,6 +35,8 @@ function ViewBranchDetails({}: Props) {
     items,
     fetchBranchMangerById,
     branchManager,
+    fetchBranchImage,
+    branchImage,
   } = useBranchManagementService();
 
   useEffect(() => {
@@ -43,6 +46,7 @@ function ViewBranchDetails({}: Props) {
       fetchEmployersByBranchId(branchId);
       fetchItemsByBranchId(branchId);
       fetchBranchMangerById(branchId);
+      fetchBranchImage(parseInt(branchId));
     }
   }, []);
 
@@ -50,11 +54,11 @@ function ViewBranchDetails({}: Props) {
   const [endDate, setEndDate] = useState(getToday());
   const [filterByMonth, setFilterByMonth] = useState(false);
   const [filterByYear, setFilterByYear] = useState('');
-  const [showSales, setShowSales] = useState(true);
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalSales, setTotalSales] = useState(0);
   const [showBranchDetails, setShowBranchDetails] = useState(false);
   const [showBranchManger, setShowBranchManager] = useState(false);
+  const [showImageUpdateToggle, setShowImageUpdateToggle] = useState(false);
 
   const handleStartDateChange = (e: any) => {
     setStartDate(e.target.value);
@@ -101,6 +105,10 @@ function ViewBranchDetails({}: Props) {
     setShowBranchDetails(!showBranchDetails);
   };
 
+  const handleImageToggleClick = () => {
+    setShowImageUpdateToggle(!showImageUpdateToggle);
+  };
+
   const handleBranchManagerClick = () => {
     setShowBranchManager(!showBranchManger);
   };
@@ -118,7 +126,10 @@ function ViewBranchDetails({}: Props) {
       <div className='flex flex-col items-center gap-2 bg-gray-100 p-4 rounded-lg shadow-md'>
         {branch && (
           <img
-            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdhUtDLZiByDiz05R15jG3TLrCIS2MiCZnTQ&s'
+            src={
+              branchImage ||
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdhUtDLZiByDiz05R15jG3TLrCIS2MiCZnTQ&s'
+            }
             alt='image'
             className='rounded-full w-auto h-24'
           />
@@ -143,24 +154,23 @@ function ViewBranchDetails({}: Props) {
             <FaFax className='text-gray-700 mr-2' />
             <p className='text-gray-700'>{branch.branchFax}</p>
           </div>
-          <div className='flex items-center'>
+          <div className='flex items-center cursor-pointer'>
             <FaUser className='text-gray-700 mr-2' />
-            <p className='text-gray-700'>{branch.branchCreatedBy}</p>
+            <p className='hover:underline' onClick={handleBranchManagerClick}>
+              {branchManager.employerEmail
+                ? branchManager.employerEmail
+                : 'No manager assigned'}
+            </p>
           </div>
           <div className='flex items-center'>
             <FaCalendarAlt className='text-gray-700 mr-2' />
             <p className='text-gray-700'>
-              {branch.branchCreatedOn?.split(' ')[0]}
+              {branch.branchCreatedOn?.slice(0, 10)}
             </p>
           </div>
         </div>
         <p className='text-gray-700'>{branch.branchDescription}</p>
         <div className='cursor-pointer'>
-          <p onClick={handleBranchManagerClick}>
-            {branchManager.employerEmail
-              ? branchManager.employerEmail
-              : 'No manager assigned'}
-          </p>
           {showBranchManger && (
             <BranchManagerCard
               onClose={handleBranchManagerClick}
@@ -176,6 +186,20 @@ function ViewBranchDetails({}: Props) {
             Total Sales: <span className='font-bold'>{totalSales}</span>
           </div>
         </div>
+      </div>
+      <div className='bg-white flex flex-wrap items-center space-x-4 justify-center'>
+        <button
+          className='bg-black text-white px-4 py-2 font-bold rounded-lg'
+          onClick={handleToggleClick}
+        >
+          Branch Details
+        </button>
+        <button
+          className='bg-black text-white px-4 py-2 font-bold rounded-lg'
+          onClick={handleImageToggleClick}
+        >
+          Edit Image
+        </button>
       </div>
 
       <div className='bg-white flex flex-wrap items-center space-x-4 justify-between'>
@@ -234,13 +258,8 @@ function ViewBranchDetails({}: Props) {
         >
           Clear Filters
         </button>
-        <button
-          className='bg-black text-white px-4 py-2 font-bold rounded-lg'
-          onClick={handleToggleClick}
-        >
-          Show Branch Details
-        </button>
-        <div className='flex items-center ml-auto'>
+
+        {/* <div className='flex items-center ml-auto'>
           <button
             className={`px-4 py-2 font-bold rounded-l-lg ${
               showSales ? 'bg-gray-800 text-white' : 'bg-gray-300 text-gray-800'
@@ -259,7 +278,7 @@ function ViewBranchDetails({}: Props) {
           >
             Orders
           </button>
-        </div>
+        </div> */}
         {/* <button
           className='bg-green-800 text-white px-4 py-2 font-bold rounded-lg ml-4 flex items-center justify-center'
           onClick={() => exportToExcel(filteredSalesData)}
@@ -281,20 +300,29 @@ function ViewBranchDetails({}: Props) {
         {showBranchDetails && (
           <BranchDetailCard branch={branch} closeTab={handleToggleClick} />
         )}
+
+        {showImageUpdateToggle && (
+          <ImageUpdateComponent
+            onClose={handleImageToggleClick}
+            branchId={branchId ? branchId : ''}
+          />
+        )}
         {filterByMonth ? (
-          showSales ? (
+          <>
             <SalesChart
               salesData={generateMonthlySalesSummary(filteredSalesData)}
             />
-          ) : (
+
             <OrdersChart
               salesData={generateMonthlySalesSummary(filteredSalesData)}
             />
-          )
-        ) : showSales ? (
-          <SalesChart salesData={filteredSalesData} />
+          </>
         ) : (
-          <OrdersChart salesData={filteredSalesData} />
+          <>
+            <SalesChart salesData={filteredSalesData} />
+
+            <OrdersChart salesData={filteredSalesData} />
+          </>
         )}
       </div>
 
