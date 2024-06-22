@@ -10,20 +10,31 @@ const CashierDetails = () => {
   const { setCurrentComponent, cashierDetails, setCashierDetails } =
     useCashierContext();
 
+  const {
+    createCashier,
+    loading,
+    fetchAllBranches,
+    branches,
+    setProfilePicture,
+    profilePicture,
+  } = useCashierCRUDService();
+
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file: File | null = e.target.files ? e.target.files[0] : null;
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         if (typeof reader.result === 'string') {
-          setPreviewImage(reader.result);
+          setProfilePicture(file);
+          setCashierDetails((prev: any) => ({
+            ...prev,
+            profileImageUrl: reader.result,
+          }));
         }
       };
       reader.readAsDataURL(file);
     }
   };
-  const { createCashier, loading, fetchAllBranches, branches } =
-    useCashierCRUDService();
 
   const goToBankDetails = () => {
     // console.log(cashierDetails);
@@ -48,10 +59,10 @@ const CashierDetails = () => {
       </p>
       <div className='grid grid-cols-1 md:grid-cols-4 gap-6 items-center justify-center'>
         <div className='flex items-center justify-center gap-4 flex-col'>
-          {previewImage ? (
+          {profilePicture ? (
             <div className='mt-4'>
               <img
-                src={previewImage}
+                src={cashierDetails.profileImageUrl}
                 alt='Preview'
                 className='w-64 h-64 rounded-full'
               />
@@ -72,6 +83,7 @@ const CashierDetails = () => {
               type='file'
               className='hidden'
               onChange={handleImageChange}
+              accept='image/*'
             />
           </label>
         </div>
@@ -132,6 +144,7 @@ const CashierDetails = () => {
                 employerPhone: e.target.value,
               })
             }
+            accept='tel'
           />
 
           <label
@@ -215,7 +228,7 @@ const CashierDetails = () => {
 
           <label
             htmlFor='gender'
-            className='block text-sm font-medium text-black'
+            className='block text-sm font-medium text-black mt-4'
           >
             Gender
           </label>
@@ -296,10 +309,10 @@ const CashierDetails = () => {
             htmlFor='baseSalary'
             className='block text-sm font-medium text-black mt-4'
           >
-            Base Salary
+            Base Salary (LKR)
           </label>
           <input
-            type='text'
+            type='number'
             id='baseSalary'
             className='mt-1 p-2 border-gray rounded-md w-64'
             value={cashierDetails.employerSalary}
@@ -309,6 +322,7 @@ const CashierDetails = () => {
                 employerSalary: parseFloat(e.target.value),
               })
             }
+            accept='number'
           />
         </div>
         {/* Third Column */}
@@ -333,32 +347,13 @@ const CashierDetails = () => {
           />
 
           <label
-            htmlFor='confirmPassword'
-            className='block text-sm font-medium text-black mt-4'
-          >
-            Confirm Password
-          </label>
-          <input
-            type='text'
-            id='confirmPassword'
-            className='mt-1 p-2 border-gray rounded-md w-64'
-            value={cashierDetails.employerConfirmPassword}
-            onChange={(e) =>
-              setCashierDetails({
-                ...cashierDetails,
-                employerConfirmPassword: e.target.value,
-              })
-            }
-          />
-
-          <label
             htmlFor='pin'
             className='block text-sm font-medium text-black mt-4'
           >
             Pin
           </label>
           <input
-            type='text'
+            type='number'
             id='pin'
             className='mt-1 p-2 border-gray rounded-md w-64'
             value={cashierDetails.pin}
@@ -368,28 +363,28 @@ const CashierDetails = () => {
                 pin: parseInt(e.target.value),
               })
             }
+            accept='number'
           />
         </div>
       </div>
       <div className='flex items-center justify-center gap-8 w-full mt-8'>
         <button
           type='button'
-          className={`text-white py-2.5 px-5 me-2 mb-2 rounded-lg ${
+          className='w-48 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-slate-900 focus:outline-none bg-white rounded-lg border border-gray hover:bg-gray'
+        >
+          <Link to='/manager-dashboard/cashiers'>Back</Link>
+        </button>
+        <button
+          type='button'
+          className={`w-48 text-white py-2.5 px-5 me-2 mb-2 rounded-lg ${
             loading
               ? 'bg-gray-500 cursor-not-allowed'
-              : 'bg-blueDarker hover:bg-blue'
+              : 'bg-blue-500 hover:bg-blue-600'
           }`}
           onClick={goToBankDetails}
           disabled={loading}
         >
           {loading ? 'Loading...' : 'Create'}
-        </button>
-
-        <button
-          type='button'
-          className='py-2.5 px-5 me-2 mb-2 text-sm font-medium text-slate-900 focus:outline-none bg-white rounded-lg border border-gray hover:bg-gray'
-        >
-          <Link to='/manager-dashboard/cashiers'>Back To Cashier Manager</Link>
         </button>
       </div>
     </div>

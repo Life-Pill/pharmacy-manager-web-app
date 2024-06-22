@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useCashierContext } from '../../layouts/AddCashier';
 import useBankCRUDService from '../../services/BankDetailsCRUDService';
+import { Link } from 'react-router-dom';
 
 const CashierBankDetails = () => {
   const { cashierDetails, cashierBankDetails, setCashierBankDetails } =
     useCashierContext();
-
   const { updateBankDetails, loading } = useBankCRUDService();
 
   useEffect(() => {
@@ -27,7 +27,11 @@ const CashierBankDetails = () => {
   };
 
   return (
-    <div className='w-full p-16 px-4 sm:px-6 lg:px-8'>
+    <div className='w-full p-6 md:p-8 lg:p-10 bg-slate-200 rounded-lg shadow-md'>
+      <h2 className='text-2xl font-bold mb-6 text-center'>
+        Employee Bank Details
+      </h2>
+
       <div className='grid grid-cols-1 md:grid-cols-1 gap-6'>
         {/* First Column */}
         <div>
@@ -40,7 +44,7 @@ const CashierBankDetails = () => {
           <input
             type='text'
             id='bankName'
-            className='mt-1 p-2 border-gray rounded-md w-full'
+            className='mt-1 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:border-blue-500'
             value={cashierBankDetails.bankName}
             onChange={(e) =>
               setCashierBankDetails({
@@ -59,7 +63,7 @@ const CashierBankDetails = () => {
           <input
             type='text'
             id='branchName'
-            className='mt-1 p-2 border-gray rounded-md w-full'
+            className='mt-1 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:border-blue-500'
             value={cashierBankDetails.bankBranchName}
             onChange={(e) =>
               setCashierBankDetails({
@@ -78,7 +82,7 @@ const CashierBankDetails = () => {
           <input
             type='number'
             id='accountNumber'
-            className='mt-1 p-2 border-gray rounded-md w-full'
+            className='mt-1 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:border-blue-500'
             value={cashierBankDetails.bankAccountNumber}
             onChange={(e) =>
               setCashierBankDetails({
@@ -96,7 +100,7 @@ const CashierBankDetails = () => {
           </label>
           <textarea
             id='additionalNotes'
-            className='mt-1 p-2 border-gray rounded-md w-full'
+            className='mt-1 p-3 border border-gray-300 rounded-md w-full h-32 resize-none focus:outline-none focus:ring focus:border-blue-500'
             value={cashierBankDetails.employerDescription}
             onChange={(e) =>
               setCashierBankDetails({
@@ -110,24 +114,31 @@ const CashierBankDetails = () => {
             htmlFor='baseSalary'
             className='block text-sm font-medium text-black mt-4'
           >
-            Base Salary
+            Base Salary (LKR)
           </label>
           <input
             type='text'
             id='baseSalary'
-            className='mt-1 p-2 border-gray rounded-md w-full'
+            className='mt-1 p-3 border border-gray-300 rounded-md w-full bg-gray-100'
             value={cashierDetails.employerSalary}
             readOnly
           />
         </div>
       </div>
-      <div className='flex items-center justify-center gap-8 w-full'>
+
+      <div className='flex justify-center mt-6'>
         <button
           type='button'
-          className={`text-white py-2.5 px-5 me-2 mb-2 rounded-lg ${
+          className='w-48 py-2.5 px-5 me-2 text-sm font-medium text-slate-900 focus:outline-none bg-white rounded-lg border border-gray hover:bg-gray'
+        >
+          <Link to='/manager-dashboard/cashiers'>Back</Link>
+        </button>
+        <button
+          type='button'
+          className={`py-2.5 px-5 rounded-lg text-white w-48 ${
             loading
               ? 'bg-gray-500 cursor-not-allowed'
-              : 'bg-blueDarker hover:bg-blue'
+              : 'bg-blue-500 hover:bg-blue-600'
           }`}
           onClick={goToSummary}
           disabled={loading}
