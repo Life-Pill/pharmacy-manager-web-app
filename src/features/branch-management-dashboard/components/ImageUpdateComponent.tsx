@@ -17,6 +17,7 @@ function ImageUpdateComponent({ onClose, branchId }: Props) {
     setBranch,
     branch,
     updateBranchImage,
+    updatingImage,
   } = useBranchManagementService();
 
   const [updateImage, setUpdateImage] = useState(false);
@@ -41,12 +42,12 @@ function ImageUpdateComponent({ onClose, branchId }: Props) {
 
   return (
     <div className='fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray bg-opacity-50 z-50 backdrop-blur-sm bg-gray-800 border-gray-200'>
-      <div className='bg-gray-800 rounded-lg p-6 w-[500px] border border-gray-200'>
+      <div className='bg-gray-800 rounded-lg p-6 w-[500px] border border-gray-200 space-y-8'>
         <h2 className='text-lg font-semibold mb-4 text-white'>
-          Branch Manager Info
+          Branch Image Update
         </h2>
 
-        <div className='flex justify-center items-center'>
+        <div className='flex justify-center items-center flex-col gap-8'>
           <div className='mt-4'>
             {updateImage ? (
               <img
@@ -58,7 +59,7 @@ function ImageUpdateComponent({ onClose, branchId }: Props) {
                 alt='Preview'
                 className='w-64 h-64 rounded-full'
               />
-            ) : branchImage ? (
+            ) : !branchImage ? (
               <Loader />
             ) : (
               <img
@@ -97,7 +98,7 @@ function ImageUpdateComponent({ onClose, branchId }: Props) {
             className=' text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'
             onClick={() => updateBranchImage(parseInt(branchId))}
           >
-            Update
+            {updatingImage ? <Loader /> : 'Update'}
           </button>
         </div>
       </div>

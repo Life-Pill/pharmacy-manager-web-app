@@ -19,6 +19,7 @@ import {
 import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
 import BranchManagerCard from '../components/BranchManagerCard';
 import ImageUpdateComponent from '../components/ImageUpdateComponent';
+import ChangeBranchManager from '../components/ChangeBranchManager';
 
 type Props = {};
 
@@ -37,6 +38,7 @@ function ViewBranchDetails({}: Props) {
     branchManager,
     fetchBranchImage,
     branchImage,
+    branchManagerFetching,
   } = useBranchManagementService();
 
   useEffect(() => {
@@ -59,6 +61,7 @@ function ViewBranchDetails({}: Props) {
   const [showBranchDetails, setShowBranchDetails] = useState(false);
   const [showBranchManger, setShowBranchManager] = useState(false);
   const [showImageUpdateToggle, setShowImageUpdateToggle] = useState(false);
+  const [showChangeManager, setShowChangeManager] = useState(false);
 
   const handleStartDateChange = (e: any) => {
     setStartDate(e.target.value);
@@ -113,6 +116,10 @@ function ViewBranchDetails({}: Props) {
     setShowBranchManager(!showBranchManger);
   };
 
+  const handleChangeBranchManager = () => {
+    setShowChangeManager(!showChangeManager);
+  };
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -131,7 +138,7 @@ function ViewBranchDetails({}: Props) {
               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdhUtDLZiByDiz05R15jG3TLrCIS2MiCZnTQ&s'
             }
             alt='image'
-            className='rounded-full w-auto h-24'
+            className='rounded-full h-48 w-48'
           />
         )}
         <p className='text-xl font-semibold'>{branch.branchName}</p>
@@ -157,9 +164,10 @@ function ViewBranchDetails({}: Props) {
           <div className='flex items-center cursor-pointer'>
             <FaUser className='text-gray-700 mr-2' />
             <p className='hover:underline' onClick={handleBranchManagerClick}>
-              {branchManager.employerEmail
-                ? branchManager.employerEmail
-                : 'No manager assigned'}
+              {!branchManagerFetching &&
+                branchManager?.employerFirstName +
+                  ' ' +
+                  branchManager?.employerLastName}
             </p>
           </div>
           <div className='flex items-center'>
@@ -199,6 +207,12 @@ function ViewBranchDetails({}: Props) {
           onClick={handleImageToggleClick}
         >
           Edit Image
+        </button>
+        <button
+          className='bg-black text-white px-4 py-2 font-bold rounded-lg'
+          onClick={handleChangeBranchManager}
+        >
+          Change Manager
         </button>
       </div>
 
@@ -307,6 +321,14 @@ function ViewBranchDetails({}: Props) {
             branchId={branchId ? branchId : ''}
           />
         )}
+
+        {showChangeManager && (
+          <ChangeBranchManager
+            onClose={handleChangeBranchManager}
+            branchEmployers={branchEmployers}
+          />
+        )}
+
         {filterByMonth ? (
           <>
             <SalesChart

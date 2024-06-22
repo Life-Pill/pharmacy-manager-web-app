@@ -6,6 +6,7 @@ import { Branch } from '../interfaces/Branch';
 import { BranchSalesDetails } from '../interfaces/BranchSalesDetails';
 import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
 import { Item } from '../../item-management-window/interfaces/Item';
+import { ChangeBranchManagerDTO } from '../interfaces/ChangeBranchManagerDTO';
 
 const useBranchManagementService = () => {
   const http = useAxiosInstance();
@@ -109,19 +110,24 @@ const useBranchManagementService = () => {
   const [branchManager, setBranchManager] = useState<CashierDetailsType>(
     {} as CashierDetailsType
   );
+  const [branchManagerFetching, setBranchManagerFetching] = useState(false);
 
   const fetchBranchMangerById = async (branchId: string) => {
     try {
+      setBranchManagerFetching(true);
       const res = await http.get(
         `/branch-manager/managers/by-branch/${parseInt(branchId)}`
       );
-      console.log(res.data);
+      console.log(res.data.data[0]);
 
       if (res.data.code === 200) {
-        setBranchManager(res.data.data);
+        setBranchManager(res.data.data[0]);
+        // toast.success('Fetched the branch manager successfully');
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setBranchManagerFetching(false);
     }
   };
 
@@ -149,6 +155,7 @@ const useBranchManagementService = () => {
   };
 
   const [branchImageUpdate, setBranchImageUpdate] = useState<File | null>();
+  const [updatingImage, setUpdatingImage] = useState(false);
   const updateBranchImage = async (branchId: number) => {
     const updateImageFormData = new FormData();
     if (branchImageUpdate) {
@@ -161,6 +168,7 @@ const useBranchManagementService = () => {
       toast.warning('Please select a image');
     }
     try {
+      setUpdatingImage(true);
       const res = await http.put(
         `/branch/update-branch-profile-image/${branchId}`,
         updateImageFormData,
@@ -174,6 +182,37 @@ const useBranchManagementService = () => {
       toast.success('Updated the branch image successfully');
     } catch (error) {
       console.log(error);
+    } finally {
+      setUpdatingImage(false);
+    }
+  };
+
+  const [updatingManager, setUpdatingMaager] = useState(false);
+  const changeBranchManagerMethod = async (
+    branchMaagerDTO: ChangeBranchManagerDTO
+  ) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to change the manager to ${branchMaagerDTO.newManagerId}?`
+    );
+
+    if (!confirmed) {
+      return; // If not confirmed, exit the function
+    }
+    try {
+      setUpdatingMaager(true);
+      const res = await http.post(
+        '/branch-manager/change-manager',
+        branchMaagerDTO
+      );
+      console.log(res);
+      if (res.data.code === 200) {
+        toast.success(`${branchMaagerDTO.newManagerId} is now the manager`);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Error while updating the manager');
+    } finally {
+      setUpdatingMaager(false);
     }
   };
 
@@ -200,6 +239,10 @@ const useBranchManagementService = () => {
     setBranchImageUpdate,
     setBranch,
     updateBranchImage,
+    updatingImage,
+    changeBranchManagerMethod,
+    updatingManager,
+    branchManagerFetching,
   };
 };
 
