@@ -216,6 +216,7 @@ const useCashierCRUDService = () => {
     role: 'CASHIER',
     employerSalary: 0,
     gender: 'MALE',
+    profileImageUrl: '',
   });
 
   const fetchCashierById = async (employerId: Number) => {
@@ -246,7 +247,6 @@ const useCashierCRUDService = () => {
         !employer.employerFirstName ||
         !employer.employerLastName ||
         !employer.employerPassword ||
-        !employer.employerConfirmPassword ||
         !employer.employerEmail ||
         !employer.employerPhone ||
         !employer.employerAddress ||
@@ -429,6 +429,7 @@ const useCashierCRUDService = () => {
     updateEmployerImage,
     fetchProfilePicture,
     profileImageUrl,
+    updateState,
   };
 };
 

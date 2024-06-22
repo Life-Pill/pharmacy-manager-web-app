@@ -3,11 +3,18 @@ import { useCashierContext, ComponentState } from '../../layouts/AddCashier';
 import { useEffect } from 'react';
 import useCashierCRUDService from '../../services/cashierCRUDService';
 import useBankCRUDService from '../../services/BankDetailsCRUDService';
+import Loader from '../../../../shared/Loader';
 
 const UpdateCashierSummary = () => {
   const { employerId } = useParams();
 
-  const { cashierDetails, fetchCashierById } = useCashierCRUDService();
+  const {
+    cashierDetails,
+    fetchCashierById,
+    fetchImageOfEmployer,
+    fetchProfilePicture,
+    profileImageUrl,
+  } = useCashierCRUDService();
   const { cashierBankDetails, fetchBankDetailsById } = useBankCRUDService();
   const { setCurrentComponent } = useCashierContext();
 
@@ -15,6 +22,7 @@ const UpdateCashierSummary = () => {
     if (employerId) {
       fetchCashierById(parseInt(employerId as string));
       fetchBankDetailsById(parseInt(employerId as string));
+      fetchImageOfEmployer(parseInt(employerId as string));
     }
   }, []);
 
@@ -27,6 +35,19 @@ const UpdateCashierSummary = () => {
       <p className='text-2xl font-semibold mb-4 text-gray-900 mx-auto'>
         Employer Details Summary
       </p>
+      {fetchProfilePicture ? (
+        <Loader />
+      ) : (
+        <img
+          src={
+            profileImageUrl ||
+            'https://static-00.iconduck.com/assets.00/person-icon-1901x2048-a9h70k71.png'
+          }
+          alt='Profile'
+          className='w-64 h-64 rounded-full'
+        />
+      )}
+
       <div className='grid grid-cols-1 md:grid-cols-2 gap-8 justify-between'>
         <div className='bg-white shadow-lg rounded-md p-6'>
           <h2 className='text-2xl font-semibold mb-4 text-gray-900'>

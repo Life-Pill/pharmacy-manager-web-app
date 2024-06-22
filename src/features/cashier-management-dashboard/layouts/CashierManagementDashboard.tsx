@@ -52,7 +52,7 @@ const CashierManagementDashboard = () => {
   return (
     <div className='flex flex-col' data-testid='cashier-management-window'>
       {/* buttons */}
-      <div className='flex flex-row items-center z-20 p-8 px-16 justify-around bg-slate-200 rounded-lg'>
+      <div className='flex flex-row items-center z-20 p-8 px-16 justify-around bg-slate-200 rounded-lg overflow-y-scroll'>
         {/* Summary Cards */}
         <div className='flex flex-col lg:flex-row gap-4 mt-4 justify-center items-center'>
           <div className='bg-white shadow-lg rounded-lg p-4'>

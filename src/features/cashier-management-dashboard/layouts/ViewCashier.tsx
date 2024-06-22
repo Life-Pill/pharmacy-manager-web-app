@@ -51,7 +51,7 @@ const ViewCashier = () => {
 
   return (
     <CashierContext.Provider value={contextValue}>
-      <div className='bg-indigo-100 h-screen font-poppins'>
+      <div className='bg-slate-300 font-poppins'>
         <ViewCashierComponent />
       </div>
     </CashierContext.Provider>
