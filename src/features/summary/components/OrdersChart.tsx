@@ -59,7 +59,7 @@ function OrdersChart({ branchSalesOrders }: Props) {
 
   return (
     <div className='flex h-auto w-5/6 flex-col justify-center items-center'>
-      <h2>Orders Graph</h2>
+      <h2 className='text-xl font-bold'>Orders Graph</h2>
 
       <Line data={chartData} options={options} />
     </div>

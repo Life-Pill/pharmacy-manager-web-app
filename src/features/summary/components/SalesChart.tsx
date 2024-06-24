@@ -59,7 +59,7 @@ function SalesChart({ branchSalesOrders }: Props) {
 
   return (
     <div className='flex h-auto w-5/6 flex-col justify-center items-center'>
-      <h2>Sales Graph</h2>
+      <h2 className="text-xl font-bold">Sales Graph</h2>
 
       <Line data={chartData} options={options} />
     </div>
