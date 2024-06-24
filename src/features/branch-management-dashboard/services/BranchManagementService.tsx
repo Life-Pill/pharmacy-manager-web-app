@@ -17,7 +17,7 @@ const useBranchManagementService = () => {
   const fetchAllBranchSales = async () => {
     setLoadingAllBranchSales(true);
     try {
-      const response = await http.get('branch-summary/sales-summary');
+      const response = await http.get('/branch-summary/sales-summary');
       const { data } = response;
       setAllBranchSales(data.data);
       console.log(allBranchSales);
@@ -115,6 +115,7 @@ const useBranchManagementService = () => {
   const fetchBranchMangerById = async (branchId: string) => {
     try {
       setBranchManagerFetching(true);
+      console.log(branchId);
       const res = await http.get(
         `/branch-manager/managers/by-branch/${parseInt(branchId)}`
       );

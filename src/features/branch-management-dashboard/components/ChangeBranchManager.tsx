@@ -24,7 +24,7 @@ function ChangeBranchManager({ onClose, branchEmployers }: Props) {
 
         {branchEmployers.map((employer) => (
           <div key={employer.employerId} className='flex justify-between mb-4'>
-            {(employer.role === 'MANAGER' || employer.role === 'OWNER') && (
+            {(employer.role === 'CASHIER' || employer.role === 'OTHER') && (
               <>
                 <p className='text-white'>
                   {employer.employerFirstName} {employer.employerLastName}
@@ -34,10 +34,10 @@ function ChangeBranchManager({ onClose, branchEmployers }: Props) {
                   className='text-white hover:text-blue-700 bg-blue-700 hover:bg-white font-medium rounded-lg text-sm p-2 '
                   onClick={() => {
                     setChangeBranchManagerDTO({
-                      formerManagerId: employer.employerId || 0,
+                      formerManagerId: employer.employerId,
                       branchId: employer.branchId,
                       newManagerId: employer.employerId,
-                      currentManagerNewRole: 'MANAGER',
+                      currentManagerNewRole: 'OTHER',
                       newManagerRole: 'MANAGER',
                     });
 
