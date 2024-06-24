@@ -1,9 +1,9 @@
-export interface Branch {
+export interface CreateBranchDTO {
   branchId: number;
   branchName: string;
   branchAddress: string;
   branchContact: string;
-  branchFax: string;
+  branchFax?: string;
   branchEmail: string;
   branchDescription: string;
   branchStatus: boolean;

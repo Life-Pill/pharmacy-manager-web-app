@@ -7,6 +7,8 @@ import { BranchSalesDetails } from '../interfaces/BranchSalesDetails';
 import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
 import { Item } from '../../item-management-window/interfaces/Item';
 import { ChangeBranchManagerDTO } from '../interfaces/ChangeBranchManagerDTO';
+import { CreateBranchDTO } from '../interfaces/CreateBranchDTO';
+import { useNavigate } from 'react-router-dom';
 
 const useBranchManagementService = () => {
   const http = useAxiosInstance();
@@ -221,6 +223,48 @@ const useBranchManagementService = () => {
     }
   };
 
+  const [createBranchDTO, setCreateBranchDTO] = useState<CreateBranchDTO>({
+    branchId: 0,
+    branchName: '',
+    branchAddress: '',
+    branchContact: '',
+    branchEmail: '',
+    branchDescription: '',
+    branchStatus: true,
+    branchLocation: '',
+    branchCreatedOn: '',
+    branchCreatedBy: '',
+    branchProfileImageUrl: '',
+  });
+
+  const [creating, setCreating] = useState(false);
+  const [branchImageDTO, setBranchImageDTO] = useState<File | null>();
+  const navigate = useNavigate();
+  const createBranch = async () => {
+    try {
+      setCreating(true);
+      const formData = new FormData();
+      formData.append('branchS3DTO', JSON.stringify(createBranchDTO));
+
+      formData.append('file', branchImageDTO as File, branchImageDTO?.name);
+      const res = await http.post('/branch/save-branch', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(res);
+      if (res.data.code === 201) {
+        toast.success('Branch created successfully');
+        navigate('/manager-dashboard/branches');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Error while creating the branch');
+    } finally {
+      setCreating(false);
+    }
+  };
+
   return {
     allBranchSales,
     loadingAllBranchSales,
@@ -249,6 +293,12 @@ const useBranchManagementService = () => {
     updatingManager,
     branchManagerFetching,
     branchImageFetch,
+    setCreateBranchDTO,
+    createBranch,
+    creating,
+    setBranchImageDTO,
+    branchImageDTO,
+    createBranchDTO,
   };
 };
 

@@ -27,6 +27,10 @@ function BranchManagement() {
     navigate(`/view-branch/${worker.branchDTO.branchId}`);
   };
 
+  const createBranch = () => {
+    navigate('/branches/create-branch');
+  };
+
   return (
     <>
       {loadingAllBranchSales && (
@@ -106,7 +110,10 @@ function BranchManagement() {
       </div>
 
       <div className='fixed bottom-8 right-8'>
-        <button className='flex items-center text-blue-500 font-semibold py-2 px-4 bg-blue-100 hover:bg-blue-200 rounded-full shadow-lg transition duration-300 ease-in-out'>
+        <button
+          className='flex items-center text-blue-500 font-semibold py-2 px-4 bg-blue-100 hover:bg-blue-200 rounded-full shadow-lg transition duration-300 ease-in-out'
+          onClick={createBranch}
+        >
           <FaPlus className='mr-2' /> Add Branch
         </button>
       </div>
