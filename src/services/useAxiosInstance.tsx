@@ -11,7 +11,7 @@ function useAxiosInstance() {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${getCookie('Auth')}`,
     },
-    baseURL: '/lifepill/v1',
+    baseURL: ':8079/lifepill/v1',
   });
 
   useEffect(() => {
