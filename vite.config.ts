@@ -5,9 +5,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
+    port: 8079,
     proxy: {
       '/lifepill/v1': {
-        target: 'http://35.174.112.238:8079',
+        target: 'http://35.174.112.238',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/lifepill\/v1/, ''),
