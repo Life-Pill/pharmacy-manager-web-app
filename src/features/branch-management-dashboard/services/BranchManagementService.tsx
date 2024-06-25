@@ -21,6 +21,7 @@ const useBranchManagementService = () => {
     try {
       const response = await http.get('/branch-summary/sales-summary');
       const { data } = response;
+      console.log(response);
       setAllBranchSales(data.data);
       console.log(allBranchSales);
     } catch (error) {
