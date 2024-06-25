@@ -17,4 +17,5 @@ export interface CashierDetailsType {
   pin: number;
   activeStatus: boolean;
   profileImage: string;
+  profileImageUrl: string;
 }

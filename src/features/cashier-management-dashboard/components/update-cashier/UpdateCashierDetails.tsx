@@ -6,7 +6,7 @@ import useCashierCRUDService from '../../services/cashierCRUDService';
 
 const UpdateCashierDetails = () => {
   const { employerId } = useParams();
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [updateImage, setUpdateImage] = useState<boolean>(false);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file: File | null = e.target.files ? e.target.files[0] : null;
@@ -14,7 +14,12 @@ const UpdateCashierDetails = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         if (typeof reader.result === 'string') {
-          setPreviewImage(reader.result);
+          setProfilePicture(file);
+          setCashierDetails((prev: any) => ({
+            ...prev,
+            profileImageUrl: reader.result,
+          }));
+          setUpdateImage(true);
         }
       };
       reader.readAsDataURL(file);
@@ -34,12 +39,19 @@ const UpdateCashierDetails = () => {
     updating,
     fetchAllBranches,
     branches,
+    setProfilePicture,
+    fetchImageOfEmployer,
+    updateEmployerImage,
+    fetchProfilePicture,
+    profileImageUrl,
+    updateState,
   } = useCashierCRUDService();
 
   useEffect(() => {
     fetchCashierById(parseInt(employerId as string));
     console.log(employerId);
     fetchAllBranches();
+    fetchImageOfEmployer(parseInt(employerId as string));
   }, []);
 
   return (
@@ -51,23 +63,27 @@ const UpdateCashierDetails = () => {
         ) : (
           <>
             <div className='flex items-center justify-center gap-4 flex-col'>
-              {previewImage ? (
-                <div className='mt-4'>
+              <div className='mt-4'>
+                {updateImage ? (
                   <img
-                    src={previewImage}
+                    src={cashierDetails.profileImageUrl}
                     alt='Preview'
                     className='w-64 h-64 rounded-full'
                   />
-                </div>
-              ) : (
-                <div className='mt-4'>
+                ) : fetchProfilePicture ? (
+                  <Loader />
+                ) : (
                   <img
-                    src='https://randomuser.me/api/portraits/men/1.jpg'
-                    alt='Preview'
+                    src={
+                      profileImageUrl ||
+                      'https://static-00.iconduck.com/assets.00/person-icon-1901x2048-a9h70k71.png'
+                    }
+                    alt='Profile'
                     className='w-64 h-64 rounded-full'
                   />
-                </div>
-              )}
+                )}
+              </div>
+
               <label className='w-64 flex flex-row items-center p-2 justify-center gap-2 bg-white rounded-lg'>
                 <IoCloudUploadOutline size={25} />
                 <span className='text-base leading-normal'>
@@ -77,8 +93,19 @@ const UpdateCashierDetails = () => {
                   type='file'
                   className='hidden'
                   onChange={handleImageChange}
+                  accept='image/*'
                 />
               </label>
+
+              <button
+                type='button'
+                className='text-white bg-blueDarker hover:bg-blue-600 font-medium py-2.5 px-5 me-2 mb-2 rounded-lg'
+                onClick={(e) =>
+                  updateEmployerImage(parseInt(employerId as string))
+                }
+              >
+                {updateState ? 'Updating...' : 'Update Image'}
+              </button>
             </div>
 
             <div>
@@ -219,7 +246,6 @@ const UpdateCashierDetails = () => {
                   <option value={branch.branchId}>{branch.branchName}</option>
                 ))}
               </select>
-
               <label
                 htmlFor='gender'
                 className='block text-sm font-medium text-black'
@@ -271,10 +297,11 @@ const UpdateCashierDetails = () => {
                 type='date'
                 id='dateOfBirth'
                 className='mt-1 p-2 border-gray rounded-md w-64'
+                value={cashierDetails.dateOfBirth?.slice(0, 10)}
                 onChange={(e) =>
                   setCashierDetails({
                     ...cashierDetails,
-                    dateOfBirth: new Date(e.target.value),
+                    dateOfBirth: e.target.value,
                   })
                 }
               />
@@ -338,31 +365,14 @@ const UpdateCashierDetails = () => {
               />
 
               <label
-                htmlFor='confirmPassword'
-                className='block text-sm font-medium text-black mt-4'
-              >
-                Confirm Password
-              </label>
-              <input
-                type='text'
-                id='confirmPassword'
-                className='mt-1 p-2 border-gray rounded-md w-64'
-                onChange={(e) =>
-                  setCashierDetails({
-                    ...cashierDetails,
-                    employerConfirmPassword: e.target.value,
-                  })
-                }
-              />
-
-              <label
                 htmlFor='pin'
                 className='block text-sm font-medium text-black mt-4'
               >
                 Pin
               </label>
               <input
-                type='text'
+                type='number'
+                accept='number'
                 id='pin'
                 className='mt-1 p-2 border-gray rounded-md w-64'
                 value={cashierDetails.pin}
@@ -384,15 +394,15 @@ const UpdateCashierDetails = () => {
         ) : (
           <button
             type='button'
-            className='text-white bg-blueDarker hover:bg-blue font-medium py-2.5 px-5 me-2 mb-2 rounded-lg'
-            onClick={() => goToBankDetails(cashierDetails)}
+            className='text-white bg-blue-500 hover:bg-blue-600 font-medium py-2.5 px-5 me-2 mb-2 rounded-lg'
+            onClick={(e) => goToBankDetails(cashierDetails)}
           >
             Update Employer
           </button>
         )}
         <button
           type='button'
-          className='py-2.5 px-5 me-2 mb-2 text-sm font-medium text-slate-900 focus:outline-none bg-white rounded-lg border border-gray hover:bg-gray'
+          className='py-2.5 px-5 me-2 mb-2 text-sm font-medium text-slate-900 focus:outline-none bg-white rounded-lg border border-gray hover:bg-gray-100'
         >
           <Link to='/manager-dashboard/cashiers'>Back To Cashier Manager</Link>
         </button>

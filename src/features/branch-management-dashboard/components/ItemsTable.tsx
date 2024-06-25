@@ -40,20 +40,20 @@ function ItemsTable({ items }: Props) {
         </div>
       </div>
 
-      <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
+      <table className='w-full text-sm text-left rtl:text-right text-slate-700'>
         <thead className='text-xs uppercase bg-slate-300 sticky top-0'>
           <tr>
             <th scope='col' className='px-6 py-3'>
               Medicine ID
             </th>
             <th scope='col' className='px-6 py-3'>
-              Image
+              Description
             </th>
             <th scope='col' className='px-6 py-3'>
               Name
             </th>
             <th scope='col' className='px-6 py-3'>
-              Price
+              Price (LKR) per Unit
             </th>
             <th scope='col' className='px-6 py-3'>
               Status
@@ -75,9 +75,12 @@ function ItemsTable({ items }: Props) {
           {sortedItems.map((medicine) => (
             <tr className='bg-slate-50 border-b' key={medicine.itemId}>
               <td className='px-6 py-4'>{medicine.itemId}</td>
-              <td className='px-6 py-4'>{medicine.itemImage}</td>
+              <td className='px-6 py-4'>{medicine.itemDescription}</td>
               <td className='px-6 py-4'>{medicine.itemName}</td>
-              <td className='px-6 py-4'>{medicine.sellingPrice}</td>
+              <td className='px-6 py-4'>
+                <strong>{medicine.sellingPrice} </strong>per{' '}
+                {medicine.measuringUnitType}
+              </td>
               <td className='px-6 py-4'>
                 <div
                   className={`rounded-full p-1 w-24 flex items-center justify-center ${

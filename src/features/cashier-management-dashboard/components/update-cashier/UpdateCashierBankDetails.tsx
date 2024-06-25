@@ -1,22 +1,37 @@
+import { useEffect } from 'react';
 import { useCashierContext, ComponentState } from '../../layouts/AddCashier';
 import useBankCRUDService from '../../services/BankDetailsCRUDService';
+import useCashierCRUDService from '../../services/cashierCRUDService';
+import { useParams } from 'react-router-dom';
 
 const UpdateCashierBankDetails = () => {
+  const { employerId } = useParams();
+  const { setCurrentComponent } = useCashierContext();
   const {
-    setCurrentComponent,
+    updateBankDetails,
+    fetchBankDetailsById,
     cashierBankDetails,
     setCashierBankDetails,
-    cashierDetails,
-  } = useCashierContext();
+  } = useBankCRUDService();
 
-  const { updateBankDetails } = useBankCRUDService();
-
+  const { fetchCashierById, cashierDetails } = useCashierCRUDService();
   const goToSummary = () => {
-    updateBankDetails(cashierBankDetails, cashierDetails.employerId);
+    if (employerId) {
+      updateBankDetails(cashierBankDetails, parseInt(employerId));
+    }
   };
   const goToBack = () => {
     setCurrentComponent(ComponentState.Details);
   };
+
+  useEffect(() => {
+    if (employerId) {
+      fetchCashierById(parseInt(employerId as string));
+
+      fetchBankDetailsById(parseInt(employerId));
+    }
+  }, []);
+
   return (
     <div className='w-full p-16 px-4 sm:px-6 lg:px-8'>
       {/* First Column */}
@@ -118,14 +133,14 @@ const UpdateCashierBankDetails = () => {
       <div className='flex items-center justify-center gap-8 w-full'>
         <button
           type='button'
-          className='text-white bg-blueDarker hover:bg-blue font-medium py-2.5 px-5 me-2 mb-2 rounded-lg'
+          className='text-white bg-blue-500 hover:bg-blue-600 font-medium py-2.5 px-5 me-2 mb-2 rounded-lg'
           onClick={goToSummary}
         >
           Create & Continue
         </button>
         <button
           type='button'
-          className='py-2.5 px-5 me-2 mb-2 text-sm font-medium text-slate-900 focus:outline-none bg-white rounded-lg border border-gray hover:bg-gray'
+          className='py-2.5 px-5 me-2 mb-2 text-sm font-medium text-slate-900 focus:outline-none bg-gray-300 rounded-lg border border-gray hover:bg-gray-500'
           onClick={goToBack}
         >
           Back To Details Page

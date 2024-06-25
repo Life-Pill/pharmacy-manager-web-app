@@ -7,6 +7,7 @@ import UpdateCashier from './features/cashier-management-dashboard/layouts/Updat
 import ViewCashier from './features/cashier-management-dashboard/layouts/ViewCashier';
 import ViewBranchDetails from './features/branch-management-dashboard/layouts/ViewBranchDetails';
 import ErrorPage from './pages/ErrorPage';
+import BranchCreateCard from './features/branch-management-dashboard/components/BranchCreateCard';
 
 function App() {
   return (
@@ -20,9 +21,9 @@ function App() {
         <Route path='/manager-dashboard/:item' element={<ManagerDashboard />} />
         <Route path='/update-cashier/:employerId' element={<UpdateCashier />} />
         <Route path='/view-cashier/:employerId' element={<ViewCashier />} />
-
         <Route path='/view-branch/:branchId' element={<ViewBranchDetails />} />
-
+        <Route path='/branches/create-branch' element={<BranchCreateCard />} />
+        //page for the error
         <Route path='*' element={<ErrorPage />} />
       </Routes>
     </Router>

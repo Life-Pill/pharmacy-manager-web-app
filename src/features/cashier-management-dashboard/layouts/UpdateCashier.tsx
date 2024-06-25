@@ -64,7 +64,7 @@ const UpdateCashier = () => {
 
   return (
     <CashierContext.Provider value={contextValue}>
-      <div className='bg-indigo-100 h-screen font-poppins'>
+      <div className='bg-slate-300 font-poppins'>
         {/* <CashierManagerNavBar topic='Update Cashier' /> */}
         {renderComponent()}
       </div>

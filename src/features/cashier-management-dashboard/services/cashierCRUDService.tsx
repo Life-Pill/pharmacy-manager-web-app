@@ -7,6 +7,7 @@ import { validateEmail } from '../utils/validators/EmailValidator';
 import { passwordsMatch } from '../utils/validators/PasswordValidator';
 import { useNavigate } from 'react-router-dom';
 import { Branch } from '../interfaces/Branch';
+import { useUserContext } from '../../../context/UserContext';
 
 const useCashierCRUDService = () => {
   const http = useAxiosInstance();
@@ -14,6 +15,75 @@ const useCashierCRUDService = () => {
   const { setCurrentComponent } = useCashierContext();
   const [updating, setUpdating] = useState(false);
   const navigate = useNavigate();
+  const user = useUserContext();
+
+  // const createCashier = async (employer: CashierDetailsType) => {
+  //   if (
+  //     !employer ||
+  //     !employer.branchId ||
+  //     !employer.employerNicName ||
+  //     !employer.employerFirstName ||
+  //     !employer.employerLastName ||
+  //     !employer.employerPassword ||
+  //     !employer.employerEmail ||
+  //     !employer.employerPhone ||
+  //     !employer.employerAddress ||
+  //     !employer.employerSalary ||
+  //     !employer.employerNic ||
+  //     !employer.gender ||
+  //     !employer.dateOfBirth ||
+  //     !employer.role ||
+  //     !employer.pin
+  //   ) {
+  //     toast.error('Please provide all required information.');
+  //     return;
+  //   }
+
+  //   // if (
+  //   //   !passwordsMatch(
+  //   //     employer.employerPassword,
+  //   //     employer.employerConfirmPassword
+  //   //   )
+  //   // ) {
+  //   //   toast.error('Passwords do not match.');
+  //   //   return;
+  //   // }
+
+  //   if (
+  //     !['OWNER', 'CASHIER', 'MANAGER'].includes(employer.role.toUpperCase())
+  //   ) {
+  //     toast.error(
+  //       'Invalid role. Role should be either OWNER, CASHIER, or MANAGER.'
+  //     );
+  //     return;
+  //   }
+
+  //   if (!validateEmail(employer.employerEmail)) {
+  //     toast.error('Invalid email');
+  //     return;
+  //   }
+
+  //   setLoading(true);
+  //   try {
+  //     const res = await http.post('/employers/save-without-image', employer);
+
+  //     console.log(res.data);
+  //     if (res.data.code === 201) {
+  //       const createdCashierData = res.data.data;
+  //       setCurrentComponent(ComponentState.BankDetails);
+  //       console.log('Created cashier:', createdCashierData.employerId);
+  //       toast.success('Cashier created successfully!');
+  //       return createdCashierData.employerId;
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error('Failed to create a cashier');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const [profilePicture, setProfilePicture] = useState<File | null>(null);
 
   const createCashier = async (employer: CashierDetailsType) => {
     if (
@@ -23,7 +93,6 @@ const useCashierCRUDService = () => {
       !employer.employerFirstName ||
       !employer.employerLastName ||
       !employer.employerPassword ||
-      !employer.employerConfirmPassword ||
       !employer.employerEmail ||
       !employer.employerPhone ||
       !employer.employerAddress ||
@@ -38,15 +107,15 @@ const useCashierCRUDService = () => {
       return;
     }
 
-    if (
-      !passwordsMatch(
-        employer.employerPassword,
-        employer.employerConfirmPassword
-      )
-    ) {
-      toast.error('Passwords do not match.');
-      return;
-    }
+    // if (
+    //   !passwordsMatch(
+    //     employer.employerPassword,
+    //     employer.employerConfirmPassword
+    //   )
+    // ) {
+    //   toast.error('Passwords do not match.');
+    //   return;
+    // }
 
     if (
       !['OWNER', 'CASHIER', 'MANAGER'].includes(employer.role.toUpperCase())
@@ -62,9 +131,56 @@ const useCashierCRUDService = () => {
       return;
     }
 
+    const formData = new FormData();
+    console.log('Employer object:', employer);
+    console.log('FormData before append:', formData);
+    if (user && user.user) {
+      formData.append('branchId', employer.branchId.toString());
+      formData.append('employerFirstName', employer.employerFirstName);
+      formData.append('employerNicName', employer.employerNicName);
+      formData.append('employerLastName', employer.employerLastName);
+      formData.append('employerPassword', employer.employerPassword);
+      formData.append('employerEmail', employer.employerEmail);
+      formData.append('employerPhone', employer.employerPhone);
+      formData.append('employerAddress', employer.employerAddress);
+      formData.append('employerSalary', String(employer.employerSalary));
+      formData.append('employerNic', employer.employerNic);
+      formData.append('gender', employer.gender);
+      formData.append(
+        'dateOfBirth',
+        String(employer.dateOfBirth.toString().split('-').join('/'))
+      );
+      formData.append('role', employer.role);
+      formData.append('pin', String(employer.pin));
+      formData.append(
+        'profileImageUrl',
+        JSON.stringify(employer.profileImageUrl)
+      ); // Assuming profileImage is an array of strings
+      formData.append('isActiveStatus', String(employer.activeStatus));
+
+      if (profilePicture) {
+        formData.append('file', profilePicture, profilePicture.name);
+      }
+    }
+
+    console.log('FormData after append:', formData);
+
+    for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    setLoading(true);
     setLoading(true);
     try {
-      const res = await http.post('/employers/save-without-image', employer);
+      const res = await http.post(
+        '/employers/save-employer-with-image',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
 
       console.log(res.data);
       if (res.data.code === 201) {
@@ -83,6 +199,7 @@ const useCashierCRUDService = () => {
   };
 
   const [cashierDetails, setCashierDetails] = useState({
+    employerId: 0,
     employerNicName: '',
     employerFirstName: '',
     employerLastName: '',
@@ -93,22 +210,25 @@ const useCashierCRUDService = () => {
     profileImage: '',
     branchId: 0,
     employerNic: '',
-    dateOfBirth: new Date(),
+    dateOfBirth: '',
     employerAddress: '',
     pin: 0,
     role: 'CASHIER',
     employerSalary: 0,
     gender: 'MALE',
+    profileImageUrl: '',
   });
 
-  const fetchCashierById = async (id: Number) => {
+  const fetchCashierById = async (employerId: Number) => {
     try {
       setLoading(true);
-      console.log('Fetching cashier by id', id);
-      const res = await http.get('/employers/get-by-id', { params: { id } });
+      console.log('Fetching cashier by id', employerId);
+      const res = await http.get('/employers/get-by-id', {
+        params: { employerId },
+      });
       console.log(res);
       if (res.status === 200) {
-        setCashierDetails(res.data);
+        setCashierDetails(res.data.data);
       }
     } catch (error) {
       console.log(error);
@@ -127,7 +247,6 @@ const useCashierCRUDService = () => {
         !employer.employerFirstName ||
         !employer.employerLastName ||
         !employer.employerPassword ||
-        !employer.employerConfirmPassword ||
         !employer.employerEmail ||
         !employer.employerPhone ||
         !employer.employerAddress ||
@@ -220,6 +339,78 @@ const useCashierCRUDService = () => {
     }
   };
 
+  const updateProfileImage = async (employerId: number) => {
+    try {
+      const res = await http.put(
+        `/lifepill/v1/employers/update-employer-image/${employerId}`
+      );
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [profileImageUrl, setProfileImageUrl] = useState<any>();
+  const [fetchProfilePicture, setFetchProfilePicture] =
+    useState<boolean>(false);
+  const fetchImageOfEmployer = async (employerId: number) => {
+    try {
+      setFetchProfilePicture(true);
+      const res = await http.get(
+        `/employers/view-profile-image/${employerId}`,
+        {
+          responseType: 'arraybuffer', // Ensure response type is set correctly
+        }
+      );
+      console.log(res); // Check the response in console if needed
+
+      // Convert array buffer to Base64 string
+      const base64String = btoa(
+        new Uint8Array(res.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ''
+        )
+      );
+
+      setProfileImageUrl(`data:image/jpeg;base64,${base64String}`);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setFetchProfilePicture(false);
+    }
+  };
+
+  const [updateState, setUpdateState] = useState<boolean>(false);
+  const updateEmployerImage = async (employerId: number) => {
+    const updateImageFormData = new FormData();
+    if (profilePicture) {
+      updateImageFormData.append('file', profilePicture, profilePicture?.name);
+    } else {
+      toast.warning('Please select a image');
+    }
+    try {
+      setUpdateState(true);
+      const res = await http.put(
+        `/employers/update-employer-image/${employerId}`,
+        updateImageFormData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      console.log(res);
+      if (res.status === 200) {
+        toast.success('Image updated successfully');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to update profile picture');
+    } finally {
+      setUpdateState(false);
+    }
+  };
+
   return {
     createCashier,
     loading,
@@ -231,6 +422,14 @@ const useCashierCRUDService = () => {
     deleteCashierById,
     fetchAllBranches,
     branches,
+    profilePicture,
+    setProfilePicture,
+    updateProfileImage,
+    fetchImageOfEmployer,
+    updateEmployerImage,
+    fetchProfilePicture,
+    profileImageUrl,
+    updateState,
   };
 };
 

@@ -1,7 +1,7 @@
 import { CashierDetailsType } from '../../cashier-management-dashboard/interfaces/CashierDetailsType';
 import { useNavigate } from 'react-router-dom';
-import { BsPencilSquare, BsEye, BsTrash } from 'react-icons/bs';
-import { useEffect, useState } from 'react';
+import { BsPencilSquare, BsEye } from 'react-icons/bs';
+import { useState } from 'react';
 
 type Props = {
   branchEmployers: CashierDetailsType[];
@@ -43,7 +43,7 @@ function EmployerTable({ branchEmployers }: Props) {
         </div>
       </div>
 
-      <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
+      <table className='w-full text-sm text-left rtl:text-right text-slate-700'>
         <thead className='text-xs uppercase bg-slate-300 sticky top-0'>
           <tr>
             <th scope='col' className='px-6 py-3'>
@@ -101,7 +101,7 @@ function EmployerTable({ branchEmployers }: Props) {
                 {
                   <div
                     className={`rounded-full p-1 w-24 flex items-center justify-center ${
-                      worker.activeStatus ? 'bg-green-500' : 'bg-red'
+                      worker.activeStatus ? 'bg-green-500' : 'bg-red-500'
                     }`}
                   >
                     <span

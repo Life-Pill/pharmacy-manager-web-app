@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useItemService from '../services/ItemManagementServices';
 import { BsBoxSeam, BsBoxes, BsExclamationTriangle } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
-import { BsPencilSquare, BsEye } from 'react-icons/bs';
 import { TbCirclePlus } from 'react-icons/tb';
 import useOrderManagementService from '../../order-management-window/services/OrderManagementServices';
 type Props = {};
