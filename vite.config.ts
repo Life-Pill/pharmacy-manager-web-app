@@ -10,8 +10,7 @@ export default defineConfig({
       '/lifepill/v1': {
         target: 'http://35.174.112.238:8079', // Backend server running on port 8079
         changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/lifepill\/v1/, ''),
+        rewrite: (path) => path.replace(/^\/lifepill\/v1/, '/lifepill/v1'),
       },
     },
   },
