@@ -6,6 +6,7 @@ import {
   GiFactory,
 } from 'react-icons/gi';
 import useBranchService from '../../services/BranchService';
+import { BiLoader } from 'react-icons/bi';
 
 function SummaryCards() {
   const { allBranchData, fetchAllBranchDataSummary } = useBranchService();
@@ -24,9 +25,13 @@ function SummaryCards() {
         </div>
         <div className='mt-4'>
           <p className='text-gray-600 text-lg'>Total Amount:</p>
-          <p className='text-2xl font-semibold text-green-700'>{`LKR ${allBranchData?.totalSales.toFixed(
-            2
-          )}`}</p>
+          <p className='text-2xl font-semibold text-green-700'>
+            {allBranchData ? (
+              `LKR ${allBranchData?.totalSales.toFixed(2)}`
+            ) : (
+              <BiLoader className='animate-spin text-4xl text-blue-500' />
+            )}
+          </p>
         </div>
       </div>
 
@@ -39,7 +44,11 @@ function SummaryCards() {
         <div className='mt-4'>
           <p className='text-gray-600 text-lg'>Number of Orders:</p>
           <p className='text-2xl font-semibold text-blue-700'>
-            {allBranchData?.totalOrders}
+            {allBranchData ? (
+              allBranchData?.totalOrders
+            ) : (
+              <BiLoader className='animate-spin text-4xl text-blue-500' />
+            )}
           </p>
         </div>
       </div>
@@ -53,7 +62,11 @@ function SummaryCards() {
         <div className='mt-4'>
           <p className='text-gray-600 text-lg'>Number of Workers:</p>
           <p className='text-2xl font-semibold text-yellow-700'>
-            {allBranchData?.totalEmployees}
+            {allBranchData ? (
+              allBranchData?.totalEmployees
+            ) : (
+              <BiLoader className='animate-spin text-4xl text-blue-500' />
+            )}
           </p>
         </div>
       </div>
@@ -66,9 +79,7 @@ function SummaryCards() {
         </div>
         <div className='mt-4'>
           <p className='text-gray-600 text-lg'>Number of Branches:</p>
-          <p className='text-2xl font-semibold text-red-700'>
-            {allBranchData?.totalBranches}
-          </p>
+          <p className='text-2xl font-semibold text-red-700'>2</p>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import 'chart.js/auto';
 import useBranchService from '../../services/BranchService';
+import { BiLoader } from 'react-icons/bi';
 
 type Props = {};
 
@@ -38,7 +39,11 @@ const SalesPieChart: React.FC<Props> = () => {
     <div className='bg-white rounded-lg shadow-md p-6 sales-bar-chart'>
       <h2 className='text-2xl font-semibold mb-4'>Sales Pie Chart</h2>
       <div className='w-full h-auto'>
-        {loadingAllBranchSales ? <p>loading...</p> : <Doughnut data={data} />}
+        {loadingAllBranchSales ? (
+          <BiLoader className='animate-spin text-4xl text-blue-500' />
+        ) : (
+          <Doughnut data={data} />
+        )}
       </div>
     </div>
   );

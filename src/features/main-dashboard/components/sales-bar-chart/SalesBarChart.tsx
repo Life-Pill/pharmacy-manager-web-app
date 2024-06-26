@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import useBranchService from '../../services/BranchService';
 import { Bar } from 'react-chartjs-2';
+import { BiLoader } from 'react-icons/bi';
 
 type Props = {};
 
@@ -38,7 +39,7 @@ function SalesBarChart({}: Props) {
       <h2 className='text-2xl font-semibold mb-2'>Sales Bar Chart</h2>
       <div className='w-full h-auto'>
         {loadingAllBranchSales ? (
-          <p>loading...</p>
+          <BiLoader className='animate-spin text-4xl text-blue-500' />
         ) : (
           <Bar data={data} width={500} height={250} />
         )}
