@@ -15,7 +15,7 @@ function ErrorPage({}: Props) {
         <button
           className='bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded focus:outline-none focus:ring focus:ring-red-500 w-full sm:w-auto'
           onClick={(e) => {
-            navigate('/dashboard');
+            navigate('/');
           }}
         >
           Go Back
