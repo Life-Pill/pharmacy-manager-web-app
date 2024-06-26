@@ -19,8 +19,9 @@ function useAxiosInstance() {
   useEffect(() => {
     // Update instance headers when cookie changes
     instance.defaults.headers.common['Authorization'] = `Bearer ${getCookie(
-      'Authorization'
+      'Auth'
     )}`;
+    console.log(`Bearer ${getCookie('Auth')}`);
   }, [cookie, instance]);
 
   useEffect(() => {
