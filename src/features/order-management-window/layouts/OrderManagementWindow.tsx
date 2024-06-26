@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import useOrderManagementService from '../services/OrderManagementServices';
 import OrderCardComponent from '../components/OrderCardComponent';
-import Loader from '../../../shared/Loader';
 import { Order } from '../interfaces/OrderDetails';
 import { getToday } from '../../../utils/getToday';
+import { BiLoader } from 'react-icons/bi';
 
 type Props = {};
 
@@ -24,7 +24,7 @@ function OrderManagementWindow({}: Props) {
 
   useEffect(() => {
     fetchOrderData();
-    fetchAllBranches();
+    // fetchAllBranches();
   }, []);
 
   const filterOrdersByDateRange = (order: Order) => {
@@ -37,21 +37,18 @@ function OrderManagementWindow({}: Props) {
       orderDate >= startDateTime && orderDate <= endDateTime;
 
     // Check if the order belongs to the selected branch
-    const branchFilter =
-      selectedBranch === '' || order.branchId.toString() === selectedBranch;
 
-    return withinDateRange && branchFilter;
+    return withinDateRange;
   };
 
   useEffect(() => {
     const filtered = orderData?.filter(filterOrdersByDateRange);
     setFilteredOrderData(filtered);
-  }, [startDate, endDate, selectedBranch]);
+  }, [startDate, endDate]);
 
   const handleClearFilters = () => {
     setStartDate('2023-01-01');
     setEndDate(getToday());
-    setSelectedBranch('');
   };
 
   return (
@@ -81,7 +78,7 @@ function OrderManagementWindow({}: Props) {
             className='border rounded p-1'
           />
         </div>
-        <div className='flex items-center'>
+        {/* <div className='flex items-center'>
           <label htmlFor='branch' className='mb-1'>
             Branch:
           </label>
@@ -97,7 +94,7 @@ function OrderManagementWindow({}: Props) {
               <option value={branch.branchId}>{branch.branchName}</option>
             ))}
           </select>
-        </div>
+        </div> */}
         <button
           className='bg-black text-white px-4 py-2 font-bold rounded-lg'
           onClick={handleClearFilters}
@@ -106,7 +103,7 @@ function OrderManagementWindow({}: Props) {
         </button>
       </div>
       {loading ? (
-        <Loader />
+        <BiLoader className='animate-spin text-4xl text-blue-500' />
       ) : (
         filteredOrderData?.map((order) => <OrderCardComponent order={order} />)
       )}

@@ -4,6 +4,7 @@ import OrdersChart from '../components/OrdersChart';
 import { getToday } from '../../../utils/getToday'; // Adjust path as per your project structure
 import { BranchSalesData } from '../interfaces/BranchSales';
 import useSummaryService from '../services/SummaryService';
+import { BiLoader } from 'react-icons/bi';
 
 const SummaryPage: React.FC = () => {
   const { getAllBranchesSales, branchSalesOrders, filterBranchSalesData } =
@@ -76,8 +77,14 @@ const SummaryPage: React.FC = () => {
         </button>
       </div> */}
 
-      <SalesChart branchSalesOrders={filteredSalesData} />
-      <OrdersChart branchSalesOrders={filteredSalesData} />
+      {filteredSalesData ? (
+        <>
+          <SalesChart branchSalesOrders={filteredSalesData} />
+          <OrdersChart branchSalesOrders={filteredSalesData} />
+        </>
+      ) : (
+        <BiLoader className='animate-spin text-4xl text-blue-500' />
+      )}
     </div>
   );
 };
