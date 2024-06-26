@@ -6,12 +6,12 @@ import { getCookie } from '../utils/getCookie';
 function useAxiosInstance() {
   const { cookie } = useUserContext();
   const instance = axios.create({
-    baseURL: 'http://35.174.112.238/lifepill/v1',
+    // baseURL: 'http://35.174.112.238/lifepill/v1',
+    baseURL: '/lifepill/v1',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${getCookie('Auth')}`,
     },
-    // baseURL: '/lifepill/v1',
   });
 
   useEffect(() => {
