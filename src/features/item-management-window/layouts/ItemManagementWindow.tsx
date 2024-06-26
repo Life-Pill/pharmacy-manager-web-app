@@ -98,7 +98,7 @@ function ItemManagementWindow({}: Props) {
       {/* table */}
       <div className='flex items-center justify-between mt-4 p-2'>
         <p className='font-bold text-xl '>Medicine Details</p>
-        <div className='flex items-center'>
+        {/* <div className='flex items-center'>
           <label htmlFor='branch' className='mb-1'>
             Branch:
           </label>
@@ -114,7 +114,7 @@ function ItemManagementWindow({}: Props) {
               <option value={branch.branchId}>{branch.branchName}</option>
             ))}
           </select>
-        </div>
+        </div> */}
         <input
           type='text'
           placeholder='Search by name'

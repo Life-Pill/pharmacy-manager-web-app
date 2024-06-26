@@ -59,7 +59,7 @@ const useAuth = () => {
   const logout = async () => {
     try {
       setLoggingOut(true);
-      const res = await http.post('/session/logout/permanent', {
+      const res = await http.post('/auth/logout', {
         username: user?.employerEmail,
       });
 
