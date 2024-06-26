@@ -36,8 +36,8 @@ function MainDashboard() {
       </div>
 
       <div
-        className={`flex flex-col sm:flex-row items-center w-full gap-8 ${
-          showPieChart ? 'justify-evenly' : 'justify-between'
+        className={`flex flex-row sm:flex-row items-center w-full gap-2 ${
+          showPieChart ? 'justify-center' : 'justify-center'
         }`}
       >
         {showPieChart ? (
