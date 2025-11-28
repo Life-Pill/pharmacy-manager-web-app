@@ -4,6 +4,14 @@ dist
 .gitignore
 .github
 cypress
+cypress.config.ts
+**/*.cy.tsx
+**/*.cy.ts
+**/*.test.tsx
+**/*.test.ts
+**/*.spec.tsx
+**/*.spec.ts
+jest.config.cjs
 *.md
 .env
 .vscode
