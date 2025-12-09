@@ -31,109 +31,121 @@ const UpdateCashierSummary = () => {
   };
 
   return (
-    <div className='flex justify-center items-stretch flex-col h-screen p-32'>
-      <p className='text-2xl font-semibold mb-4 text-gray-900 mx-auto'>
-        Employer Details Summary
-      </p>
-      {fetchProfilePicture ? (
-        <Loader />
-      ) : (
-        <img
-          src={
-            profileImageUrl ||
-            'https://static-00.iconduck.com/assets.00/person-icon-1901x2048-a9h70k71.png'
-          }
-          alt='Profile'
-          className='w-64 h-64 rounded-full'
-        />
-      )}
+    <div className='w-full max-w-7xl mx-auto p-6'>
+      <div className='bg-white rounded-lg shadow-md overflow-hidden'>
+        {/* Header */}
+        <div className='bg-blue-600 text-white px-6 py-4'>
+          <h2 className='text-xl font-semibold'>Employee Details Summary</h2>
+        </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-8 justify-between'>
-        <div className='bg-white shadow-lg rounded-md p-6'>
-          <h2 className='text-2xl font-semibold mb-4 text-gray-900'>
-            Personal Information
-          </h2>
-          <div className='space-y-4'>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Name:</span>{' '}
-              {cashierDetails.employerFirstName}{' '}
-              {cashierDetails.employerLastName}
-            </p>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Nickname:</span>{' '}
-              {cashierDetails.employerNicName}
-            </p>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Email:</span>{' '}
-              {cashierDetails.employerEmail}
-            </p>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Phone Number:</span>{' '}
-              {cashierDetails.employerPhone}
-            </p>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Address Line 1:</span>{' '}
-              {cashierDetails.employerAddress}
-            </p>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Date of Birth:</span>{' '}
-              {cashierDetails.dateOfBirth.split('T')[0]}
-            </p>
+        {/* Content */}
+        <div className='p-6'>
+          <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+            {/* Profile Image Section */}
+            <div className='flex flex-col items-center gap-4'>
+              {fetchProfilePicture ? (
+                <Loader />
+              ) : (
+                <img
+                  src={
+                    profileImageUrl ||
+                    'https://static-00.iconduck.com/assets.00/person-icon-1901x2048-a9h70k71.png'
+                  }
+                  alt='Profile'
+                  className='w-48 h-48 rounded-full object-cover border-4 border-blue-100 shadow-md'
+                />
+              )}
+              <h3 className='text-xl font-semibold text-gray-800'>
+                {cashierDetails.employerFirstName} {cashierDetails.employerLastName}
+              </h3>
+            </div>
+
+            {/* Personal Information */}
+            <div className='bg-gray-50 rounded-lg p-6'>
+              <h3 className='text-lg font-semibold text-gray-800 mb-4'>Personal Information</h3>
+              <div className='space-y-3 text-sm'>
+                <div>
+                  <span className='font-semibold text-gray-700'>Name:</span>
+                  <p className='text-gray-600'>
+                    {cashierDetails.employerFirstName} {cashierDetails.employerLastName}
+                  </p>
+                </div>
+                <div>
+                  <span className='font-semibold text-gray-700'>Nickname:</span>
+                  <p className='text-gray-600'>{cashierDetails.employerNicName}</p>
+                </div>
+                <div>
+                  <span className='font-semibold text-gray-700'>Email:</span>
+                  <p className='text-gray-600'>{cashierDetails.employerEmail}</p>
+                </div>
+                <div>
+                  <span className='font-semibold text-gray-700'>Phone:</span>
+                  <p className='text-gray-600'>{cashierDetails.employerPhone}</p>
+                </div>
+                <div>
+                  <span className='font-semibold text-gray-700'>Address:</span>
+                  <p className='text-gray-600'>{cashierDetails.employerAddress}</p>
+                </div>
+                <div>
+                  <span className='font-semibold text-gray-700'>Date of Birth:</span>
+                  <p className='text-gray-600'>{cashierDetails.dateOfBirth.split('T')[0]}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Employment & Bank Details */}
+            <div className='bg-gray-50 rounded-lg p-6'>
+              <h3 className='text-lg font-semibold text-gray-800 mb-4'>Employment & Bank Details</h3>
+              <div className='space-y-3 text-sm'>
+                <div>
+                  <span className='font-semibold text-gray-700'>Role:</span>
+                  <p className='text-gray-600'>{cashierDetails.role}</p>
+                </div>
+                <div>
+                  <span className='font-semibold text-gray-700'>Branch:</span>
+                  <p className='text-gray-600'>{cashierDetails.branchId}</p>
+                </div>
+                <div>
+                  <span className='font-semibold text-gray-700'>Salary:</span>
+                  <p className='text-gray-600'>LKR {cashierDetails.employerSalary}</p>
+                </div>
+                <div>
+                  <span className='font-semibold text-gray-700'>Bank Account:</span>
+                  <p className='text-gray-600'>{cashierBankDetails.bankAccountNumber}</p>
+                </div>
+                <div>
+                  <span className='font-semibold text-gray-700'>Bank Name:</span>
+                  <p className='text-gray-600'>{cashierBankDetails.bankName}</p>
+                </div>
+                <div>
+                  <span className='font-semibold text-gray-700'>Branch Name:</span>
+                  <p className='text-gray-600'>{cashierBankDetails.bankBranchName}</p>
+                </div>
+                <div>
+                  <span className='font-semibold text-gray-700'>Notes:</span>
+                  <p className='text-gray-600'>{cashierBankDetails.employerDescription}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className='flex justify-end gap-3 mt-6 pt-4 border-t border-gray-200'>
+            <button
+              type='button'
+              className='px-6 py-2.5 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors'
+              onClick={goToBack}
+            >
+              Back
+            </button>
+            <Link
+              to='/manager-dashboard/cashiers'
+              className='px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors inline-block'
+            >
+              Confirm & Update
+            </Link>
           </div>
         </div>
-        <div className='bg-white shadow-lg rounded-md p-6'>
-          <h2 className='text-2xl font-semibold mb-4 text-gray-900'>
-            Employment Details
-          </h2>
-          <div className='space-y-4'>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Role:</span> {cashierDetails.role}
-            </p>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Assign Branch:</span>{' '}
-              {cashierDetails.branchId}
-            </p>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Base Salary:</span>{' '}
-              {cashierDetails.employerSalary}
-            </p>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Bank Account Number:</span>{' '}
-              {cashierBankDetails.bankAccountNumber}
-            </p>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Bank Name:</span>{' '}
-              {cashierBankDetails.bankName}
-            </p>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Branch Name:</span>{' '}
-              {cashierBankDetails.bankBranchName}
-            </p>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Additional Notes:</span>{' '}
-              {cashierBankDetails.employerDescription}
-            </p>
-            <p className='text-gray-800'>
-              <span className='font-semibold'>Monthly Payment:</span>{' '}
-              {cashierBankDetails.monthlyPayment}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className='flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 mt-4 gap-8'>
-        <Link
-          to='/manager-dashboard/cashiers'
-          className='text-white bg-blue-500 hover:bg-blue-600 font-medium py-3 px-8 rounded-lg transition duration-300 ease-in-out text-center md:text-left'
-        >
-          Confirm and Update
-        </Link>
-        <button
-          type='button'
-          className='text-blue-500 hover:text-blue-600 font-medium py-3 px-8 rounded-lg border border-blue-500 hover:bg-blue-50 transition duration-300 ease-in-out'
-          onClick={goToBack}
-        >
-          Go To Bank Details
-        </button>
       </div>
     </div>
   );

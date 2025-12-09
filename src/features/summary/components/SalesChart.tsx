@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BranchSalesData } from '../interfaces/BranchSales';
 import { Line } from 'react-chartjs-2';
+import { BsGraphUp } from 'react-icons/bs';
 
 type Props = {
   branchSalesOrders: BranchSalesData[];
@@ -50,18 +51,59 @@ function SalesChart({ branchSalesOrders }: Props) {
 
   // Options for chart customization
   const options = {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+        labels: {
+          padding: 15,
+          font: {
+            size: 12,
+            weight: '500' as const,
+          },
+        },
+      },
+    },
     scales: {
       y: {
         beginAtZero: true,
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)',
+        },
+        ticks: {
+          font: {
+            size: 11,
+          },
+        },
+      },
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          font: {
+            size: 11,
+          },
+        },
       },
     },
   };
 
   return (
-    <div className='flex h-auto w-5/6 flex-col justify-center items-center'>
-      <h2 className="text-xl font-bold">Sales Graph</h2>
-
-      <Line data={chartData} options={options} />
+    <div className='bg-white rounded-lg shadow-md p-6'>
+      <div className='flex items-center gap-3 mb-6'>
+        <div className='p-2 bg-green-100 rounded-lg'>
+          <BsGraphUp className='text-xl text-green-600' />
+        </div>
+        <div>
+          <h2 className='text-lg font-bold text-gray-800'>Sales Performance</h2>
+          <p className='text-sm text-gray-600'>Daily sales trends across branches</p>
+        </div>
+      </div>
+      <div className='w-full'>
+        <Line data={chartData} options={options} />
+      </div>
     </div>
   );
 }

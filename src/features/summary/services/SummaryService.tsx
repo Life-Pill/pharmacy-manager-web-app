@@ -11,9 +11,11 @@ const useSummaryService = () => {
   const [filterBranchSalesData, setFilterBranchSalesData] = useState(
     [] as BranchSalesData[]
   );
+  const [loading, setLoading] = useState(false);
 
   const getAllBranchesSales = async () => {
     try {
+      setLoading(true);
       const res = await http.get(
         '/branch/summary/daily-sales'
       );
@@ -23,6 +25,8 @@ const useSummaryService = () => {
       setFilterBranchSalesData(res.data.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,6 +34,7 @@ const useSummaryService = () => {
     getAllBranchesSales,
     branchSalesOrders,
     filterBranchSalesData,
+    loading,
   };
 };
 

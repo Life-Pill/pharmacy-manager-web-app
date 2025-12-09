@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Branch } from '../interfaces/Branch';
 import useBranchManagementService from '../services/BranchManagementService';
+import { FaStore, FaTimes, FaMapMarkerAlt, FaPhone, FaEnvelope, FaFax } from 'react-icons/fa';
 
 type Props = {
   branch: Branch;
@@ -28,15 +29,33 @@ function BranchDetailCard({ branch, closeTab }: Props) {
   };
 
   return (
-    <div className='fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray bg-opacity-50 z-50 backdrop-blur-sm bg-gray-800 border-gray-200'>
-      <div className='bg-gray-800 rounded-lg p-6 w-[500px] border border-gray-200'>
-        <h2 className='text-lg font-semibold mb-4 text-white'>
-          Branch Details
-        </h2>
-        <form onSubmit={handleSubmit}>
-          <div className='mb-4'>
-            <label htmlFor='branchName' className='label-text'>
-              Company Name
+    <div className='fixed inset-0 flex justify-center items-center bg-black/50 backdrop-blur-sm z-50 p-4'>
+      <div className='bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto'>
+        {/* Header */}
+        <div className='bg-gradient-to-r from-blue-600 to-blue-700 p-6 rounded-t-lg sticky top-0 z-10'>
+          <div className='flex items-center justify-between text-white'>
+            <div className='flex items-center gap-3'>
+              <div className='bg-white text-blue-600 p-3 rounded-lg'>
+                <FaStore className='text-xl' />
+              </div>
+              <h2 className='text-xl font-bold'>Branch Details</h2>
+            </div>
+            <button
+              onClick={closeTab}
+              className='hover:bg-white/20 p-2 rounded-lg transition-all duration-200'
+            >
+              <FaTimes className='text-xl' />
+            </button>
+          </div>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className='p-6 space-y-5'>
+          {/* Branch Name */}
+          <div>
+            <label htmlFor='branchName' className='text-sm font-semibold text-gray-700 flex items-center gap-2 mb-2'>
+              <FaStore className='text-blue-600' />
+              Branch Name
             </label>
             <input
               type='text'
@@ -44,14 +63,18 @@ function BranchDetailCard({ branch, closeTab }: Props) {
               name='branchName'
               value={formData.branchName}
               onChange={handleChange}
-              className='input-box'
+              className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800'
               required
             />
           </div>
-          <div className='flex justify-between'>
-            <div className='mb-4'>
-              <label htmlFor='branchAddress' className='label-text'>
-                Company Address
+
+          {/* Two Column Layout */}
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+            {/* Branch Address */}
+            <div>
+              <label htmlFor='branchAddress' className='text-sm font-semibold text-gray-700 flex items-center gap-2 mb-2'>
+                <FaMapMarkerAlt className='text-blue-600' />
+                Address
               </label>
               <input
                 type='text'
@@ -59,12 +82,15 @@ function BranchDetailCard({ branch, closeTab }: Props) {
                 name='branchAddress'
                 value={formData.branchAddress}
                 onChange={handleChange}
-                className='input-box'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800'
                 required
               />
             </div>
-            <div className='mb-4'>
-              <label htmlFor='branchContact' className='label-text'>
+
+            {/* Branch Contact */}
+            <div>
+              <label htmlFor='branchContact' className='text-sm font-semibold text-gray-700 flex items-center gap-2 mb-2'>
+                <FaPhone className='text-blue-600' />
                 Contact
               </label>
               <input
@@ -73,15 +99,16 @@ function BranchDetailCard({ branch, closeTab }: Props) {
                 name='branchContact'
                 value={formData.branchContact}
                 onChange={handleChange}
-                className='input-box'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800'
                 required
               />
             </div>
-          </div>
-          <div className='flex justify-between'>
-            <div className='mb-4'>
-              <label htmlFor='branchEmail' className='label-text'>
-                Branch Email
+
+            {/* Branch Email */}
+            <div>
+              <label htmlFor='branchEmail' className='text-sm font-semibold text-gray-700 flex items-center gap-2 mb-2'>
+                <FaEnvelope className='text-blue-600' />
+                Email
               </label>
               <input
                 type='email'
@@ -89,13 +116,16 @@ function BranchDetailCard({ branch, closeTab }: Props) {
                 name='branchEmail'
                 value={formData.branchEmail}
                 onChange={handleChange}
-                className='input-box'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800'
                 required
               />
             </div>
-            <div className='mb-4'>
-              <label htmlFor='branchFax' className='label-text'>
-                Branch Fax
+
+            {/* Branch Fax */}
+            <div>
+              <label htmlFor='branchFax' className='text-sm font-semibold text-gray-700 flex items-center gap-2 mb-2'>
+                <FaFax className='text-blue-600' />
+                Fax
               </label>
               <input
                 type='text'
@@ -103,27 +133,30 @@ function BranchDetailCard({ branch, closeTab }: Props) {
                 name='branchFax'
                 value={formData.branchFax}
                 onChange={handleChange}
-                className='input-box'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800'
                 required
               />
             </div>
           </div>
 
-          <div className='mb-4'>
-            <label htmlFor='branchDescription' className='label-text'>
-              Branch Description
+          {/* Branch Description */}
+          <div>
+            <label htmlFor='branchDescription' className='text-sm font-semibold text-gray-700 mb-2 block'>
+              Description
             </label>
             <input
               id='branchDescription'
               name='branchDescription'
               value={formData.branchDescription}
-              className='input-box'
+              className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800'
               onChange={handleChange}
             />
           </div>
-          <div className='mb-4'>
-            <label htmlFor='branchImage' className='label-text'>
-              Branch Image
+
+          {/* Branch Image */}
+          <div>
+            <label htmlFor='branchImage' className='text-sm font-semibold text-gray-700 mb-2 block'>
+              Branch Image URL
             </label>
             <input
               type='text'
@@ -131,47 +164,48 @@ function BranchDetailCard({ branch, closeTab }: Props) {
               name='branchImage'
               value={formData.branchImage}
               onChange={handleChange}
-              className='input-box'
+              className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800'
             />
           </div>
-          <div className='flex justify-between'>
-            <div className='mb-4'>
-              <label htmlFor='branchStatus' className='label-text'>
-                Status
-              </label>
-              <select
-                id='branchStatus'
-                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                value={formData.branchStatus ? 'Active' : 'Inactive'}
-                required
-                onChange={
-                  (e) =>
-                    setFormData((prevState) => ({
-                      ...prevState,
-                      branchStatus: e.target.value === 'Active',
-                    })) // Convert string to boolean
-                }
-              >
-                <option value='Active'>Active</option>
-                <option value='Inactive'>Inactive</option>
-              </select>
-            </div>
+
+          {/* Branch Status */}
+          <div>
+            <label htmlFor='branchStatus' className='text-sm font-semibold text-gray-700 mb-2 block'>
+              Status
+            </label>
+            <select
+              id='branchStatus'
+              className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800'
+              value={formData.branchStatus ? 'Active' : 'Inactive'}
+              required
+              onChange={
+                (e) =>
+                  setFormData((prevState) => ({
+                    ...prevState,
+                    branchStatus: e.target.value === 'Active',
+                  }))
+              }
+            >
+              <option value='Active'>Active</option>
+              <option value='Inactive'>Inactive</option>
+            </select>
           </div>
 
-          <div className='flex justify-between'>
+          {/* Action Buttons */}
+          <div className='flex items-center justify-end gap-3 pt-6 border-t border-gray-200'>
             <button
               type='button'
               onClick={closeTab}
-              className='focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900'
+              className='px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-lg border border-gray-300 transition-all duration-200'
             >
-              Back
+              Cancel
             </button>
             <button
               type='submit'
-              className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'
+              className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg'
               onClick={() => updateBranch(branch.branchId, formData)}
             >
-              {updating ? 'Updating...' : 'Update'}
+              {updating ? 'Updating...' : 'Update Branch'}
             </button>
           </div>
         </form>

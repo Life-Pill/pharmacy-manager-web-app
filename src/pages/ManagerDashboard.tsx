@@ -10,9 +10,9 @@ const ManagerDashboard: React.FC<Props> = () => {
   const [activeComponent, setActiveComponent] = useState(item || 'dashboard');
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col min-h-screen bg-gray-50'>
       <SideBar setActiveComponent={setActiveComponent} />
-      <div className='w-full'>{renderComponent(activeComponent)}</div>
+      <main className='flex-1 w-full'>{renderComponent(activeComponent)}</main>
     </div>
   );
 };

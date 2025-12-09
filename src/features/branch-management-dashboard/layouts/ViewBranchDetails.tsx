@@ -129,56 +129,191 @@ function ViewBranchDetails({}: Props) {
   }, [showBranchDetails]);
 
   return (
-    <div className='flex flex-col space-y-8 h-screen p-4 m-4'>
-      <div className='flex flex-col items-center gap-2 bg-gray-100 p-4 rounded-lg shadow-md'>
-        {branch && (
-          <img
-            src={
-              branch.branchImage ||
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdhUtDLZiByDiz05R15jG3TLrCIS2MiCZnTQ&s'
-            }
-            alt='image'
-            className='rounded-full h-48 w-48'
-          />
-        )}
-        <p className='text-xl font-semibold'>{branch.branchName}</p>
-        <div className='flex flex-row w-full gap-8 justify-center '>
-          <div className='flex items-center'>
-            <FaMapMarkerAlt className='text-gray-700 mr-2' />
-            <p className='text-gray-700'>{branch.branchAddress}</p>
+    <div className='min-h-screen bg-gray-50 p-6'>
+      <div className='max-w-7xl mx-auto space-y-6'>
+        {/* Branch Header Card */}
+        <div className='bg-white rounded-lg shadow-md overflow-hidden'>
+          {/* Header with Gradient */}
+          <div className='bg-gradient-to-r from-blue-600 to-blue-700 p-6'>
+            <div className='flex flex-col md:flex-row items-center gap-6'>
+              {branch && (
+                <img
+                  src={
+                    branch.branchImage ||
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdhUtDLZiByDiz05R15jG3TLrCIS2MiCZnTQ&s'
+                  }
+                  alt='Branch'
+                  className='w-32 h-32 rounded-lg object-cover border-4 border-white shadow-lg'
+                />
+              )}
+              <div className='text-white text-center md:text-left flex-1'>
+                <h1 className='text-2xl font-bold mb-2'>{branch.branchName}</h1>
+                <p className='text-blue-100 text-sm'>{branch.branchDescription}</p>
+              </div>
+            </div>
           </div>
-          <div className='flex items-center'>
-            <FaPhone className='text-gray-700 mr-2' />
-            <p className='text-gray-700'>{branch.branchContact}</p>
+
+          {/* Branch Info Grid */}
+          <div className='p-6 bg-gray-50'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6'>
+              <div className='flex items-center gap-3 bg-white p-4 rounded-lg'>
+                <FaMapMarkerAlt className='text-blue-600 text-xl' />
+                <div>
+                  <p className='text-xs text-gray-500 font-medium'>Address</p>
+                  <p className='text-sm text-gray-900 font-semibold'>{branch.branchAddress}</p>
+                </div>
+              </div>
+              <div className='flex items-center gap-3 bg-white p-4 rounded-lg'>
+                <FaPhone className='text-blue-600 text-xl' />
+                <div>
+                  <p className='text-xs text-gray-500 font-medium'>Contact</p>
+                  <p className='text-sm text-gray-900 font-semibold'>{branch.branchContact}</p>
+                </div>
+              </div>
+              <div className='flex items-center gap-3 bg-white p-4 rounded-lg'>
+                <FaEnvelope className='text-blue-600 text-xl' />
+                <div>
+                  <p className='text-xs text-gray-500 font-medium'>Email</p>
+                  <p className='text-sm text-gray-900 font-semibold'>{branch.branchEmail}</p>
+                </div>
+              </div>
+              <div className='flex items-center gap-3 bg-white p-4 rounded-lg'>
+                <FaFax className='text-blue-600 text-xl' />
+                <div>
+                  <p className='text-xs text-gray-500 font-medium'>Fax</p>
+                  <p className='text-sm text-gray-900 font-semibold'>{branch.branchFax}</p>
+                </div>
+              </div>
+              <div className='flex items-center gap-3 bg-white p-4 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors' onClick={handleBranchManagerClick}>
+                <FaUser className='text-blue-600 text-xl' />
+                <div>
+                  <p className='text-xs text-gray-500 font-medium'>Manager</p>
+                  <p className='text-sm text-gray-900 font-semibold hover:text-blue-600'>
+                    {!branchManagerFetching &&
+                      branchManager?.employerFirstName +
+                        ' ' +
+                        branchManager?.employerLastName}
+                  </p>
+                </div>
+              </div>
+              <div className='flex items-center gap-3 bg-white p-4 rounded-lg'>
+                <FaCalendarAlt className='text-blue-600 text-xl' />
+                <div>
+                  <p className='text-xs text-gray-500 font-medium'>Created On</p>
+                  <p className='text-sm text-gray-900 font-semibold'>
+                    {branch.branchCreatedOn?.slice(0, 10)}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Stats Summary */}
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+              <div className='bg-white p-4 rounded-lg border-l-4 border-green-500'>
+                <p className='text-sm text-gray-600 font-medium'>Total Sales</p>
+                <p className='text-2xl font-bold text-gray-900 mt-1'>LKR {totalSales.toLocaleString()}</p>
+              </div>
+              <div className='bg-white p-4 rounded-lg border-l-4 border-blue-500'>
+                <p className='text-sm text-gray-600 font-medium'>Total Orders</p>
+                <p className='text-2xl font-bold text-gray-900 mt-1'>{totalOrders.toLocaleString()}</p>
+              </div>
+            </div>
           </div>
-          <div className='flex items-center'>
-            <FaEnvelope className='text-gray-700 mr-2' />
-            <p className='text-gray-700'>{branch.branchEmail}</p>
+
+          {/* Action Buttons */}
+          <div className='p-6 bg-white border-t border-gray-200'>
+            <div className='flex flex-wrap gap-3'>
+              <button
+                className='bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg'
+                onClick={handleToggleClick}
+              >
+                Branch Details
+              </button>
+              <button
+                className='bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg'
+                onClick={handleImageToggleClick}
+              >
+                Edit Image
+              </button>
+              <button
+                className='bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg'
+                onClick={handleChangeBranchManager}
+              >
+                Change Manager
+              </button>
+            </div>
           </div>
         </div>
-        <div className='flex flex-row justify-center w-full gap-8'>
-          <div className='flex items-center'>
-            <FaFax className='text-gray-700 mr-2' />
-            <p className='text-gray-700'>{branch.branchFax}</p>
+
+        {/* Filters Card */}
+        <div className='bg-white rounded-lg shadow-md p-6'>
+          <h3 className='text-lg font-bold text-gray-900 mb-4'>Sales & Orders Filters</h3>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+            <div>
+              <label htmlFor='startDate' className='text-sm font-semibold text-gray-700 mb-2 block'>
+                Start Date
+              </label>
+              <input
+                type='date'
+                id='startDate'
+                value={startDate}
+                onChange={handleStartDateChange}
+                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-800'
+              />
+            </div>
+            <div>
+              <label htmlFor='endDate' className='text-sm font-semibold text-gray-700 mb-2 block'>
+                End Date
+              </label>
+              <input
+                type='date'
+                id='endDate'
+                value={endDate}
+                onChange={handleEndDateChange}
+                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-800'
+              />
+            </div>
+            <div>
+              <label htmlFor='filterByYear' className='text-sm font-semibold text-gray-700 mb-2 block'>
+                Filter By Year
+              </label>
+              <input
+                type='text'
+                id='filterByYear'
+                value={filterByYear}
+                onChange={handleYearChange}
+                placeholder='YYYY'
+                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-800'
+              />
+            </div>
+            <div>
+              <label className='text-sm font-semibold text-gray-700 mb-2 block'>
+                Filter By Month
+              </label>
+              <label className='flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-100 transition-colors'>
+                <input
+                  type='checkbox'
+                  id='filterByMonth'
+                  checked={filterByMonth}
+                  onChange={() => setFilterByMonth(!filterByMonth)}
+                  className='w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500'
+                />
+                <span className='text-sm text-gray-700'>Monthly View</span>
+              </label>
+            </div>
           </div>
-          <div className='flex items-center cursor-pointer'>
-            <FaUser className='text-gray-700 mr-2' />
-            <p className='hover:underline' onClick={handleBranchManagerClick}>
-              {!branchManagerFetching &&
-                branchManager?.employerFirstName +
-                  ' ' +
-                  branchManager?.employerLastName}
-            </p>
-          </div>
-          <div className='flex items-center'>
-            <FaCalendarAlt className='text-gray-700 mr-2' />
-            <p className='text-gray-700'>
-              {branch.branchCreatedOn?.slice(0, 10)}
-            </p>
+          <div className='mt-4'>
+            <button
+              className='bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 font-semibold rounded-lg transition-all duration-200'
+              onClick={handleClearFilters}
+            >
+              Clear Filters
+            </button>
           </div>
         </div>
-        <p className='text-gray-700'>{branch.branchDescription}</p>
-        <div className='cursor-pointer'>
+
+        {/* Modals */}
+        <div>
           {showBranchManger && (
             <BranchManagerCard
               onClose={handleBranchManagerClick}
@@ -186,131 +321,7 @@ function ViewBranchDetails({}: Props) {
             />
           )}
         </div>
-        <div className='flex flex-row justify-center items-center gap-8'>
-          <div className='text-lg'>
-            Total Orders: <span className='font-bold'>{totalOrders}</span>
-          </div>
-          <div className='text-lg'>
-            Total Sales: <span className='font-bold'>{totalSales}</span>
-          </div>
-        </div>
-      </div>
-      <div className='bg-white flex flex-wrap items-center space-x-4 justify-center'>
-        <button
-          className='bg-black text-white px-4 py-2 font-bold rounded-lg'
-          onClick={handleToggleClick}
-        >
-          Branch Details
-        </button>
-        <button
-          className='bg-black text-white px-4 py-2 font-bold rounded-lg'
-          onClick={handleImageToggleClick}
-        >
-          Edit Image
-        </button>
-        <button
-          className='bg-black text-white px-4 py-2 font-bold rounded-lg'
-          onClick={handleChangeBranchManager}
-        >
-          Change Manager
-        </button>
-      </div>
 
-      <div className='bg-white flex flex-wrap items-center space-x-4 justify-between'>
-        <div className='flex items-center'>
-          <label htmlFor='startDate' className='mb-1'>
-            Start Date:
-          </label>
-          <input
-            type='date'
-            id='startDate'
-            value={startDate}
-            onChange={handleStartDateChange}
-            className='border rounded p-1'
-          />
-        </div>
-        <div className='flex items-center'>
-          <label htmlFor='endDate' className='mb-1'>
-            End Date:
-          </label>
-          <input
-            type='date'
-            id='endDate'
-            value={endDate}
-            onChange={handleEndDateChange}
-            className='border rounded p-1'
-          />
-        </div>
-        <div className='flex flex-row gap-2'>
-          <label htmlFor='filterByMonth' className='mb-1'>
-            Filter By Month:
-          </label>
-          <input
-            type='checkbox'
-            id='filterByMonth'
-            checked={filterByMonth}
-            onChange={() => setFilterByMonth(!filterByMonth)}
-            className='border p-1'
-          />
-        </div>
-        <div className='flex items-center'>
-          <label htmlFor='filterByYear' className='mb-1'>
-            Filter By Year:
-          </label>
-          <input
-            type='text'
-            id='filterByYear'
-            value={filterByYear}
-            onChange={handleYearChange}
-            placeholder='YYYY'
-            className='border rounded p-1'
-          />
-        </div>
-        <button
-          className='bg-black text-white px-4 py-2 font-bold rounded-lg'
-          onClick={handleClearFilters}
-        >
-          Clear Filters
-        </button>
-
-        {/* <div className='flex items-center ml-auto'>
-          <button
-            className={`px-4 py-2 font-bold rounded-l-lg ${
-              showSales ? 'bg-gray-800 text-white' : 'bg-gray-300 text-gray-800'
-            }`}
-            onClick={() => setShowSales(true)}
-          >
-            Sales
-          </button>
-          <button
-            className={`px-4 py-2 font-bold rounded-r-lg ${
-              !showSales
-                ? 'bg-gray-800 text-white'
-                : 'bg-gray-300 text-gray-800'
-            }`}
-            onClick={() => setShowSales(false)}
-          >
-            Orders
-          </button>
-        </div> */}
-        {/* <button
-          className='bg-green-800 text-white px-4 py-2 font-bold rounded-lg ml-4 flex items-center justify-center'
-          onClick={() => exportToExcel(filteredSalesData)}
-          data-tip='Export to Excel'
-        >
-          <AiFillFileExcel size={24} />
-        </button>
-        <button
-          className='bg-red-800 text-white px-4 py-2 font-bold rounded-lg ml-4 flex items-center justify-center'
-          onClick={() => exportToPDF(filteredSalesData)}
-          data-tooltip-content={'Export to PDF'}
-          data-tip='Export to PDF'
-        >
-          <AiFillFilePdf size={24} />
-        </button> */}
-      </div>
-
-      <div className='flex flex-col justify-between space-y-8'>
         {showBranchDetails && (
           <BranchDetailCard branch={branch} closeTab={handleToggleClick} />
         )}
@@ -329,35 +340,59 @@ function ViewBranchDetails({}: Props) {
           />
         )}
 
-        {filterByMonth ? (
-          <>
-            <SalesChart
-              salesData={generateMonthlySalesSummary(filteredSalesData)}
-            />
+        {/* Charts */}
+        <div className='space-y-6'>
+          {filterByMonth ? (
+            <>
+              <div className='bg-white rounded-lg shadow-md p-6'>
+                <h3 className='text-lg font-bold text-gray-900 mb-4'>Monthly Sales</h3>
+                <SalesChart
+                  salesData={generateMonthlySalesSummary(filteredSalesData)}
+                />
+              </div>
+              <div className='bg-white rounded-lg shadow-md p-6'>
+                <h3 className='text-lg font-bold text-gray-900 mb-4'>Monthly Orders</h3>
+                <OrdersChart
+                  salesData={generateMonthlySalesSummary(filteredSalesData)}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className='bg-white rounded-lg shadow-md p-6'>
+                <h3 className='text-lg font-bold text-gray-900 mb-4'>Sales Overview</h3>
+                <SalesChart salesData={filteredSalesData} />
+              </div>
+              <div className='bg-white rounded-lg shadow-md p-6'>
+                <h3 className='text-lg font-bold text-gray-900 mb-4'>Orders Overview</h3>
+                <OrdersChart salesData={filteredSalesData} />
+              </div>
+            </>
+          )}
+        </div>
 
-            <OrdersChart
-              salesData={generateMonthlySalesSummary(filteredSalesData)}
-            />
-          </>
-        ) : (
-          <>
-            <SalesChart salesData={filteredSalesData} />
+        {/* Tables */}
+        <div className='bg-white rounded-lg shadow-md p-6'>
+          <h3 className='text-lg font-bold text-gray-900 mb-4'>Branch Employees</h3>
+          <EmployerTable branchEmployers={branchEmployers} />
+        </div>
 
-            <OrdersChart salesData={filteredSalesData} />
-          </>
-        )}
+        <div className='bg-white rounded-lg shadow-md p-6'>
+          <h3 className='text-lg font-bold text-gray-900 mb-4'>Branch Inventory</h3>
+          <ItemsTable items={items} />
+        </div>
+
+        {/* Back Button */}
+        <div className='flex justify-start'>
+          <button
+            type='button'
+            onClick={() => navigate('/manager-dashboard/branches')}
+            className='bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 font-semibold rounded-lg transition-all duration-200'
+          >
+            ← Back to Branches
+          </button>
+        </div>
       </div>
-
-      <EmployerTable branchEmployers={branchEmployers} />
-      <ItemsTable items={items} />
-
-      <button
-        type='button'
-        onClick={() => navigate('/manager-dashboard/branches')}
-        className='focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-16 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900'
-      >
-        Back
-      </button>
     </div>
   );
 }

@@ -27,24 +27,25 @@ function EmployerTable({ branchEmployers }: Props) {
 
   return (
     <>
-      <div className='flex justify-between items-center'>
+      <div className='flex justify-between items-center mb-4'>
         <p className='text-lg font-semibold text-gray-800'>
-          Employer in the branch
+          Employees in Branch
         </p>
 
-        <div className='mb-4'>
+        <div>
           <input
             type='text'
             placeholder='Search by name...'
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className='px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
+            className='px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
           />
         </div>
       </div>
 
-      <table className='w-full text-sm text-left rtl:text-right text-slate-700'>
-        <thead className='text-xs uppercase bg-slate-300 sticky top-0'>
+      <div className='overflow-x-auto rounded-lg border border-gray-200'>
+        <table className='w-full text-sm text-left'>
+          <thead className='text-xs uppercase bg-blue-50 text-blue-700'>
           <tr>
             <th scope='col' className='px-6 py-3'>
               Cashier ID
@@ -70,74 +71,62 @@ function EmployerTable({ branchEmployers }: Props) {
             <th scope='col' className='px-6 py-3'></th>
           </tr>
         </thead>
-        <tbody>
-          {filteredEmployers.map((worker) => (
-            <tr
-              className='bg-slate-50 border-b'
-              id={worker.employerId.toString()}
-            >
-              <td className='px-6 py-4'>{worker.employerId}</td>
-              <td className='px-6 py-4'>{worker.employerFirstName}</td>
-              <td className='px-6 py-4'>{worker.gender.toLocaleLowerCase()}</td>
-              <td className='px-6 py-4'>{worker.employerPhone}</td>
-              <td className='px-6 py-4'>
-                {
-                  <div
-                    className={`rounded-full p-1 w-24 flex items-center justify-center ${
-                      worker.activeStatus ? 'bg-green-500' : 'bg-yellow-500'
+          <tbody className='bg-white divide-y divide-gray-200'>
+            {filteredEmployers.map((worker) => (
+              <tr
+                key={worker.employerId}
+                className='hover:bg-gray-50 transition-colors'
+              >
+                <td className='px-6 py-4 font-medium text-gray-900'>{worker.employerId}</td>
+                <td className='px-6 py-4 text-gray-700'>{worker.employerFirstName}</td>
+                <td className='px-6 py-4 text-gray-700 capitalize'>{worker.gender.toLowerCase()}</td>
+                <td className='px-6 py-4 text-gray-700'>{worker.employerPhone}</td>
+                <td className='px-6 py-4'>
+                  <span
+                    className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${
+                      worker.activeStatus
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-gray-100 text-gray-800'
                     }`}
                   >
-                    <span
-                      className={`${
-                        worker.activeStatus ? 'text-white' : 'text-black'
-                      }`}
-                    >
-                      {worker.activeStatus ? 'Online' : 'Offline'}
-                    </span>
-                  </div>
-                }
-              </td>
-              <td className='px-6 py-4'>
-                {
-                  <div
-                    className={`rounded-full p-1 w-24 flex items-center justify-center ${
-                      worker.activeStatus ? 'bg-green-500' : 'bg-red-500'
+                    {worker.activeStatus ? 'Online' : 'Offline'}
+                  </span>
+                </td>
+                <td className='px-6 py-4'>
+                  <span
+                    className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${
+                      worker.activeStatus
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
                     }`}
                   >
-                    <span
-                      className={`${
-                        worker.activeStatus ? 'text-white' : 'text-black'
-                      }`}
+                    {worker.activeStatus ? 'Paid' : 'Not Paid'}
+                  </span>
+                </td>
+                <td className='px-6 py-4 font-medium text-gray-900'>LKR {worker.employerSalary}</td>
+                <td className='px-6 py-4'>
+                  <div className='flex gap-2'>
+                    <button
+                      className='p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors'
+                      onClick={() => onUpdateClick(worker)}
+                      title='Edit'
                     >
-                      {worker.activeStatus ? 'Paid' : 'Not Paid'}
-                    </span>
+                      <BsPencilSquare className='text-lg' />
+                    </button>
+                    <button
+                      className='p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors'
+                      onClick={() => onViewClick(worker)}
+                      title='View'
+                    >
+                      <BsEye className='text-lg' />
+                    </button>
                   </div>
-                }
-              </td>
-              <td className='px-6 py-4'>{worker.employerSalary}</td>
-              <td className='px-6 py-4'>
-                <button
-                  className='text-white font-bold py-2 px-4 rounded transition-transform hover:scale-110'
-                  onClick={() => {
-                    onUpdateClick(worker);
-                  }}
-                >
-                  <BsPencilSquare className=' text-blue-500 font-bold text-lg' />
-                </button>
-                {/* View Button */}
-                <button
-                  className='text-white font-bold py-2 px-4 rounded transition-transform hover:scale-110'
-                  onClick={() => {
-                    onViewClick(worker);
-                  }}
-                >
-                  <BsEye className='text-blue-500 font-bold text-lg' />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }
