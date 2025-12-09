@@ -6,6 +6,8 @@ interface UserContextType {
   setUser: (user: IEmployeeInterface) => void;
   cookie: String | null;
   setCookie: (cookie: String) => void;
+  refreshToken: String | null;
+  setRefreshToken: (token: String) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -24,8 +26,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     return storedCookie ? JSON.parse(storedCookie) : null;
   });
 
+  const [refreshToken, setRefreshToken] = useState<String | null>(() => {
+    const storedRefreshToken = localStorage.getItem('refreshToken');
+    return storedRefreshToken ? JSON.parse(storedRefreshToken) : null;
+  });
+
   return (
-    <UserContext.Provider value={{ user, setUser, cookie, setCookie }}>
+    <UserContext.Provider value={{ user, setUser, cookie, setCookie, refreshToken, setRefreshToken }}>
       {children}
     </UserContext.Provider>
   );

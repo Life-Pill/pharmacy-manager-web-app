@@ -67,49 +67,53 @@ function OrderCardComponent({ order }: Props) {
           </table>
 
           <p className='text-gray-700 font-bold mb-2'>Payment Details</p>
-          <table className='w-full text-sm text-left rtl:text-right text-gray-600'>
-            <thead className='text-xs font-semibold uppercase bg-gray-200 sticky top-0'>
-              <tr>
-                <th scope='col' className='px-6 py-3'>
-                  Payment Method
-                </th>
-                <th scope='col' className='px-6 py-3'>
-                  Amount
-                </th>
-                <th scope='col' className='px-6 py-3'>
-                  Date
-                </th>
-                <th scope='col' className='px-6 py-3'>
-                  Notes
-                </th>
-                <th scope='col' className='px-6 py-3'>
-                  Discount
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className='px-6 py-4'>
-                  {order.groupedOrderDetails.paymentDetails.paymentMethod}
-                </td>
-                <td className='px-6 py-4'>
-                  {order.groupedOrderDetails.paymentDetails.paymentAmount}
-                </td>
-                <td className='px-6 py-4'>
-                  {order.groupedOrderDetails.paymentDetails.paymentDate.slice(
-                    0,
-                    10
-                  )}
-                </td>
-                <td className='px-6 py-4'>
-                  {order.groupedOrderDetails.paymentDetails.paymentNotes}
-                </td>
-                <td className='px-6 py-4'>
-                  {order.groupedOrderDetails.paymentDetails.paymentDiscount}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          {order.groupedOrderDetails.paymentDetails ? (
+            <table className='w-full text-sm text-left rtl:text-right text-gray-600'>
+              <thead className='text-xs font-semibold uppercase bg-gray-200 sticky top-0'>
+                <tr>
+                  <th scope='col' className='px-6 py-3'>
+                    Payment Method
+                  </th>
+                  <th scope='col' className='px-6 py-3'>
+                    Amount
+                  </th>
+                  <th scope='col' className='px-6 py-3'>
+                    Date
+                  </th>
+                  <th scope='col' className='px-6 py-3'>
+                    Notes
+                  </th>
+                  <th scope='col' className='px-6 py-3'>
+                    Discount
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className='px-6 py-4'>
+                    {order.groupedOrderDetails.paymentDetails.paymentMethod}
+                  </td>
+                  <td className='px-6 py-4'>
+                    {order.groupedOrderDetails.paymentDetails.paymentAmount}
+                  </td>
+                  <td className='px-6 py-4'>
+                    {order.groupedOrderDetails.paymentDetails.paymentDate.slice(
+                      0,
+                      10
+                    )}
+                  </td>
+                  <td className='px-6 py-4'>
+                    {order.groupedOrderDetails.paymentDetails.paymentNotes}
+                  </td>
+                  <td className='px-6 py-4'>
+                    {order.groupedOrderDetails.paymentDetails.paymentDiscount}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          ) : (
+            <p className='text-gray-500 italic mt-2'>No payment details available</p>
+          )}
         </>
       )}
       <button

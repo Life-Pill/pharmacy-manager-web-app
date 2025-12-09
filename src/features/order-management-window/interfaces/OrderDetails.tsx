@@ -15,7 +15,7 @@ interface PaymentDetails {
 
 interface GroupedOrderDetails {
   orderDetails: OrderDetail[];
-  paymentDetails: PaymentDetails;
+  paymentDetails: PaymentDetails | null;
   orderCount: number;
 }
 

@@ -10,7 +10,7 @@ import { IEmployeeInterface } from '../../../interfaces/IEmployeeInterface';
 
 const useAuth = () => {
   const [loading, setLoading] = useState(false);
-  const { setCookie, setUser, user } = useUserContext();
+  const { setCookie, setUser, user, setRefreshToken } = useUserContext();
   const http = useAxiosInstance();
   const navigate = useNavigate();
 
@@ -35,10 +35,16 @@ const useAuth = () => {
           navigate('/dashboard');
           //store cookie and user in local storage
           localStorage.setItem('user', JSON.stringify(employee));
-          setCookie(res.data.data.authenticationResponse.accessToken);
-          Cookies.set('Auth', res.data.data.authenticationResponse.accessToken, {
-            expires: 7,
-          });
+          const accessToken = res.data.data.authenticationResponse.accessToken;
+          const refreshToken = res.data.data.authenticationResponse.refreshToken;
+          
+          setCookie(accessToken);
+          setRefreshToken(refreshToken);
+          
+          Cookies.set('Auth', accessToken, { expires: 7 });
+          Cookies.set('RefreshToken', refreshToken, { expires: 30 });
+          
+          localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
         } else {
           toast.error('Authentication failed: Incorrect username or password');
         }
@@ -57,20 +63,70 @@ const useAuth = () => {
   const logout = async () => {
     try {
       setLoggingOut(true);
-      const res = await http.post('/auth/logout', {
-        username: user?.employerEmail,
-      });
-
-      if (res.status === 200) {
-        navigate('/');
-        toast.success('Logged out successfully');
-        setUser({} as IEmployeeInterface);
-        setCookie('');
-      }
+      
+      // Call backend logout endpoint
+      await http.post('/auth/logout');
+      
+      // Clear all tokens and user data
+      Cookies.remove('Auth');
+      Cookies.remove('RefreshToken');
+      localStorage.removeItem('user');
+      localStorage.removeItem('cookie');
+      localStorage.removeItem('refreshToken');
+      
+      setUser({} as IEmployeeInterface);
+      setCookie('');
+      setRefreshToken('');
+      
+      navigate('/');
+      toast.success('Logged out successfully');
     } catch (error) {
-      console.log(error);
+      console.log('Logout error:', error);
+      // Even if backend call fails, clear local tokens
+      Cookies.remove('Auth');
+      Cookies.remove('RefreshToken');
+      localStorage.removeItem('user');
+      localStorage.removeItem('cookie');
+      localStorage.removeItem('refreshToken');
+      
+      setUser({} as IEmployeeInterface);
+      setCookie('');
+      setRefreshToken('');
+      
+      navigate('/');
+      toast.info('Logged out locally');
     } finally {
       setLoggingOut(false);
+    }
+  };
+
+  const refreshAccessToken = async (): Promise<string | null> => {
+    try {
+      const refreshToken = Cookies.get('RefreshToken');
+      
+      if (!refreshToken) {
+        throw new Error('No refresh token available');
+      }
+
+      const res = await http.post('/auth/refresh-token', {
+        refreshToken: refreshToken,
+      });
+
+      if (res.data.data?.accessToken) {
+        const newAccessToken = res.data.data.accessToken;
+        
+        setCookie(newAccessToken);
+        Cookies.set('Auth', newAccessToken, { expires: 7 });
+        
+        return newAccessToken;
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('Token refresh failed:', error);
+      // If refresh fails, logout user
+      await logout();
+      return null;
     }
   };
 
@@ -79,6 +135,7 @@ const useAuth = () => {
     loading,
     logout,
     loggingOut,
+    refreshAccessToken,
   };
 };
 
