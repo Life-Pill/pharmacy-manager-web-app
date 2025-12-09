@@ -63,12 +63,12 @@ const SideBar: React.FC<SideBarProps> = ({ setActiveComponent }) => {
                   onClick={() => handleItemClick(item.id)}
                   className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 ${
                     isActive
-                      ? 'bg-primary-600 text-white shadow-md'
+                      ? 'bg-blue-600 text-white shadow-md hover:bg-blue-700'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >
                   <Icon className='text-lg' />
-                  <span>{item.label}</span>
+                  <span className='whitespace-nowrap'>{item.label}</span>
                 </button>
               );
             })}
@@ -90,7 +90,7 @@ const SideBar: React.FC<SideBarProps> = ({ setActiveComponent }) => {
                 </p>
                 <p className='text-xs text-gray-500 capitalize'>{user?.role}</p>
               </div>
-              <div className='w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-700 rounded-full flex items-center justify-center text-white font-semibold'>
+              <div className='w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white font-semibold shadow-md'>
                 {user?.employerFirstName?.charAt(0)}
                 {user?.employerLastName?.charAt(0)}
               </div>
