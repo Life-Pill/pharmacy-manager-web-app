@@ -19,19 +19,19 @@ function OrdersChart({ branchSalesOrders }: Props) {
       // Find the longest array of dates
       const longestDailySalesSummary = branchSalesOrders.reduce(
         (prev, current) =>
-          prev.dailySalesSummary.length > current.dailySalesSummary.length
+          prev.dailySales.length > current.dailySales.length
             ? prev
             : current
       );
 
       // Use the dates from the longest array of daily sales summaries
-      const labels = longestDailySalesSummary.dailySalesSummary.map(
+      const labels = longestDailySalesSummary.dailySales.map(
         (summary) => summary.date
       );
 
       const datasets = branchSalesOrders.map((branch) => ({
-        label: `Branch ${branch.branchId}`,
-        data: branch.dailySalesSummary.map((summary) => summary.orders),
+        label: `${branch.branchName}`,
+        data: branch.dailySales.map((summary) => summary.orderCount),
         fill: false,
         borderColor: getRandomColor(),
         tension: 0.1,

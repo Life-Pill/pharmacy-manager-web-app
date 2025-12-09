@@ -134,7 +134,7 @@ function ViewBranchDetails({}: Props) {
         {branch && (
           <img
             src={
-              branchImage ||
+              branch.branchImage ||
               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdhUtDLZiByDiz05R15jG3TLrCIS2MiCZnTQ&s'
             }
             alt='image'

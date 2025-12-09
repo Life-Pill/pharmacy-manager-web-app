@@ -10,7 +10,7 @@ type Props = {
 
 function ImageUpdateComponent({ onClose, branchId }: Props) {
   const {
-    fetchBranchImage,
+    fetchBranchById,
     branchImage,
     setBranchImageUpdate,
     branchImageUpdate,
@@ -24,7 +24,7 @@ function ImageUpdateComponent({ onClose, branchId }: Props) {
   const [updateImage, setUpdateImage] = useState(false);
 
   useEffect(() => {
-    fetchBranchImage(parseInt(branchId));
+    fetchBranchById(branchId);
   }, []);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,12 +60,10 @@ function ImageUpdateComponent({ onClose, branchId }: Props) {
                 alt='Preview'
                 className='w-64 h-64 rounded-full'
               />
-            ) : branchImageFetch ? (
-              <Loader />
             ) : (
               <img
                 src={
-                  branchImage ||
+                  branch.branchImage ||
                   'https://static-00.iconduck.com/assets.00/person-icon-1901x2048-a9h70k71.png'
                 }
                 alt='Profile'

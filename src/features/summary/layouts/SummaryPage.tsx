@@ -32,7 +32,7 @@ const SummaryPage: React.FC = () => {
   // Filtering logic based on date range
   const filteredSalesData = branchSalesOrders.filter(
     (data: BranchSalesData) => {
-      return data.dailySalesSummary.some((summary) => {
+      return data.dailySales.some((summary) => {
         const dataDate = new Date(summary.date);
         const startDateObj = new Date(startDate);
         const endDateObj = new Date(endDate);

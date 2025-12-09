@@ -134,33 +134,9 @@ const useCashierCRUDService = () => {
     const formData = new FormData();
     console.log('Employer object:', employer);
     console.log('FormData before append:', formData);
-    if (user && user.user) {
-      formData.append('branchId', employer.branchId.toString());
-      formData.append('employerFirstName', employer.employerFirstName);
-      formData.append('employerNicName', employer.employerNicName);
-      formData.append('employerLastName', employer.employerLastName);
-      formData.append('employerPassword', employer.employerPassword);
-      formData.append('employerEmail', employer.employerEmail);
-      formData.append('employerPhone', employer.employerPhone);
-      formData.append('employerAddress', employer.employerAddress);
-      formData.append('employerSalary', String(employer.employerSalary));
-      formData.append('employerNic', employer.employerNic);
-      formData.append('gender', employer.gender);
-      formData.append(
-        'dateOfBirth',
-        String(employer.dateOfBirth.toString().split('-').join('/'))
-      );
-      formData.append('role', employer.role);
-      formData.append('pin', String(employer.pin));
-      formData.append(
-        'profileImageUrl',
-        JSON.stringify(employer.profileImageUrl)
-      ); // Assuming profileImage is an array of strings
-      formData.append('isActiveStatus', String(employer.activeStatus));
-
-      if (profilePicture) {
-        formData.append('file', profilePicture, profilePicture.name);
-      }
+    
+    if (profilePicture) {
+      formData.append('file', profilePicture, profilePicture.name);
     }
 
     console.log('FormData after append:', formData);
@@ -172,8 +148,26 @@ const useCashierCRUDService = () => {
     setLoading(true);
     setLoading(true);
     try {
+      // Build query parameters
+      const params = new URLSearchParams({
+        branchId: employer.branchId.toString(),
+        employerFirstName: employer.employerFirstName,
+        employerLastName: employer.employerLastName,
+        employerNicName: employer.employerNicName,
+        employerEmail: employer.employerEmail,
+        employerPassword: employer.employerPassword,
+        employerPhone: employer.employerPhone,
+        employerAddress: employer.employerAddress,
+        employerSalary: employer.employerSalary.toString(),
+        employerNic: employer.employerNic,
+        gender: employer.gender,
+        dateOfBirth: employer.dateOfBirth.toString().split('-').join('/'),
+        role: employer.role,
+        pin: employer.pin.toString(),
+      });
+
       const res = await http.post(
-        '/employers/save-employer-with-image',
+        `/employer/save-employer-with-image?${params.toString()}`,
         formData,
         {
           headers: {
@@ -183,7 +177,7 @@ const useCashierCRUDService = () => {
       );
 
       console.log(res.data);
-      if (res.data.code === 201) {
+      if (res.data.code === 200 || res.data.code === 201) {
         const createdCashierData = res.data.data;
         setCurrentComponent(ComponentState.BankDetails);
         console.log('Created cashier:', createdCashierData.employerId);
@@ -223,7 +217,7 @@ const useCashierCRUDService = () => {
     try {
       setLoading(true);
       console.log('Fetching cashier by id', employerId);
-      const res = await http.get('/employers/get-by-id', {
+      const res = await http.get('/employer/get-by-id', {
         params: { employerId },
       });
       console.log(res);
@@ -286,7 +280,7 @@ const useCashierCRUDService = () => {
 
       setUpdating(true);
       const res = await http.put(
-        `/employers/update/${employer.employerId}`,
+        `/employer/${employer.employerId}`,
         employer
       );
       if (res.status === 200) {
@@ -342,7 +336,7 @@ const useCashierCRUDService = () => {
   const updateProfileImage = async (employerId: number) => {
     try {
       const res = await http.put(
-        `/lifepill/v1/employers/update-employer-image/${employerId}`
+        `/employer/update-employer-image/${employerId}`
       );
       console.log(res);
     } catch (error) {
@@ -357,7 +351,7 @@ const useCashierCRUDService = () => {
     try {
       setFetchProfilePicture(true);
       const res = await http.get(
-        `/employers/view-profile-image/${employerId}`,
+        `/employer/view-profile-image/${employerId}`,
         {
           responseType: 'arraybuffer', // Ensure response type is set correctly
         }
@@ -391,7 +385,7 @@ const useCashierCRUDService = () => {
     try {
       setUpdateState(true);
       const res = await http.put(
-        `/employers/update-employer-image/${employerId}`,
+        `/employer/update-employer-image/${employerId}`,
         updateImageFormData,
         {
           headers: {

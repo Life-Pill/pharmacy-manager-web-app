@@ -13,7 +13,7 @@ const useBranchService = () => {
     setLoading(true);
 
     try {
-      const res = await http.get('/branch-summary/all-branches-summary');
+      const res = await http.get('/branch/summary/all');
       console.log(res.data);
       const { data } = res;
       console.log(data.data);
@@ -33,9 +33,9 @@ const useBranchService = () => {
   const fetchAllBranchSales = async () => {
     setLoadingAllBranchSales(true);
     try {
-      const response = await http.get('/branch-summary/sales-summary');
+      const response = await http.get('/branch/summary/all');
       const { data } = response;
-      setAllBranchSales(data.data);
+      setAllBranchSales(data.data.branchSummaries);
       console.log(allBranchSales);
     } catch (error) {
       console.log(error);

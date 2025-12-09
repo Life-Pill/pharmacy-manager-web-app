@@ -24,7 +24,7 @@ function BranchManagement() {
   const navigate = useNavigate();
 
   const viewMoreClick = (worker: IBranchAndSales) => {
-    navigate(`/view-branch/${worker.branchDTO.branchId}`);
+    navigate(`/view-branch/${worker.branchId}`);
   };
 
   const createBranch = () => {
@@ -41,7 +41,7 @@ function BranchManagement() {
       <div className='grid grid-cols-2 gap-6 p-8 overflow-y-scroll max-h-screen branch'>
         {allBranchSales?.map((pharmacy) => (
           <div
-            key={pharmacy.branchDTO.branchId}
+            key={pharmacy.branchId}
             className='bg-white rounded-lg shadow-md p-6 space-y-4'
           >
             <div className='flex items-center space-x-4'>
@@ -52,48 +52,47 @@ function BranchManagement() {
               />
               <div>
                 <p className='text-xl font-bold'>
-                  {pharmacy.branchDTO.branchName}
+                  {pharmacy.branchName}
                 </p>
                 <div className='flex items-center gap-2'>
                   <GoLocation className='text-blue-500' />
                   <p className='text-base text-gray-500'>
-                    {pharmacy.branchDTO.branchLocation}
+                    {pharmacy.branchLocation}
                   </p>
                 </div>
-                <div className='flex items-center space-x-2 mt-2'>
+                {/* <div className='flex items-center space-x-2 mt-2'>
                   <FaUserTie className='text-black' />
                   <p className='text-base'>{pharmacy.manager}</p>
-                </div>
+                </div> */}
 
                 <p className='text-lg font-medium'>
-                  Total Sales: LKR {pharmacy.sales.toFixed(2)}
+                  Total Sales: LKR {pharmacy.totalSales.toFixed(2)}
                 </p>
 
                 <p className='text-lg font-medium'>
                   Total Orders:{' '}
-                  <span className='text-blue-500'>{pharmacy.orders}</span>
+                  <span className='text-blue-500'>{pharmacy.orderCount}</span>
                 </p>
                 <div className='flex items-center space-x-2'>
-                  {/* <FaUserFriends className='text-purple-500' /> */}
-                  {/* <p className='text-base'>25 Employees</p>{' '} */}
-                  {/* Assuming static value for employees */}
+                  <FaUserFriends className='text-purple-500' />
+                  <p className='text-base'>{pharmacy.employeeCount} Employees</p>
                 </div>
                 <div className='flex items-center space-x-2'>
                   <FaCheckCircle
                     className={`text-lg ${
-                      pharmacy.branchDTO.branchStatus
+                      pharmacy.branchStatus
                         ? 'text-green-500'
                         : 'text-red-500'
                     }`}
                   />
                   <p
                     className={`text-base ${
-                      pharmacy.branchDTO.branchStatus
+                      pharmacy.branchStatus
                         ? 'text-green-500'
                         : 'text-red-500'
                     }`}
                   >
-                    {pharmacy.branchDTO.branchStatus ? 'Active' : 'Inactive'}
+                    {pharmacy.branchStatus ? 'Active' : 'Inactive'}
                   </p>
                 </div>
               </div>

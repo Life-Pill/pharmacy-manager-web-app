@@ -1,21 +1,15 @@
-interface BranchDTO {
+export interface IBranchAndSales {
   branchId: number;
   branchName: string;
   branchAddress: string;
   branchContact: string;
-  branchFax: string;
   branchEmail: string;
-  branchDescription: string;
-  branchImage: string | null;
-  branchStatus: boolean;
   branchLocation: string;
-  branchCreatedOn: string;
-  branchCreatedBy: string;
-}
-
-export interface IBranchAndSales {
-  sales: number;
-  orders: number;
-  manager: string;
-  branchDTO: BranchDTO;
+  branchStatus: boolean;
+  branchImageUrl: string | null;
+  totalSales: number;
+  orderCount: number;
+  employeeCount: number;
+  itemCount: number;
+  lowStockItemCount: number;
 }

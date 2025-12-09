@@ -14,9 +14,9 @@ function SalesBarChart({}: Props) {
   }, []);
 
   const branchNames = allBranchSales?.map(
-    (branch) => branch.branchDTO.branchName
+    (branch) => branch.branchName
   );
-  const salesData = allBranchSales?.map((branch) => branch.sales);
+  const salesData = allBranchSales?.map((branch) => branch.totalSales);
 
   const data = {
     labels: branchNames,

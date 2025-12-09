@@ -13,9 +13,9 @@ function OrderPieChart() {
   }, []);
 
   const branchNames = allBranchSales?.map(
-    (branch) => branch.branchDTO.branchName
+    (branch) => branch.branchName
   );
-  const orderData = allBranchSales?.map((branch) => branch.orders);
+  const orderData = allBranchSales?.map((branch) => branch.orderCount);
 
   const data = {
     labels: branchNames,

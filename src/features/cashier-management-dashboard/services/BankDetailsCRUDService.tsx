@@ -33,7 +33,7 @@ const useBankCRUDService = () => {
     try {
       console.log('Bank Details', bankDetails);
       const res = await http.put(
-        `/employers/updateEmployerBankAccountDetailsWithId/${employerID}`,
+        `/employer/updateEmployerBankAccountDetailsWithId/${employerID}`,
         bankDetails
       );
       if (res.status === 200) {
@@ -55,7 +55,7 @@ const useBankCRUDService = () => {
   ): Promise<EmployerBankDetails | null> => {
     setLoading(true);
     try {
-      const res = await http.get(`/employers/bank-details/${id}`);
+      const res = await http.get(`/employer/bank-details/${id}`);
       console.log('bank details fetched here', res.data);
       const bankDetails: EmployerBankDetails = res.data.data;
       setCashierBankDetails(bankDetails); // Update the state

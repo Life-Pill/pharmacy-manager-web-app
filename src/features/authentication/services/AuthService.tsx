@@ -24,11 +24,9 @@ const useAuth = () => {
       });
       console.log(res);
 
-      if (
-        res.data.authenticationResponse.message === 'Successfully logged in.'
-      ) {
+      if (res.data.data?.authenticationResponse && res.data.data?.employerDetails) {
         const employee = mapEmployeeReponseToIEmployee(
-          res.data.employerDetails
+          res.data.data.employerDetails
         );
         // console.log(employee);
         setUser(employee);
@@ -37,8 +35,8 @@ const useAuth = () => {
           navigate('/dashboard');
           //store cookie and user in local storage
           localStorage.setItem('user', JSON.stringify(employee));
-          setCookie(res.data.authenticationResponse.access_token);
-          Cookies.set('Auth', res.data.authenticationResponse.access_token, {
+          setCookie(res.data.data.authenticationResponse.accessToken);
+          Cookies.set('Auth', res.data.data.authenticationResponse.accessToken, {
             expires: 7,
           });
         } else {

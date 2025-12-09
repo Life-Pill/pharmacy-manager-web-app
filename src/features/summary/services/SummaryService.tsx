@@ -15,7 +15,7 @@ const useSummaryService = () => {
   const getAllBranchesSales = async () => {
     try {
       const res = await http.get(
-        '/branch-summary/sales-summary/all-daily-summary'
+        '/branch/summary/daily-sales'
       );
 
       console.log(res.data.data);

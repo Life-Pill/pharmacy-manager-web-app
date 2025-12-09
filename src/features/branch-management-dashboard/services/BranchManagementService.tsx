@@ -19,10 +19,10 @@ const useBranchManagementService = () => {
   const fetchAllBranchSales = async () => {
     setLoadingAllBranchSales(true);
     try {
-      const response = await http.get('/branch-summary/sales-summary');
+      const response = await http.get('/branch/summary/all');
       const { data } = response;
       console.log(response);
-      setAllBranchSales(data.data);
+      setAllBranchSales(data.data.branchSummaries);
       console.log(allBranchSales);
     } catch (error) {
       console.log(error);
@@ -37,9 +37,9 @@ const useBranchManagementService = () => {
 
   const fetchBranchById = async (branchId: string) => {
     try {
-      const res = await http.get(`/branch/get-by-id/?id=${parseInt(branchId)}`);
+      const res = await http.get(`/branch/get-by-id?branchId=${parseInt(branchId)}`);
       console.log(res);
-      setBranch(res.data);
+      setBranch(res.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +72,7 @@ const useBranchManagementService = () => {
         `/branch/employer/by-branch/${parseInt(branchId)}`
       );
       console.log(res);
-      setBranchEmployers(res.data);
+      setBranchEmployers(res.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +97,7 @@ const useBranchManagementService = () => {
     try {
       console.log(branch);
       setUpdating(true);
-      const res = await http.put(`/branch/update/${id}`, branch);
+      const res = await http.put(`/branch/update?branchId=${id}`, branch);
       console.log(res);
 
       if (res.status === 200) {
@@ -168,7 +168,7 @@ const useBranchManagementService = () => {
     const updateImageFormData = new FormData();
     if (branchImageUpdate) {
       updateImageFormData.append(
-        'file',
+        'image',
         branchImageUpdate,
         branchImageUpdate?.name
       );
@@ -244,17 +244,34 @@ const useBranchManagementService = () => {
   const createBranch = async () => {
     try {
       setCreating(true);
-      const formData = new FormData();
-      formData.append('branchS3DTO', JSON.stringify(createBranchDTO));
-
-      formData.append('file', branchImageDTO as File, branchImageDTO?.name);
-      const res = await http.post('/branch/save-branch', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const res = await http.post('/branch/save', {
+        branchName: createBranchDTO.branchName,
+        branchAddress: createBranchDTO.branchAddress,
+        branchContact: createBranchDTO.branchContact,
+        branchFax: createBranchDTO.branchFax,
+        branchEmail: createBranchDTO.branchEmail,
+        branchDescription: createBranchDTO.branchDescription,
+        branchLocation: createBranchDTO.branchLocation,
+        branchCreatedBy: createBranchDTO.branchCreatedBy,
+        branchLatitude: createBranchDTO.branchLatitude || 0,
+        branchLongitude: createBranchDTO.branchLongitude || 0,
       });
       console.log(res);
       if (res.data.code === 201) {
+        // If there's an image, upload it separately
+        if (branchImageDTO && res.data.data.branchId) {
+          const imageFormData = new FormData();
+          imageFormData.append('image', branchImageDTO, branchImageDTO.name);
+          await http.put(
+            `/branch/update-branch-profile-image/${res.data.data.branchId}`,
+            imageFormData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            }
+          );
+        }
         toast.success('Branch created successfully');
         navigate('/manager-dashboard/branches');
       }
