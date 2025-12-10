@@ -351,22 +351,12 @@ const useCashierCRUDService = () => {
     try {
       setFetchProfilePicture(true);
       const res = await http.get(
-        `/employer/view-profile-image/${employerId}`,
-        {
-          responseType: 'arraybuffer', // Ensure response type is set correctly
-        }
+        `/employer/view-profile-image/${employerId}`
       );
       console.log(res); // Check the response in console if needed
 
-      // Convert array buffer to Base64 string
-      const base64String = btoa(
-        new Uint8Array(res.data).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          ''
-        )
-      );
-
-      setProfileImageUrl(`data:image/jpeg;base64,${base64String}`);
+      // Set the profile image URL from the response
+      setProfileImageUrl(res.data.data);
     } catch (error) {
       console.log(error);
     } finally {
