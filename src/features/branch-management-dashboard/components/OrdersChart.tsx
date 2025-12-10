@@ -28,7 +28,7 @@ interface Props {
 
 function OrdersChart({ salesData }: Props) {
   const labels = salesData.map((data) => data.date);
-  const orders = salesData.map((data) => data.orders);
+  const orders = salesData.map((data) => data.orderCount);
 
   const data = {
     labels: labels,

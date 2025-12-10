@@ -49,9 +49,9 @@ const useBranchManagementService = () => {
     setLoading(true);
     try {
       const response = await http.get(
-        `/branch-summary/sales-summary/daily/${parseInt(branchId)}`
+        `/branch/summary/daily-sales/${parseInt(branchId)}`
       );
-      setSalesSummary(response.data.data);
+      setSalesSummary(response.data.data.dailySales);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -67,7 +67,7 @@ const useBranchManagementService = () => {
   const fetchEmployersByBranchId = async (branchId: string) => {
     try {
       const res = await http.get(
-        `/branch/employer/by-branch/${parseInt(branchId)}`
+        `/employer/get-by-branch?branchId=${parseInt(branchId)}`
       );
       setBranchEmployers(res.data.data);
     } catch (error) {

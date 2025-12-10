@@ -92,11 +92,11 @@ function ViewBranchDetails({}: Props) {
 
   useEffect(() => {
     const totalOrders = filteredSalesData.reduce(
-      (acc, curr) => acc + curr.orders,
+      (acc, curr) => acc + curr.orderCount,
       0
     );
     const totalSales = filteredSalesData.reduce(
-      (acc, curr) => acc + curr.sales,
+      (acc, curr) => acc + curr.totalSales,
       0
     );
 

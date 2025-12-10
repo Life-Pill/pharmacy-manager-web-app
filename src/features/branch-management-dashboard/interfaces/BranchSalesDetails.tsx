@@ -1,5 +1,11 @@
 export interface BranchSalesDetails {
   date: string;
-  orders: number;
-  sales: number;
+  orderCount: number;
+  totalSales: number;
+}
+
+export interface BranchDailySalesResponse {
+  branchId: number;
+  branchName: string;
+  dailySales: BranchSalesDetails[];
 }

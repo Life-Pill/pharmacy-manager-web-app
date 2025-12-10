@@ -28,7 +28,7 @@ interface Props {
 
 const SalesChart: React.FC<Props> = ({ salesData }) => {
   const labels = salesData.map((data) => data.date);
-  const sales = salesData.map((data) => data.sales);
+  const sales = salesData.map((data) => data.totalSales);
 
   const data = {
     labels: labels,
