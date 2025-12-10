@@ -20,6 +20,7 @@ interface GroupedOrderDetails {
 }
 
 export interface Order {
+  orderId: number;
   employerId: number;
   branchId: number;
   orderDate: string;

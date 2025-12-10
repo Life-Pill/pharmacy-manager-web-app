@@ -162,7 +162,7 @@ function BranchDetailCard({ branch, closeTab }: Props) {
               type='text'
               id='branchImage'
               name='branchImage'
-              value={formData.branchImage}
+              value={formData.branchImage || ''}
               onChange={handleChange}
               className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800'
             />
