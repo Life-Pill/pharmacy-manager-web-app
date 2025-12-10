@@ -21,7 +21,8 @@ function useAxiosInstance() {
   };
 
   const instance = axios.create({
-    baseURL: 'http://35.208.197.159:9191/lifepill/v1',
+    baseURL: 'https://api.lifepill.devnerd.online/lifepill/v1',
+    // baseURL: 'http://35.208.197.159:9191/lifepill/v1',
     // baseURL: '/lifepill/v1',
     headers: {
       'Content-Type': 'application/json',
@@ -77,7 +78,7 @@ function useAxiosInstance() {
 
             // Call refresh token endpoint
             const res = await axios.post(
-              'http://35.208.197.159:9191/lifepill/v1/auth/refresh-token',
+              'https://api.lifepill.devnerd.online/lifepill/v1/auth/refresh-token',
               { refreshToken }
             );
 
