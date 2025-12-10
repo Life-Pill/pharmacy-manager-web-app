@@ -14,14 +14,14 @@ export const generateMonthlySalesSummary = (
     if (!monthlySalesSummary[monthYear]) {
       monthlySalesSummary[monthYear] = {
         date: monthYear,
-        orders: 0,
-        sales: 0,
+        orderCount: 0,
+        totalSales: 0,
       };
     }
 
     // Aggregate orders and sales for the month
-    monthlySalesSummary[monthYear].orders += dailyData.orders;
-    monthlySalesSummary[monthYear].sales += dailyData.sales;
+    monthlySalesSummary[monthYear].orderCount += dailyData.orderCount;
+    monthlySalesSummary[monthYear].totalSales += dailyData.totalSales;
   });
 
   // Convert the monthly sales summary object to an array
