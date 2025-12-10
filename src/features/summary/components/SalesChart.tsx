@@ -60,7 +60,7 @@ function SalesChart({ branchSalesOrders }: Props) {
           padding: 15,
           font: {
             size: 12,
-            weight: '500' as const,
+            weight: 500,
           },
         },
       },
