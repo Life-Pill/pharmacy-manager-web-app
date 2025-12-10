@@ -33,22 +33,27 @@ const UpdateCashierBankDetails = () => {
   }, []);
 
   return (
-    <div className='w-full p-16 px-4 sm:px-6 lg:px-8'>
-      {/* First Column */}
+    <div className='w-full max-w-4xl mx-auto'>
+      <div className='bg-white rounded-lg shadow-md overflow-hidden'>
+        {/* Header */}
+        <div className='bg-blue-600 text-white px-6 py-4'>
+          <h2 className='text-xl font-semibold'>Update Bank Details</h2>
+        </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-1 gap-6'>
-        {/* First Column */}
-        <div>
-          <label
-            htmlFor='bankName'
-            className='block text-sm font-medium text-black mt-4'
-          >
-            Bank Name
-          </label>
-          <input
-            type='text'
-            id='bankName'
-            className='mt-1 p-2 border-gray rounded-md w-full'
+        {/* Content */}
+        <div className='p-6'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+            <div>
+              <label
+                htmlFor='bankName'
+                className='block text-sm font-semibold text-gray-700 mb-2'
+              >
+                Bank Name
+              </label>
+              <input
+                type='text'
+                id='bankName'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             value={cashierBankDetails.bankName}
             onChange={(e) =>
               setCashierBankDetails({
@@ -56,18 +61,20 @@ const UpdateCashierBankDetails = () => {
                 bankName: e.target.value,
               })
             }
-          />
+              />
+            </div>
 
-          <label
-            htmlFor='branchName'
-            className='block text-sm font-medium text-black mt-4'
-          >
-            Branch Name
-          </label>
-          <input
-            type='text'
-            id='branchName'
-            className='mt-1 p-2 border-gray rounded-md w-full'
+            <div>
+              <label
+                htmlFor='branchName'
+                className='block text-sm font-semibold text-gray-700 mb-2'
+              >
+                Branch Name
+              </label>
+              <input
+                type='text'
+                id='branchName'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             value={cashierBankDetails.bankBranchName}
             onChange={(e) =>
               setCashierBankDetails({
@@ -75,18 +82,20 @@ const UpdateCashierBankDetails = () => {
                 bankBranchName: e.target.value,
               })
             }
-          />
+              />
+            </div>
 
-          <label
-            htmlFor='accountNumber'
-            className='block text-sm font-medium text-black mt-4'
-          >
-            Account Number
-          </label>
-          <input
-            type='number'
-            id='accountNumber'
-            className='mt-1 p-2 border-gray rounded-md w-full'
+            <div>
+              <label
+                htmlFor='accountNumber'
+                className='block text-sm font-semibold text-gray-700 mb-2'
+              >
+                Account Number
+              </label>
+              <input
+                type='number'
+                id='accountNumber'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             value={cashierBankDetails.bankAccountNumber}
             onChange={(e) =>
               setCashierBankDetails({
@@ -94,17 +103,35 @@ const UpdateCashierBankDetails = () => {
                 bankAccountNumber: parseInt(e.target.value),
               })
             }
-          />
+              />
+            </div>
 
-          <label
-            htmlFor='additionalNotes'
-            className='block text-sm font-medium text-black mt-4'
-          >
-            Additional Notes
-          </label>
-          <textarea
-            id='additionalNotes'
-            className='mt-1 p-2 border-gray rounded-md w-full'
+            <div>
+              <label
+                htmlFor='baseSalary'
+                className='block text-sm font-semibold text-gray-700 mb-2'
+              >
+                Base Salary (LKR)
+              </label>
+              <input
+                type='text'
+                id='baseSalary'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50'
+                value={cashierDetails.employerSalary}
+                readOnly
+              />
+            </div>
+
+            <div className='md:col-span-2'>
+              <label
+                htmlFor='additionalNotes'
+                className='block text-sm font-semibold text-gray-700 mb-2'
+              >
+                Additional Notes
+              </label>
+              <textarea
+                id='additionalNotes'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg h-32 resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             value={cashierBankDetails.employerDescription}
             onChange={(e) =>
               setCashierBankDetails({
@@ -112,39 +139,28 @@ const UpdateCashierBankDetails = () => {
                 employerDescription: e.target.value,
               })
             }
-          ></textarea>
+              ></textarea>
+            </div>
+          </div>
 
-          <label
-            htmlFor='baseSalary'
-            className='block text-sm font-medium text-black mt-4'
-          >
-            Base Salary
-          </label>
-          <input
-            type='text'
-            id='baseSalary'
-            className='mt-1 p-2 border-gray rounded-md w-full'
-            value={cashierDetails.employerSalary}
-            readOnly
-          />
+          {/* Action Buttons */}
+          <div className='flex justify-end gap-3 mt-6 pt-4 border-t border-gray-200'>
+            <button
+              type='button'
+              className='px-6 py-2.5 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors'
+              onClick={goToBack}
+            >
+              Back
+            </button>
+            <button
+              type='button'
+              className='px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors'
+              onClick={goToSummary}
+            >
+              Save & Continue
+            </button>
+          </div>
         </div>
-      </div>
-
-      <div className='flex items-center justify-center gap-8 w-full'>
-        <button
-          type='button'
-          className='text-white bg-blue-500 hover:bg-blue-600 font-medium py-2.5 px-5 me-2 mb-2 rounded-lg'
-          onClick={goToSummary}
-        >
-          Create & Continue
-        </button>
-        <button
-          type='button'
-          className='py-2.5 px-5 me-2 mb-2 text-sm font-medium text-slate-900 focus:outline-none bg-gray-300 rounded-lg border border-gray hover:bg-gray-500'
-          onClick={goToBack}
-        >
-          Back To Details Page
-        </button>
       </div>
     </div>
   );

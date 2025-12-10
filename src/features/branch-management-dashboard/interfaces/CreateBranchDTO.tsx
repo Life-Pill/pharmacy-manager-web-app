@@ -11,4 +11,6 @@ export interface CreateBranchDTO {
   branchCreatedOn: string; // This should ideally be a Date type if storing date/time
   branchCreatedBy: string;
   branchProfileImageUrl: string;
+  branchLatitude?: number;
+  branchLongitude?: number;
 }

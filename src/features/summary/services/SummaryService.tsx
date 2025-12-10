@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import useAxiosInstance from '../../../services/useAxiosInstance';
 import { BranchSalesData } from '../interfaces/BranchSales';
+import { toast } from 'react-toastify';
 
 const useSummaryService = () => {
   const http = useAxiosInstance();
@@ -11,18 +12,22 @@ const useSummaryService = () => {
   const [filterBranchSalesData, setFilterBranchSalesData] = useState(
     [] as BranchSalesData[]
   );
+  const [loading, setLoading] = useState(false);
 
   const getAllBranchesSales = async () => {
     try {
+      setLoading(true);
       const res = await http.get(
-        '/branch-summary/sales-summary/all-daily-summary'
+        '/branch/summary/daily-sales'
       );
 
-      console.log(res.data.data);
       setBranchSalesOrders(res.data.data);
       setFilterBranchSalesData(res.data.data);
     } catch (error) {
       console.log(error);
+      toast.error('Failed to fetch sales data');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,6 +35,7 @@ const useSummaryService = () => {
     getAllBranchesSales,
     branchSalesOrders,
     filterBranchSalesData,
+    loading,
   };
 };
 

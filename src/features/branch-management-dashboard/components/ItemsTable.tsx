@@ -25,23 +25,24 @@ function ItemsTable({ items }: Props) {
 
   return (
     <>
-      <div className='flex justify-between items-center'>
+      <div className='flex justify-between items-center mb-4'>
         <p className='text-lg font-semibold text-gray-800'>
-          Items in the branch
+          Inventory Items
         </p>
-        <div className='mb-4'>
+        <div>
           <input
             type='text'
             placeholder='Search by name...'
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className='px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
+            className='px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
           />
         </div>
       </div>
 
-      <table className='w-full text-sm text-left rtl:text-right text-slate-700'>
-        <thead className='text-xs uppercase bg-slate-300 sticky top-0'>
+      <div className='overflow-x-auto rounded-lg border border-gray-200'>
+        <table className='w-full text-sm text-left'>
+          <thead className='text-xs uppercase bg-blue-50 text-blue-700'>
           <tr>
             <th scope='col' className='px-6 py-3'>
               Medicine ID
@@ -71,59 +72,51 @@ function ItemsTable({ items }: Props) {
             </th>
           </tr>
         </thead>
-        <tbody>
-          {sortedItems.map((medicine) => (
-            <tr className='bg-slate-50 border-b' key={medicine.itemId}>
-              <td className='px-6 py-4'>{medicine.itemId}</td>
-              <td className='px-6 py-4'>{medicine.itemDescription}</td>
-              <td className='px-6 py-4'>{medicine.itemName}</td>
-              <td className='px-6 py-4'>
-                <strong>{medicine.sellingPrice} </strong>per{' '}
-                {medicine.measuringUnitType}
-              </td>
-              <td className='px-6 py-4'>
-                <div
-                  className={`rounded-full p-1 w-24 flex items-center justify-center ${
-                    medicine.itemQuantity > 0 ? 'bg-green-500' : 'bg-yellow-500'
-                  }`}
-                >
+          <tbody className='bg-white divide-y divide-gray-200'>
+            {sortedItems.map((medicine) => (
+              <tr key={medicine.itemId} className='hover:bg-gray-50 transition-colors'>
+                <td className='px-6 py-4 font-medium text-gray-900'>{medicine.itemId}</td>
+                <td className='px-6 py-4 text-gray-700'>{medicine.itemDescription}</td>
+                <td className='px-6 py-4 font-medium text-gray-900'>{medicine.itemName}</td>
+                <td className='px-6 py-4 text-gray-700'>
+                  <span className='font-semibold'>LKR {medicine.sellingPrice}</span> per {medicine.measuringUnitType}
+                </td>
+                <td className='px-6 py-4'>
                   <span
-                    className={`${
-                      medicine.itemQuantity > 0 ? 'text-white' : 'text-black'
+                    className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${
+                      medicine.itemQuantity > 0
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
                     }`}
                   >
-                    {medicine.itemQuantity > 0 ? 'In stock' : 'Out of stock'}
+                    {medicine.itemQuantity > 0 ? 'In Stock' : 'Out of Stock'}
                   </span>
-                </div>
-              </td>
-              <td className='px-6 py-4'>
-                <div
-                  className={`rounded-full p-1 w-24 flex items-center justify-center ${
-                    medicine.itemQuantity > 0 ? 'bg-green-500' : 'bg-yellow-500'
-                  }`}
-                >
+                </td>
+                <td className='px-6 py-4'>
                   <span
-                    className={`${
-                      medicine.itemQuantity > 0 ? 'text-white' : 'text-black'
+                    className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${
+                      medicine.itemQuantity > 0
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-gray-100 text-gray-800'
                     }`}
                   >
                     {medicine.itemQuantity}
                   </span>
-                </div>
-              </td>
-              <td
-                className={`px-6 py-4 ${
-                  new Date(medicine.expireDate) < new Date()
-                    ? 'text-red-500'
-                    : ''
-                }`}
-              >
-                {medicine.expireDate.split('T')[0]}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                </td>
+                <td
+                  className={`px-6 py-4 font-medium ${
+                    new Date(medicine.expireDate) < new Date()
+                      ? 'text-red-600'
+                      : 'text-gray-900'
+                  }`}
+                >
+                  {medicine.expireDate.split('T')[0]}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }

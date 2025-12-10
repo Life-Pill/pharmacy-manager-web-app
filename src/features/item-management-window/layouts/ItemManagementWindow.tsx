@@ -59,170 +59,172 @@ function ItemManagementWindow({}: Props) {
   };
 
   return (
-    <div
-      className='flex flex-col max-h-screen overflow-y-scroll'
-      data-testid='items-management-window'
-    >
-      {/* buttons */}
+    <div className='p-6 bg-gray-50 min-h-screen'>
+      <div className='max-w-7xl mx-auto'>
+        {/* Header */}
+        <div className='mb-6'>
+          <h1 className='text-2xl font-bold text-gray-800'>Inventory Management</h1>
+          <p className='text-gray-600'>Manage and monitor your medicine inventory</p>
+        </div>
 
-      {/* Summary Cards */}
-      <div className='flex flex-row items-center z-20 p-8 px-16 justify-around bg-slate-200 rounded-lg'>
-        {loading ? (
-          <BiLoader className='animate-spin text-4xl text-blue-500' />
-        ) : (
-          <div className='flex flex-row items-center z-20 p-2 px-16 justify-around bg-slate-200 rounded-lg space-x-12'>
-            <div className='summary-card bg-yellow-300 p-8 rounded-lg flex flex-col items-center'>
-              <BsBoxSeam size={25} />
-              <h1 className='font-medium'>Total Items</h1>
-              <h2 className='text-xl font-bold'>{totalItems}</h2>
-            </div>
-            <div className='summary-card bg-green-300 p-8 rounded-lg flex flex-col items-center'>
-              <BsBoxes size={25} />
-              <h1 className='font-medium'>In Stock</h1>
-              <h2 className='text-xl font-bold'>{inStockItems}</h2>
-            </div>
-            <div className='summary-card bg-orange-500 p-8 rounded-lg flex flex-col items-center'>
-              <BsExclamationTriangle size={25} />
-              <h1 className='font-medium'>Out of Stock</h1>
-              <h2 className='text-xl font-bold'>{outOfStockItems}</h2>
-            </div>
-            <div className='summary-card bg-purple-300 p-8 rounded-lg flex flex-col items-center'>
-              <TbCirclePlus size={25} />
-              <h1 className='font-medium'>Average Price</h1>
-              <h2 className='text-xl font-bold'>${averagePrice}</h2>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* table */}
-      <div className='flex items-center justify-between mt-4 p-2'>
-        <p className='font-bold text-xl '>Medicine Details</p>
-        {/* <div className='flex items-center'>
-          <label htmlFor='branch' className='mb-1'>
-            Branch:
-          </label>
-
-          <select
-            id='branch'
-            value={selectedBranch}
-            onChange={(e) => setSelectedBranch(e.target.value)}
-            className='border rounded p-1 w-auto px-2'
-          >
-            <option value=''>All</option>
-            {branches?.map((branch) => (
-              <option value={branch.branchId}>{branch.branchName}</option>
-            ))}
-          </select>
-        </div> */}
-        <input
-          type='text'
-          placeholder='Search by name'
-          className='px-4 py-2 border rounded-md outline-none'
-          onChange={(e) => handleSearch(e.target.value)}
-        />
-      </div>
-      <div className='overflow-y-auto max-h-[500px]'>
-        <div className='relative'>
+        {/* Summary Cards */}
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6'>
           {loading ? (
-            <BiLoader className='animate-spin text-4xl text-blue-500' />
+            <div className='col-span-4 flex justify-center py-8'>
+              <BiLoader className='animate-spin text-4xl text-blue-600' />
+            </div>
           ) : (
-            <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
-              <thead className='text-xs uppercase bg-slate-300 sticky top-0'>
-                <tr>
-                  <th scope='col' className='px-6 py-3'>
-                    Medicine ID
-                  </th>
-                  <th scope='col' className='px-6 py-3'>
-                    Name
-                  </th>
-                  <th scope='col' className='px-6 py-3'>
-                    Description
-                  </th>
-                  <th scope='col' className='px-6 py-3'>
-                    Price
-                  </th>
-                  <th scope='col' className='px-6 py-3'>
-                    Status
-                  </th>
-                  <th scope='col' className='px-6 py-3'>
-                    Quantity
-                  </th>
-                  <th
-                    scope='col'
-                    className='px-6 py-3 cursor-pointer'
-                    onClick={toggleSortOrder}
-                  >
-                    Expire On
-                    {sortOrder === 'asc' ? '↑' : '↓'}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredItems.map((medicine) => (
-                  <tr className='bg-slate-50 border-b'>
-                    <td className='px-6 py-4'>{medicine.itemId}</td>
-                    <td className='px-6 py-4'>{medicine.itemName}</td>
-                    <td className='px-6 py-4'>{medicine.itemDescription}</td>
-                    <td className='px-6 py-4'>{medicine.sellingPrice}</td>
-                    <td className='px-6 py-4'>
-                      {
-                        <div
-                          className={`rounded-full p-1 w-24 flex items-center justify-center ${
-                            medicine.itemQuantity > 0
-                              ? 'bg-green-500'
-                              : 'bg-yellow-500'
-                          }`}
-                        >
-                          <span
-                            className={`${
-                              medicine.itemQuantity > 0
-                                ? 'text-white'
-                                : 'text-black'
-                            }`}
-                          >
-                            {medicine.itemQuantity > 0
-                              ? 'In stock'
-                              : 'Out of stock'}
-                          </span>
-                        </div>
-                      }
-                    </td>
-                    <td className='px-6 py-4'>
-                      {
-                        <div
-                          className={`rounded-full p-1 w-24 flex items-center justify-center ${
-                            medicine.itemQuantity > 0
-                              ? 'bg-green-500'
-                              : 'bg-yellow-500'
-                          }`}
-                        >
-                          <span
-                            className={`${
-                              medicine.itemQuantity > 0
-                                ? 'text-white'
-                                : 'text-black'
-                            }`}
-                          >
-                            {medicine.itemQuantity}
-                          </span>
-                        </div>
-                      }
-                    </td>
-                    <td
-                      className={`px-6 py-4 ${
-                        new Date(medicine.expireDate) < new Date()
-                          ? 'text-red-500'
-                          : ''
-                      }`}
-                    >
-                      {medicine.expireDate?.split('T')[0]}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <>
+              <div className='bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500'>
+                <div className='flex items-center justify-between'>
+                  <div>
+                    <p className='text-sm font-medium text-gray-600'>Total Items</p>
+                    <p className='text-3xl font-bold text-gray-800 mt-2'>{totalItems}</p>
+                  </div>
+                  <div className='p-3 bg-blue-100 rounded-full'>
+                    <BsBoxSeam className='text-2xl text-blue-600' />
+                  </div>
+                </div>
+              </div>
+
+              <div className='bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500'>
+                <div className='flex items-center justify-between'>
+                  <div>
+                    <p className='text-sm font-medium text-gray-600'>In Stock</p>
+                    <p className='text-3xl font-bold text-gray-800 mt-2'>{inStockItems}</p>
+                  </div>
+                  <div className='p-3 bg-green-100 rounded-full'>
+                    <BsBoxes className='text-2xl text-green-600' />
+                  </div>
+                </div>
+              </div>
+
+              <div className='bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500'>
+                <div className='flex items-center justify-between'>
+                  <div>
+                    <p className='text-sm font-medium text-gray-600'>Out of Stock</p>
+                    <p className='text-3xl font-bold text-gray-800 mt-2'>{outOfStockItems}</p>
+                  </div>
+                  <div className='p-3 bg-red-100 rounded-full'>
+                    <BsExclamationTriangle className='text-2xl text-red-600' />
+                  </div>
+                </div>
+              </div>
+
+              <div className='bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500'>
+                <div className='flex items-center justify-between'>
+                  <div>
+                    <p className='text-sm font-medium text-gray-600'>Average Price</p>
+                    <p className='text-3xl font-bold text-gray-800 mt-2'>LKR {averagePrice}</p>
+                  </div>
+                  <div className='p-3 bg-purple-100 rounded-full'>
+                    <TbCirclePlus className='text-2xl text-purple-600' />
+                  </div>
+                </div>
+              </div>
+            </>
           )}
+        </div>
+
+        {/* Table Section */}
+        <div className='bg-white rounded-lg shadow-md overflow-hidden'>
+          {/* Table Header */}
+          <div className='bg-blue-600 px-6 py-4 flex items-center justify-between'>
+            <h2 className='text-xl font-semibold text-white'>Medicine Inventory</h2>
+            <input
+              type='text'
+              placeholder='Search by name...'
+              className='px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64'
+              onChange={(e) => handleSearch(e.target.value)}
+            />
+          </div>
+
+          {/* Table Content */}
+          <div className='overflow-x-auto'>
+            {loading ? (
+              <div className='flex justify-center py-12'>
+                <BiLoader className='animate-spin text-4xl text-blue-600' />
+              </div>
+            ) : (
+              <table className='w-full text-sm text-left'>
+                <thead className='text-xs uppercase bg-blue-50 text-blue-700 sticky top-0'>
+                  <tr>
+                    <th scope='col' className='px-6 py-4'>
+                      Medicine ID
+                    </th>
+                    <th scope='col' className='px-6 py-4'>
+                      Name
+                    </th>
+                    <th scope='col' className='px-6 py-4'>
+                      Description
+                    </th>
+                    <th scope='col' className='px-6 py-4'>
+                      Price (LKR)
+                    </th>
+                    <th scope='col' className='px-6 py-4'>
+                      Status
+                    </th>
+                    <th scope='col' className='px-6 py-4'>
+                      Quantity
+                    </th>
+                    <th
+                      scope='col'
+                      className='px-6 py-4 cursor-pointer hover:bg-blue-100 transition-colors'
+                      onClick={toggleSortOrder}
+                    >
+                      <div className='flex items-center gap-1'>
+                        Expire On
+                        <span className='text-sm'>{sortOrder === 'asc' ? '↑' : '↓'}</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className='bg-white divide-y divide-gray-200'>
+                  {filteredItems.map((medicine) => (
+                    <tr key={medicine.itemId} className='hover:bg-gray-50 transition-colors'>
+                      <td className='px-6 py-4 font-medium text-gray-900'>{medicine.itemId}</td>
+                      <td className='px-6 py-4 font-medium text-gray-900'>{medicine.itemName}</td>
+                      <td className='px-6 py-4 text-gray-700'>{medicine.itemDescription}</td>
+                      <td className='px-6 py-4 font-semibold text-gray-900'>
+                        LKR {medicine.sellingPrice.toFixed(2)}
+                      </td>
+                      <td className='px-6 py-4'>
+                        <span
+                          className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${
+                            medicine.itemQuantity > 0
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-red-100 text-red-800'
+                          }`}
+                        >
+                          {medicine.itemQuantity > 0 ? 'In Stock' : 'Out of Stock'}
+                        </span>
+                      </td>
+                      <td className='px-6 py-4'>
+                        <span
+                          className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${
+                            medicine.itemQuantity > 0
+                              ? 'bg-blue-100 text-blue-800'
+                              : 'bg-gray-100 text-gray-800'
+                          }`}
+                        >
+                          {medicine.itemQuantity}
+                        </span>
+                      </td>
+                      <td
+                        className={`px-6 py-4 font-medium ${
+                          new Date(medicine.expireDate) < new Date()
+                            ? 'text-red-600'
+                            : 'text-gray-900'
+                        }`}
+                      >
+                        {medicine.expireDate?.split('T')[0]}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
       </div>
     </div>

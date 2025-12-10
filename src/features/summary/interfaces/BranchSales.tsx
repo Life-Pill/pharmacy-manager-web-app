@@ -1,10 +1,11 @@
 interface DailySalesSummary {
   date: string;
-  orders: number;
-  sales: number;
+  orderCount: number;
+  totalSales: number;
 }
 
 export interface BranchSalesData {
   branchId: number;
-  dailySalesSummary: DailySalesSummary[];
+  branchName: string;
+  dailySales: DailySalesSummary[];
 }

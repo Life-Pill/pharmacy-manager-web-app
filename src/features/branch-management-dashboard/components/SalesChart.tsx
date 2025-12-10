@@ -52,8 +52,8 @@ const SalesChart: React.FC<Props> = ({ salesData }) => {
   };
 
   return (
-    <div className=' pb-8'>
-      <h2>Sales Chart</h2>
+    <div className='bg-white rounded-lg shadow-md p-6'>
+      <h2 className='text-lg font-semibold text-gray-800 mb-4'>Sales Overview</h2>
       <Bar data={data} options={options} width={1200} height={400} />
     </div>
   );

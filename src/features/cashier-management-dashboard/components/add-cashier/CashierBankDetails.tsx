@@ -27,24 +27,27 @@ const CashierBankDetails = () => {
   };
 
   return (
-    <div className='w-full p-6 md:p-8 lg:p-10 bg-slate-200 rounded-lg shadow-md'>
-      <h2 className='text-2xl font-bold mb-6 text-center'>
-        Employee Bank Details
-      </h2>
+    <div className='w-full max-w-4xl mx-auto'>
+      <div className='bg-white rounded-lg shadow-md overflow-hidden'>
+        {/* Header */}
+        <div className='bg-blue-600 text-white px-6 py-4'>
+          <h2 className='text-xl font-semibold'>Employee Bank Details</h2>
+        </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-1 gap-6'>
-        {/* First Column */}
-        <div>
-          <label
-            htmlFor='bankName'
-            className='block text-sm font-medium text-black mt-4'
-          >
-            Bank Name
-          </label>
-          <input
-            type='text'
-            id='bankName'
-            className='mt-1 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:border-blue-500'
+        {/* Content */}
+        <div className='p-6'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+            <div>
+              <label
+                htmlFor='bankName'
+                className='block text-sm font-semibold text-gray-700 mb-2'
+              >
+                Bank Name
+              </label>
+              <input
+                type='text'
+                id='bankName'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             value={cashierBankDetails.bankName}
             onChange={(e) =>
               setCashierBankDetails({
@@ -52,18 +55,20 @@ const CashierBankDetails = () => {
                 bankName: e.target.value,
               })
             }
-          />
+              />
+            </div>
 
-          <label
-            htmlFor='branchName'
-            className='block text-sm font-medium text-black mt-4'
-          >
-            Branch Name
-          </label>
-          <input
-            type='text'
-            id='branchName'
-            className='mt-1 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:border-blue-500'
+            <div>
+              <label
+                htmlFor='branchName'
+                className='block text-sm font-semibold text-gray-700 mb-2'
+              >
+                Branch Name
+              </label>
+              <input
+                type='text'
+                id='branchName'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             value={cashierBankDetails.bankBranchName}
             onChange={(e) =>
               setCashierBankDetails({
@@ -71,18 +76,20 @@ const CashierBankDetails = () => {
                 bankBranchName: e.target.value,
               })
             }
-          />
+              />
+            </div>
 
-          <label
-            htmlFor='accountNumber'
-            className='block text-sm font-medium text-black mt-4'
-          >
-            Account Number
-          </label>
-          <input
-            type='number'
-            id='accountNumber'
-            className='mt-1 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:border-blue-500'
+            <div>
+              <label
+                htmlFor='accountNumber'
+                className='block text-sm font-semibold text-gray-700 mb-2'
+              >
+                Account Number
+              </label>
+              <input
+                type='number'
+                id='accountNumber'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             value={cashierBankDetails.bankAccountNumber}
             onChange={(e) =>
               setCashierBankDetails({
@@ -90,17 +97,35 @@ const CashierBankDetails = () => {
                 bankAccountNumber: parseInt(e.target.value),
               })
             }
-          />
+              />
+            </div>
 
-          <label
-            htmlFor='additionalNotes'
-            className='block text-sm font-medium text-black mt-4'
-          >
-            Additional Notes
-          </label>
-          <textarea
-            id='additionalNotes'
-            className='mt-1 p-3 border border-gray-300 rounded-md w-full h-32 resize-none focus:outline-none focus:ring focus:border-blue-500'
+            <div>
+              <label
+                htmlFor='baseSalary'
+                className='block text-sm font-semibold text-gray-700 mb-2'
+              >
+                Base Salary (LKR)
+              </label>
+              <input
+                type='text'
+                id='baseSalary'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50'
+                value={cashierDetails.employerSalary}
+                readOnly
+              />
+            </div>
+
+            <div className='md:col-span-2'>
+              <label
+                htmlFor='additionalNotes'
+                className='block text-sm font-semibold text-gray-700 mb-2'
+              >
+                Additional Notes
+              </label>
+              <textarea
+                id='additionalNotes'
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg h-32 resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             value={cashierBankDetails.employerDescription}
             onChange={(e) =>
               setCashierBankDetails({
@@ -108,43 +133,32 @@ const CashierBankDetails = () => {
                 employerDescription: e.target.value,
               })
             }
-          ></textarea>
+              ></textarea>
+            </div>
+          </div>
 
-          <label
-            htmlFor='baseSalary'
-            className='block text-sm font-medium text-black mt-4'
-          >
-            Base Salary (LKR)
-          </label>
-          <input
-            type='text'
-            id='baseSalary'
-            className='mt-1 p-3 border border-gray-300 rounded-md w-full bg-gray-100'
-            value={cashierDetails.employerSalary}
-            readOnly
-          />
+          {/* Action Buttons */}
+          <div className='flex justify-end gap-3 mt-6 pt-4 border-t border-gray-200'>
+            <button
+              type='button'
+              className='px-6 py-2.5 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors'
+            >
+              <Link to='/manager-dashboard/cashiers'>Cancel</Link>
+            </button>
+            <button
+              type='button'
+              className={`px-6 py-2.5 rounded-lg text-white font-medium transition-colors ${
+                loading
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-blue-600 hover:bg-blue-700'
+              }`}
+              onClick={goToSummary}
+              disabled={loading}
+            >
+              {loading ? 'Saving...' : 'Save & Continue'}
+            </button>
+          </div>
         </div>
-      </div>
-
-      <div className='flex justify-center mt-6'>
-        <button
-          type='button'
-          className='w-48 py-2.5 px-5 me-2 text-sm font-medium text-slate-900 focus:outline-none bg-white rounded-lg border border-gray hover:bg-gray'
-        >
-          <Link to='/manager-dashboard/cashiers'>Back</Link>
-        </button>
-        <button
-          type='button'
-          className={`py-2.5 px-5 rounded-lg text-white w-48 ${
-            loading
-              ? 'bg-gray-500 cursor-not-allowed'
-              : 'bg-blue-500 hover:bg-blue-600'
-          }`}
-          onClick={goToSummary}
-          disabled={loading}
-        >
-          {loading ? 'Loading...' : 'Update'}
-        </button>
       </div>
     </div>
   );

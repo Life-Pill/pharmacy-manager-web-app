@@ -19,14 +19,12 @@ const useBranchManagementService = () => {
   const fetchAllBranchSales = async () => {
     setLoadingAllBranchSales(true);
     try {
-      const response = await http.get('/branch-summary/sales-summary');
+      const response = await http.get('/branch/summary/all');
       const { data } = response;
-      console.log(response);
-      setAllBranchSales(data.data);
-      console.log(allBranchSales);
+      setAllBranchSales(data.data.branchSummaries);
     } catch (error) {
       console.log(error);
-      toast.error('error');
+      toast.error('Failed to fetch branch sales data');
     } finally {
       setLoadingAllBranchSales(false);
     }
@@ -37,11 +35,11 @@ const useBranchManagementService = () => {
 
   const fetchBranchById = async (branchId: string) => {
     try {
-      const res = await http.get(`/branch/get-by-id/?id=${parseInt(branchId)}`);
-      console.log(res);
-      setBranch(res.data);
+      const res = await http.get(`/branch/get-by-id?branchId=${parseInt(branchId)}`);
+      setBranch(res.data.data);
     } catch (error) {
       console.log(error);
+      toast.error('Failed to fetch branch details');
     }
   };
   const [loading, setLoading] = useState(false);
@@ -53,11 +51,11 @@ const useBranchManagementService = () => {
       const response = await http.get(
         `/branch-summary/sales-summary/daily/${parseInt(branchId)}`
       );
-      console.log(response.data.data);
       setSalesSummary(response.data.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
+      toast.error('Failed to fetch sales summary');
     } finally {
       setLoading(false);
     }
@@ -71,10 +69,10 @@ const useBranchManagementService = () => {
       const res = await http.get(
         `/branch/employer/by-branch/${parseInt(branchId)}`
       );
-      console.log(res);
-      setBranchEmployers(res.data);
+      setBranchEmployers(res.data.data);
     } catch (error) {
       console.log(error);
+      toast.error('Failed to fetch employees');
     }
   };
 
@@ -85,26 +83,25 @@ const useBranchManagementService = () => {
       const res = await http.get(
         `/item/branched/get-item/${parseInt(branchId)}`
       );
-      console.log(res.data.data);
       setItems(res.data.data);
     } catch (error) {
       console.log(error);
+      toast.error('Failed to fetch items');
     }
   };
 
   const [updating, setUpdating] = useState(false);
   const updateBranch = async (id: number, branch: Branch) => {
     try {
-      console.log(branch);
       setUpdating(true);
-      const res = await http.put(`/branch/update/${id}`, branch);
-      console.log(res);
+      const res = await http.put(`/branch/update?branchId=${id}`, branch);
 
       if (res.status === 200) {
-        toast.success('Updated the branch succesfully');
+        toast.success('Branch updated successfully');
       }
     } catch (error) {
       console.log(error);
+      toast.error('Failed to update branch');
     } finally {
       setUpdating(false);
     }
@@ -118,18 +115,16 @@ const useBranchManagementService = () => {
   const fetchBranchMangerById = async (branchId: string) => {
     try {
       setBranchManagerFetching(true);
-      console.log(branchId);
       const res = await http.get(
         `/branch-manager/managers/by-branch/${parseInt(branchId)}`
       );
-      console.log(res.data.data[0]);
 
       if (res.data.code === 200) {
         setBranchManager(res.data.data[0]);
-        // toast.success('Fetched the branch manager successfully');
       }
     } catch (error) {
       console.log(error);
+      toast.error('Failed to fetch branch manager');
     } finally {
       setBranchManagerFetching(false);
     }
@@ -143,10 +138,9 @@ const useBranchManagementService = () => {
       const res = await http.get(
         `/branch/view-branch-profile-image/${branchId}`,
         {
-          responseType: 'arraybuffer', // Ensure response type is set correctly
+          responseType: 'arraybuffer',
         }
       );
-      console.log(res);
       const base64String = btoa(
         new Uint8Array(res.data).reduce(
           (data, byte) => data + String.fromCharCode(byte),
@@ -157,6 +151,7 @@ const useBranchManagementService = () => {
       setBranchImage(`data:image/jpeg;base64,${base64String}`);
     } catch (error) {
       console.log(error);
+      toast.error('Failed to fetch branch image');
     } finally {
       setBranchImageFetch(false);
     }
@@ -168,12 +163,13 @@ const useBranchManagementService = () => {
     const updateImageFormData = new FormData();
     if (branchImageUpdate) {
       updateImageFormData.append(
-        'file',
+        'image',
         branchImageUpdate,
         branchImageUpdate?.name
       );
     } else {
-      toast.warning('Please select a image');
+      toast.warning('Please select an image');
+      return;
     }
     try {
       setUpdatingImage(true);
@@ -186,10 +182,10 @@ const useBranchManagementService = () => {
           },
         }
       );
-      console.log(res);
-      toast.success('Updated the branch image successfully');
+      toast.success('Branch image updated successfully');
     } catch (error) {
       console.log(error);
+      toast.error('Failed to update branch image');
     } finally {
       setUpdatingImage(false);
     }
@@ -204,7 +200,7 @@ const useBranchManagementService = () => {
     );
 
     if (!confirmed) {
-      return; // If not confirmed, exit the function
+      return;
     }
     try {
       setUpdatingMaager(true);
@@ -212,13 +208,12 @@ const useBranchManagementService = () => {
         '/branch-manager/change-manager',
         branchMaagerDTO
       );
-      console.log(res);
       if (res.data.code === 200) {
-        toast.success(`${branchMaagerDTO.newManagerId} is now the manager`);
+        toast.success('Branch manager changed successfully');
       }
     } catch (error) {
       console.log(error);
-      toast.error('Error while updating the manager');
+      toast.error('Failed to change branch manager');
     } finally {
       setUpdatingMaager(false);
     }
@@ -244,23 +239,39 @@ const useBranchManagementService = () => {
   const createBranch = async () => {
     try {
       setCreating(true);
-      const formData = new FormData();
-      formData.append('branchS3DTO', JSON.stringify(createBranchDTO));
-
-      formData.append('file', branchImageDTO as File, branchImageDTO?.name);
-      const res = await http.post('/branch/save-branch', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const res = await http.post('/branch/save', {
+        branchName: createBranchDTO.branchName,
+        branchAddress: createBranchDTO.branchAddress,
+        branchContact: createBranchDTO.branchContact,
+        branchFax: createBranchDTO.branchFax,
+        branchEmail: createBranchDTO.branchEmail,
+        branchDescription: createBranchDTO.branchDescription,
+        branchLocation: createBranchDTO.branchLocation,
+        branchCreatedBy: createBranchDTO.branchCreatedBy,
+        branchLatitude: createBranchDTO.branchLatitude || 0,
+        branchLongitude: createBranchDTO.branchLongitude || 0,
       });
-      console.log(res);
       if (res.data.code === 201) {
+        // If there's an image, upload it separately
+        if (branchImageDTO && res.data.data.branchId) {
+          const imageFormData = new FormData();
+          imageFormData.append('image', branchImageDTO, branchImageDTO.name);
+          await http.put(
+            `/branch/update-branch-profile-image/${res.data.data.branchId}`,
+            imageFormData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            }
+          );
+        }
         toast.success('Branch created successfully');
         navigate('/manager-dashboard/branches');
       }
     } catch (error) {
       console.log(error);
-      toast.error('Error while creating the branch');
+      toast.error('Failed to create branch');
     } finally {
       setCreating(false);
     }
